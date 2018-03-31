@@ -14,7 +14,8 @@ class CreateAssessmentResultsTable extends Migration
     public function up()
     {
         Schema::create('assessment_results', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->integer('result');
             $table->timestamps();
         });
     }

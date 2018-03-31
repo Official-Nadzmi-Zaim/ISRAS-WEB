@@ -14,7 +14,8 @@ class CreateLookupAssessmentKeyAreasTable extends Migration
     public function up()
     {
         Schema::create('lookup_assessment_key_areas', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->string('name', 100);
             $table->timestamps();
         });
     }

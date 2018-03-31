@@ -14,7 +14,8 @@ class CreateLookupPaymentMethodsTable extends Migration
     public function up()
     {
         Schema::create('lookup_payment_methods', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->string('name', 20);
             $table->timestamps();
         });
     }

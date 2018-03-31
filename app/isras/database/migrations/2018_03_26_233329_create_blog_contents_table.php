@@ -14,7 +14,9 @@ class CreateBlogContentsTable extends Migration
     public function up()
     {
         Schema::create('blog_contents', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->string('title', 100);
+            $table->string('description', 500);
             $table->timestamps();
         });
     }

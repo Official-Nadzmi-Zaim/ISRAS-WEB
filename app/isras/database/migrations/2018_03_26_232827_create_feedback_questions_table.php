@@ -14,7 +14,8 @@ class CreateFeedbackQuestionsTable extends Migration
     public function up()
     {
         Schema::create('feedback_questions', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->string('description', 500);
             $table->timestamps();
         });
     }

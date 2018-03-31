@@ -14,7 +14,12 @@ class CreateAssessmentQuestionsTable extends Migration
     public function up()
     {
         Schema::create('assessment_questions', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->string('statement', 500);
+            $table->bigInteger('type');
+            $table->bigInteger('category');
+            $table->bigInteger('key_area');
+            $table->bigInteger('title');
             $table->timestamps();
         });
     }

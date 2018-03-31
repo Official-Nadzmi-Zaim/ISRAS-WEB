@@ -14,7 +14,11 @@ class CreateAssessmentsTable extends Migration
     public function up()
     {
         Schema::create('assessments', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->bigInteger('user_id');
+            $table->bigInteger('assessment_question_id');
+            $table->bigInteger('assessment_result_id');
+            $table->double('score', 15, 2);
             $table->timestamps();
         });
     }

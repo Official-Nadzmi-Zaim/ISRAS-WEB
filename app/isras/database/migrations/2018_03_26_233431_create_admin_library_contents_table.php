@@ -14,7 +14,9 @@ class CreateAdminLibraryContentsTable extends Migration
     public function up()
     {
         Schema::create('admin_library_contents', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->bigInteger('admin_id');
+            $table->bigInteger('library_content_id');
             $table->timestamps();
         });
     }

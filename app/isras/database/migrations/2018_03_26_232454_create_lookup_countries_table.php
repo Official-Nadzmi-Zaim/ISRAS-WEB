@@ -14,7 +14,8 @@ class CreateLookupCountriesTable extends Migration
     public function up()
     {
         Schema::create('lookup_countries', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->string('name', 250);
             $table->timestamps();
         });
     }

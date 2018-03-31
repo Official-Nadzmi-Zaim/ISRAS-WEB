@@ -14,7 +14,9 @@ class CreateAdminFeedbackQuestionsTable extends Migration
     public function up()
     {
         Schema::create('admin_feedback_questions', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->bigInteger('admin_id');
+            $table->bigInteger('feedback_question_id');
             $table->timestamps();
         });
     }

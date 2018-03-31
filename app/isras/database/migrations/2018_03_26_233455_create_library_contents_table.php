@@ -14,7 +14,12 @@ class CreateLibraryContentsTable extends Migration
     public function up()
     {
         Schema::create('library_contents', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
+            $table->string('title', 50);
+            $table->string('description', 500);
+            $table->string('src', 500);
+            $table->bigInteger('publication');
+            $table->bigInteger('author');
             $table->timestamps();
         });
     }

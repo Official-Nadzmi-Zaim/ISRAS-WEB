@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         factory(App\lookup_assessment_title::class, 10)->create();
         factory(App\lookup_assessment_type::class, 10)->create();
         factory(App\lookup_author::class, 10)->create();
-        factory(App\lookup_bank::class, 10)->create();
+        factory(App\lookup_bank::class, 5)->create();
         factory(App\lookup_country::class, 10)->create();
         factory(App\lookup_payment_method::class, 10)->create();
         factory(App\lookup_publication::class, 10)->create();

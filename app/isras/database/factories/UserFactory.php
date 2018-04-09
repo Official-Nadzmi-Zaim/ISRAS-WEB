@@ -140,25 +140,27 @@ $factory->define(App\lookup_assessment_type::class, function (Faker $faker) {
 
 $factory->define(App\lookup_author::class, function (Faker $faker) {
     return [
-        'name' => $faker->word,
+        'name' => $faker->name,
     ];
 });
 
 $factory->define(App\lookup_bank::class, function (Faker $faker) {
+    $bank = ['Bank Islam', 'Maybank', 'Bank Rakyat', 'Bank Simpanan Nasional', 'RHB Bank'];
+    static $number = -1;
     return [
-        'name' => $faker->word,
+        'name' => $bank[++$number],//$faker->bank,
     ];
 });
 
 $factory->define(App\lookup_country::class, function (Faker $faker) {
     return [
-        'name' => $faker->word,
+        'name' => $faker->country,
     ];
 });
 
 $factory->define(App\lookup_payment_method::class, function (Faker $faker) {
     return [
-        'name' => $faker->word,
+        'name' => $faker->creditCardType,
     ];
 });
 

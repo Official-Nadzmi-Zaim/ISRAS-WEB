@@ -13,9 +13,10 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\address::class, function (Faker $faker) {
+$factory->define(App\address::class, function (Faker $faker){
+    static $number = 1;
     return [
-        'company_id' => $faker->randomNumber($nbDigits = NULL, $strict = false),
+        'company_id' => $number++,//$faker->randomNumber($nbDigits = NULL, $strict = false),
         'addr_1' => $faker->address,
         'addr_2' => "",
         'city' => $faker->city,
@@ -25,23 +26,26 @@ $factory->define(App\address::class, function (Faker $faker) {
 });
 
 $factory->define(App\admin_blog_content::class, function (Faker $faker) {
+    static $number = 1;
     return [
-        'admin_id' => $faker->randomDigit,
-        'assessment_question_id' => $faker->unique()->numberBetween($min = 1, $max = 9000),
+        'admin_id' => $number,//$faker->randomDigit,
+        'assessment_question_id' => $number++,//$faker->unique()->numberBetween($min = 1, $max = 9000),
     ];
 });
 
 $factory->define(App\admin_feedback_question::class, function (Faker $faker) {
+    static $number = 1;
     return [
-        'admin_id' => $faker->randomDigit,
-        'feedback_question_id' => $faker->unique()->numberBetween($min = 1, $max = 9000),
+        'admin_id' => $number,//$faker->randomDigit,
+        'feedback_question_id' => $number++,//$faker->unique()->numberBetween($min = 1, $max = 9000),
     ];
 });
 
 $factory->define(App\admin_library_content::class, function (Faker $faker) {
+    static $number = 1;
     return [
-        'admin_id' => $faker->randomDigit,
-        'library_content_id' => $faker->unique()->numberBetween($min = 1, $max = 9000),
+        'admin_id' => $number,//$faker->randomDigit,
+        'library_content_id' => $number++,//$faker->unique()->numberBetween($min = 1, $max = 9000),
     ];
 });
 
@@ -62,10 +66,11 @@ $factory->define(App\assessment_result::class, function (Faker $faker) {
 });
 
 $factory->define(App\assessment::class, function (Faker $faker) {
+    static $number = 1;
     return [
-        'user_id' => $faker->unique()->numberBetween($min = 1, $max = 9000),
-        'assessment_question_id' => $faker->unique()->numberBetween($min = 1, $max = 9000),
-        'assessment_result_id' => $faker->unique()->numberBetween($min = 1, $max = 9000),
+        'user_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
+        'assessment_question_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
+        'assessment_result_id' => $number++,//$faker->unique()->numberBetween($min = 1, $max = 9000),
         'score' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 100),
     ];
 });
@@ -91,9 +96,10 @@ $factory->define(App\feedback_question::class, function (Faker $faker) {
 });
 
 $factory->define(App\feedback::class, function (Faker $faker) {
+    static $number = 1;
     return [
-        'user_id' => $faker->unique()->numberBetween($min = 1, $max = 9000),
-        'feedback_question_id' => $faker->unique()->numberBetween($min = 1, $max = 9000),
+        'user_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
+        'feedback_question_id' => $number++,//$faker->unique()->numberBetween($min = 1, $max = 9000),
         'score' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 100),
     ];
 });
@@ -163,9 +169,10 @@ $factory->define(App\lookup_publication::class, function (Faker $faker) {
 });
 
 $factory->define(App\payment::class, function (Faker $faker) {
+    static $number = 1;
     return [
-        'user_id' => $faker->unique()->numberBetween($min = 1, $max = 9000),
-        'company_id' => $faker->unique()->numberBetween($min = 1, $max = 9000),
+        'user_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
+        'company_id' => $number++,//$faker->unique()->numberBetween($min = 1, $max = 9000),
         'amount' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 10000),
         'method' => $faker->unique()->numberBetween($min = 1, $max = 9000),
         'bank' => $faker->unique()->numberBetween($min = 1, $max = 9000),

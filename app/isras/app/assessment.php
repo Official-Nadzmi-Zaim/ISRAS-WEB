@@ -4,7 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class assessment extends Model
+class Assessment extends Model
 {
     //
+    protected $table = 'assessments';
 }

@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\address::class, function (Faker $faker){
+$factory->define(App\Address::class, function (Faker $faker){
     static $number = 1;
     return [
         'company_id' => $number++,//$faker->randomNumber($nbDigits = NULL, $strict = false),
@@ -25,7 +25,7 @@ $factory->define(App\address::class, function (Faker $faker){
     ];
 });
 
-$factory->define(App\admin_blog_content::class, function (Faker $faker) {
+$factory->define(App\AdminBlogContent::class, function (Faker $faker) {
     static $number = 1;
     return [
         'admin_id' => $number,//$faker->randomDigit,
@@ -33,7 +33,7 @@ $factory->define(App\admin_blog_content::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\admin_feedback_question::class, function (Faker $faker) {
+$factory->define(App\AdminFeedbackQuestion::class, function (Faker $faker) {
     static $number = 1;
     return [
         'admin_id' => $number,//$faker->randomDigit,
@@ -41,7 +41,7 @@ $factory->define(App\admin_feedback_question::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\admin_library_content::class, function (Faker $faker) {
+$factory->define(App\AdminLibraryContent::class, function (Faker $faker) {
     static $number = 1;
     return [
         'admin_id' => $number,//$faker->randomDigit,
@@ -49,7 +49,7 @@ $factory->define(App\admin_library_content::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\assessment_question::class, function (Faker $faker) {
+$factory->define(App\AssessmentQuestion::class, function (Faker $faker) {
     return [
         'statement' => $faker->sentence($nbWords = 6, $variableNbWords = true),
         'type' => $faker->unique()->numberBetween($min = 1, $max = 9000),
@@ -59,13 +59,13 @@ $factory->define(App\assessment_question::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\assessment_result::class, function (Faker $faker) {
+$factory->define(App\AssessmentResult::class, function (Faker $faker) {
     return [
         'result' => $faker->numberBetween($min = 1, $max = 100),
     ];
 });
 
-$factory->define(App\assessment::class, function (Faker $faker) {
+$factory->define(App\Assessment::class, function (Faker $faker) {
     static $number = 1;
     return [
         'user_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
@@ -75,27 +75,27 @@ $factory->define(App\assessment::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\blog_content::class, function (Faker $faker) {
+$factory->define(App\BlogContent::class, function (Faker $faker) {
     return [
         'title' => $faker->name,
         'description' => $faker->text,
     ];
 });
 
-$factory->define(App\company::class, function (Faker $faker) {
+$factory->define(App\Company::class, function (Faker $faker) {
     return [
         'name' => $faker->company,
         'ref_no' => $faker->word.$faker->randomNumber($nbDigits = NULL, $strict = false),//sentence($nbWords = 6, $variableNbWords = true),
     ];
 });
 
-$factory->define(App\feedback_question::class, function (Faker $faker) {
+$factory->define(App\FeedbackQuestion::class, function (Faker $faker) {
     return [
         'description' => $faker->sentence($nbWords = 6, $variableNbWords = true),
     ];
 });
 
-$factory->define(App\feedback::class, function (Faker $faker) {
+$factory->define(App\Feedback::class, function (Faker $faker) {
     static $number = 1;
     return [
         'user_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
@@ -104,7 +104,7 @@ $factory->define(App\feedback::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\library_content::class, function (Faker $faker) {
+$factory->define(App\LibraryContent::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence($nbWords = 2, $variableNbWords = true),
         'description' => $faker->sentence($nbWords = 6, $variableNbWords = true),
@@ -114,37 +114,37 @@ $factory->define(App\library_content::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\lookup_assessment_category::class, function (Faker $faker) {
+$factory->define(App\LookupAssessmentCategory::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
     ];
 });
 
-$factory->define(App\lookup_assessment_key_area::class, function (Faker $faker) {
+$factory->define(App\LookupAssessmentKeyArea::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
     ];
 });
 
-$factory->define(App\lookup_assessment_title::class, function (Faker $faker) {
+$factory->define(App\LookupAssessmentTitle::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
     ];
 });
 
-$factory->define(App\lookup_assessment_type::class, function (Faker $faker) {
+$factory->define(App\LookupAssessmentType::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
     ];
 });
 
-$factory->define(App\lookup_author::class, function (Faker $faker) {
+$factory->define(App\LookupAuthor::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
     ];
 });
 
-$factory->define(App\lookup_bank::class, function (Faker $faker) {
+$factory->define(App\LookupBank::class, function (Faker $faker) {
     $bank = ['Bank Islam', 'Maybank', 'Bank Rakyat', 'Bank Simpanan Nasional', 'RHB Bank'];
     static $number = -1;
     return [
@@ -152,25 +152,25 @@ $factory->define(App\lookup_bank::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\lookup_country::class, function (Faker $faker) {
+$factory->define(App\LookupCountry::class, function (Faker $faker) {
     return [
         'name' => $faker->country,
     ];
 });
 
-$factory->define(App\lookup_payment_method::class, function (Faker $faker) {
+$factory->define(App\LookupPaymentMethod::class, function (Faker $faker) {
     return [
         'name' => $faker->creditCardType,
     ];
 });
 
-$factory->define(App\lookup_publication::class, function (Faker $faker) {
+$factory->define(App\LookupPublication::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
     ];
 });
 
-$factory->define(App\payment::class, function (Faker $faker) {
+$factory->define(App\Payment::class, function (Faker $faker) {
     static $number = 1;
     return [
         'user_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
@@ -181,7 +181,7 @@ $factory->define(App\payment::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\pic::class, function (Faker $faker) {
+$factory->define(App\PIC::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,

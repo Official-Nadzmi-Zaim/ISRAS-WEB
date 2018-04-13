@@ -4,7 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class pic extends Model
+class PIC extends Model
 {
     //
+    protected $table = 'pics';
 }

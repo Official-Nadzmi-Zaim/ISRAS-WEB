@@ -11,29 +11,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\blog_content::class, 10)->create();
-        factory(App\company::class, 10)->create();
-        factory(App\address::class, 10)->create();
-        factory(App\pic::class, 10)->create();
-        factory(App\admin_blog_content::class, 10)->create();
-        factory(App\admin_feedback_question::class, 10)->create();
-        factory(App\admin_library_content::class, 10)->create();
-        factory(App\assessment_question::class, 10)->create();
-        factory(App\assessment_result::class, 10)->create();
-        factory(App\assessment::class, 10)->create();
-        factory(App\feedback_question::class, 10)->create();
-        factory(App\feedback::class, 10)->create();
-        factory(App\library_content::class, 10)->create();
-        factory(App\lookup_assessment_category::class, 10)->create();
-        factory(App\lookup_assessment_key_area::class, 10)->create();
-        factory(App\lookup_assessment_title::class, 10)->create();
-        factory(App\lookup_assessment_type::class, 10)->create();
-        factory(App\lookup_author::class, 10)->create();
-        factory(App\lookup_bank::class, 5)->create();
-        factory(App\lookup_country::class, 10)->create();
-        factory(App\lookup_payment_method::class, 10)->create();
-        factory(App\lookup_publication::class, 10)->create();
-        factory(App\payment::class, 10)->create();
+        factory(App\BlogContent::class, 10)->create();
+        factory(App\Company::class, 10)->create();
+        factory(App\Address::class, 10)->create();
+        factory(App\PIC::class, 10)->create();
+        factory(App\AdminBlogContent::class, 10)->create();
+        factory(App\AdminFeedbackQuestion::class, 10)->create();
+        factory(App\AdminLibraryContent::class, 10)->create();
+        factory(App\AssessmentQuestion::class, 10)->create();
+        factory(App\AssessmentResult::class, 10)->create();
+        factory(App\Assessment::class, 10)->create();
+        factory(App\FeedbackQuestion::class, 10)->create();
+        factory(App\Feedback::class, 10)->create();
+        factory(App\LibraryContent::class, 10)->create();
+        factory(App\LookupAssessmentCategory::class, 10)->create();
+        factory(App\LookupAssessmentKeyArea::class, 10)->create();
+        factory(App\LookupAssessmentTitle::class, 10)->create();
+        factory(App\LookupAssessmentType::class, 10)->create();
+        factory(App\LookupAuthor::class, 10)->create();
+        factory(App\LookupBank::class, 5)->create();
+        factory(App\LookupCountry::class, 10)->create();
+        factory(App\LookupPaymentMethod::class, 10)->create();
+        factory(App\LookupPublication::class, 10)->create();
+        factory(App\Payment::class, 10)->create();
         factory(App\User::class, 10)->create();
     }
 }

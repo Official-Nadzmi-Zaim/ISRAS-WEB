@@ -4,7 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class blog_content extends Model
+class LookupBank extends Model
 {
     //
+    protected $table = 'lookup_banks';
 }

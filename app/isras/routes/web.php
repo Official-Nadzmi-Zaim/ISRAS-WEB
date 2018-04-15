@@ -27,6 +27,8 @@ Route::prefix('admin')->group(function() {
     Route::get('/form/blog/update', 'BlogController@loadUpdateContentForm');
     // Route::get('/form/registration', 'RegisterController@registerForm');
 
+    Route::post('/blog/add', 'BlogController@verifyNewContent');
+    Route::post('/blog/update', 'BlogController@verifyUpdatedContent');
     // Route::post('/registration', 'RegisterController@registration');
 });
 

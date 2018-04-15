@@ -5,7 +5,7 @@
         <h2 class="featurette-heading" style="margin-top: 20px;">I-SRAS</h2>
         <br><br>
 
-        <a href='/assessment/start' class='btn btn-lg btn-primary'>Do Assessment</a>
+        <a href='/user/assessment/start' class='btn btn-lg btn-primary'>Do Assessment</a>
 
         <h2 class="featurette-heading-2" style="margin-top: 20px;"><u>Assessment History</u></h2>
         <br>

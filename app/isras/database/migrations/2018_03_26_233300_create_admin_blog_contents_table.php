@@ -16,7 +16,7 @@ class CreateAdminBlogContentsTable extends Migration
         Schema::create('admin_blog_contents', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('admin_id');
-            $table->bigInteger('assessment_question_id');
+            $table->bigInteger('blog_content_id');
             $table->timestamps();
         });
     }

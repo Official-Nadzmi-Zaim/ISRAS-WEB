@@ -29,7 +29,7 @@ $factory->define(App\AdminBlogContent::class, function (Faker $faker) {
     static $number = 1;
     return [
         'admin_id' => $number,//$faker->randomDigit,
-        'assessment_question_id' => $number++,//$faker->unique()->numberBetween($min = 1, $max = 9000),
+        'blog_content_id' => $number++,//$faker->unique()->numberBetween($min = 1, $max = 9000),
     ];
 });
 

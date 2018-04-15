@@ -13,7 +13,7 @@
         <table class="assessment-tbl">
             <tr>
                 <th style="text-align: center">No</th>
-                <th style="text-align: center">Id</th>
+                <th style="text-align: center">Assessment Id</th>
                 <th>Company Name</th>
                 <th style="text-align: center">Score</th>
                 <th style="text-align: center">Date</th>

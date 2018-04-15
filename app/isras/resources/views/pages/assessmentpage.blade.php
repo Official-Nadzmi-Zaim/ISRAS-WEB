@@ -25,6 +25,7 @@
             </div>
         </div>
         <br>
+        {!! Form::open(['url' => '/user/assessment/page_'.($id+1), 'method'=>'GET']) !!}
         @php $q_count = 0 @endphp
         @php $no = 1 @endphp
         <!-- Dynamic body guna for loop nanti-->
@@ -57,6 +58,7 @@
         <div style="float:left">{{Form::submit('Previous', ['class'=>'btn btn-primary btn-lg'])}}</div>
         <div style="float:right">{{Form::submit('Next/Finish', ['class'=>'btn btn-primary btn-lg'])}}</div>
         </div>
+        {{ Form::close() }}
     </div>
     <hr class="featurette-divider">
 @endsection

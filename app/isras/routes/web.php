@@ -19,6 +19,7 @@ Route::get('/library', 'PagesController@library');
 
 // admin routes
 Route::prefix('admin')->group(function() {
+    Route::get('/reporting', 'ReportingController@processReporting');
 });
 
 // user routes

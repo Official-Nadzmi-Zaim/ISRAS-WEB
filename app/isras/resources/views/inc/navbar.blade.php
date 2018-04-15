@@ -16,14 +16,14 @@
                 <a class="nav-link" href="/library">Library</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/registration">Registration</a>
+                <a class="nav-link" href="/user/registration">Registration</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">I-SRAS</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="/assessment">Assessment</a>
-                    <a class="dropdown-item" href="/feedback">Feedback</a>
-                    <a class="dropdown-item" href="/payment">Transaction</a>
+                    <a class="dropdown-item" href="/user/assessment">Assessment</a>
+                    <a class="dropdown-item" href="/user/feedback">Feedback</a>
+                    <a class="dropdown-item" href="/user/payment">Transaction</a>
                 </div>
             </li>
         </ul>

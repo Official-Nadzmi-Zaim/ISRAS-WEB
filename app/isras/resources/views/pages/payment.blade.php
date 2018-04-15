@@ -43,7 +43,7 @@
             <thead>
                 <tr>
                     <th class="payment-no" style="text-align: center">No</th>
-                    <th class="payment-no" style="text-align: center">Id</th>
+                    <th class="payment-no" style="text-align: center">Payment Id</th>
                     <th class="payment-no2" style="text-align: center">Amount (RM)</th>
                     <th class="payment-no3" style="text-align: center">Payment Method</th>
                     <th>Bank</th>

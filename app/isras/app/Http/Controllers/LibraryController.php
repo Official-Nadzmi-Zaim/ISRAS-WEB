@@ -6,15 +6,19 @@ use Illuminate\Http\Request;
 
 class LibraryController extends Controller
 {
-    public function loadAddContentForm() {}
+    public function loadAddContentForm() {
+        return "This is add content form for library.";
+    }
 
     public function verifyNewContent() {}
 
-    public function saveNewContent() {}
+    private function saveNewContent() {}
 
-    public function loadUpdateContentForm() {}
+    public function loadUpdateContentForm() {
+        return "This is update content form for library.";
+    }
 
     public function verifyUpdatedContent() {}
-
-    public function saveUpdatedContent() {}
+        
+    private function saveUpdatedContent() {}
 }

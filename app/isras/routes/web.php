@@ -13,6 +13,7 @@
 
 //Sort the pages controller according to alphabet ascending
 // public routes
+// Auth::routes();
 Route::get('/', 'PagesController@home');
 Route::get('/about-us', 'PagesController@about');
 Route::get('/library', 'PagesController@library');
@@ -20,6 +21,13 @@ Route::get('/library', 'PagesController@library');
 // admin routes
 Route::prefix('admin')->group(function() {
     Route::get('/reporting', 'ReportingController@processReporting');
+    Route::get('/form/library/add', 'LibraryController@loadAddContentForm');
+    Route::get('/form/library/update', 'LibraryController@loadUpdateContentForm');
+    Route::get('/form/blog/add', 'BlogController@loadAddContentForm');
+    Route::get('/form/blog/update', 'BlogController@loadUpdateContentForm');
+    // Route::get('/form/registration', 'RegisterController@registerForm');
+
+    // Route::post('/registration', 'RegisterController@registration');
 });
 
 // user routes

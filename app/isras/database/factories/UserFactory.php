@@ -365,7 +365,7 @@ $factory->define(App\LookupAssessmentTitle::class, function (Faker $faker) {
         'Advertisement', 
         'Pricing', 
         'Customers\' Confidentiality Policy', 
-        'Customet Appreciation'];
+        'Customer Appreciation'];
     static $number = -1;
     return [
         'name' => $title[++$number],//$faker->word,

@@ -21,26 +21,38 @@
         <br><br>
         <div class="card"> 
             <div class="card-container"> <!-- Title -->
-                <h4><b>{{ "CATEGORY 1 : COMMUNITY" }}</b></h4>
+                <h4><b>{{ "CATEGORY $id : $category" }}</b></h4>
             </div>
         </div>
         <br>
+        @php $q_count = 0 @endphp
+        @php $no = 1 @endphp
         <!-- Dynamic body guna for loop nanti-->
+        @for ($i=0; $i<sizeof($arr_key_area); $i++)
+        @php $q_num = 0 @endphp
         <div class="card"> 
             <div class="card-container"> 
-                <h6><b>{{ "KEY AREA 1 : SOCIAL DEVELOPMENT" }}</b></h6><!-- Key area title -->
+                <h6><b>{{ "KEY AREA ".($i+1)." : ".$arr_key_area[$i] }}</b></h6><!-- Key area title -->
                 <br>
                 <!-- Dynamic for question title -->
-                <p><i>Contribution for the needy</i></p>
+                @for ($j=0; $j<sizeof($arr_title[$i]); $j++)
+                <p><i>{{$arr_title[$i][$j]}}</i></p>
                 <table border="1" cellpadding="5" style="width: 100%">
                     <!-- Dynamic table row for question -->
+                    @for ($k=0; $k<$arr_questions_count[$q_count]; $k++)
                     <tr>
-                        <td style="text-align: center">1</td><td>Donate to hardcore poor Muslims</td><td></td>
+                        <td style="text-align: center">{{ $no++ }}</td><td>{{ $arr_questions[$i][$q_num] }}</td><td></td>
                     </tr>
+                    @php $q_num++ @endphp
+                    @endfor
                 </table>
+                <br>
+                @php $q_count++ @endphp
+                @endfor
             </div>
         </div>
         <br>
+        @endfor
         <div style="width: 100%;">
         <div style="float:left">{{Form::submit('Previous', ['class'=>'btn btn-primary btn-lg'])}}</div>
         <div style="float:right">{{Form::submit('Next/Finish', ['class'=>'btn btn-primary btn-lg'])}}</div>

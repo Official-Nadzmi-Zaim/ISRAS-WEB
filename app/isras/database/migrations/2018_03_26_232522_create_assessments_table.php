@@ -18,7 +18,7 @@ class CreateAssessmentsTable extends Migration
             $table->bigInteger('user_id');
             $table->bigInteger('assessment_question_id');
             $table->bigInteger('assessment_result_id');
-            $table->double('score', 15, 2);
+            $table->integer('answer');
             $table->timestamps();
         });
     }

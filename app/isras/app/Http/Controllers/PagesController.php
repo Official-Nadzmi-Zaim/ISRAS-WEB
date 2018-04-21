@@ -18,6 +18,10 @@ class PagesController extends Controller
         return view('pages.assessment');
     }
 
+    public function login() {
+        return view('pages.login');
+    }
+
     public function feedback()
     {
         return view('pages.feedback');

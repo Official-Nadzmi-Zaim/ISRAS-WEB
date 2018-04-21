@@ -17,7 +17,7 @@ class CreateLibraryContentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title', 50);
             $table->string('description', 500);
-            $table->string('src', 500);
+            $table->string('src', 500)->nullable();
             $table->bigInteger('publication');
             $table->bigInteger('author');
             $table->timestamps();

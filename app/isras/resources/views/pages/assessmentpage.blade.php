@@ -13,8 +13,18 @@
         padding-right: 20px;
         padding-bottom: 10px;
     }
-</style>
 
+    #tooltip{
+        display: none;
+        cursor: pointer;
+        left: 100px;
+        top: 50px;
+        border: solid 1px #eee;
+        background-color: #ffffdd;
+        padding: 10px;
+        z-index: 1000;
+    }
+</style>
 @section('content')
     <div class="container marketing">
         @extends('pages.assessmentheader')
@@ -25,7 +35,9 @@
             </div>
         </div>
         <br>
-        {!! Form::open(['url' => '/user/assessment/page_'.($id+1), 'method'=>'GET']) !!}
+        {{-- {!! Form::open(['url' => '/user/assessment/page_'.($id+1), 'method'=>'GET']) !!} --}}
+        {!! Form::open(['url' => '/user/assessment/page_'.($id+1), 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate']) !!}
+        {{ Form::hidden('curr_id', $id) }}
         @php $q_count = 0 @endphp
         @php $no = 1 @endphp
         <!-- Dynamic body guna for loop nanti-->
@@ -40,9 +52,55 @@
                 <p><i>{{$arr_title[$i][$j]}}</i></p>
                 <table border="1" cellpadding="5" style="width: 100%">
                     <!-- Dynamic table row for question -->
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><b>Yes</b></td>
+                        <td><b>No</b></td>
+                        <td></td>
+                    </tr>
                     @for ($k=0; $k<$arr_questions_count[$q_count]; $k++)
                     <tr>
-                        <td style="text-align: center">{{ $no++ }}</td><td>{{ $arr_questions[$i][$q_num] }}</td><td></td>
+                        <td style="text-align: center">{{ $no++ }}</td>
+                        <td>{{ $arr_questions[$i][$q_num] }}</td>
+
+                        @if ($choice == 0)
+                            @if (!empty($arr_rdo_previous))
+                                @if ($arr_rdo_previous[$no-1] != null)
+                                    @if ($arr_rdo_previous[$no-1] == 1)
+                                        <td><input type="radio" name="radio_{{$no-1}}" value=1 checked></td> 
+                                        <td><input type="radio" name="radio_{{$no-1}}" value=0></td> 
+                                    @else
+                                        <td><input type="radio" name="radio_{{$no-1}}" value=1></td> 
+                                        <td><input type="radio" name="radio_{{$no-1}}" value=0 checked></td>
+                                    @endif
+                                @else
+                                    <td><input type="radio" name="radio_{{$no-1}}" value=1></td> 
+                                    <td><input type="radio" name="radio_{{$no-1}}" value=0></td> 
+                                @endif 
+                            @else
+                                <td><input type="radio" name="radio_{{$no-1}}" value=1></td> 
+                                <td><input type="radio" name="radio_{{$no-1}}" value=0></td> 
+                            @endif 
+                        @else
+                            @if (!empty($arr_rdo_next))
+                                @if ($arr_rdo_next[$no-1] != null)
+                                    @if ($arr_rdo_next[$no-1] == 1)
+                                        <td><input type="radio" name="radio_{{$no-1}}" value=1 checked></td> 
+                                        <td><input type="radio" name="radio_{{$no-1}}" value=0></td> 
+                                    @else
+                                        <td><input type="radio" name="radio_{{$no-1}}" value=1></td> 
+                                        <td><input type="radio" name="radio_{{$no-1}}" value=0 checked></td> 
+                                    @endif
+                                @else
+                                    <td><input type="radio" name="radio_{{$no-1}}" value=1></td> 
+                                    <td><input type="radio" name="radio_{{$no-1}}" value=0></td> 
+                                @endif 
+                            @else
+                                <td><input type="radio" name="radio_{{$no-1}}" value=1></td> 
+                                <td><input type="radio" name="radio_{{$no-1}}" value=0></td> 
+                            @endif 
+                        @endif
                     </tr>
                     @php $q_num++ @endphp
                     @endfor
@@ -54,9 +112,16 @@
         </div>
         <br>
         @endfor
+        <input type="hidden" name="num" value="<?php echo $no;?>" />
         <div style="width: 100%;">
-        <div style="float:left">{{Form::submit('Previous', ['class'=>'btn btn-primary btn-lg'])}}</div>
-        <div style="float:right">{{Form::submit('Next/Finish', ['class'=>'btn btn-primary btn-lg'])}}</div>
+        @if ($id != 1) 
+            <div style="float:left"><a href="/user/assessment/page_{{$id-1}}" class="btn btn-primary btn-lg">Previous</a></div>
+        @endif
+        @if ($id != 4)
+            <div style="float:right">{{Form::submit('Next', ['class'=>'btn btn-primary btn-lg'])}}</div>
+        @else
+            <div style="float:right">{{Form::submit('Finish', ['class'=>'btn btn-primary btn-lg'])}}</div>
+        @endif
         </div>
         {{ Form::close() }}
     </div>

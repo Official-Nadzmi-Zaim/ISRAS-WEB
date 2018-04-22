@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container marketing">
-        <h2 class="featurette-heading">I-SRAS</h2>
+        <h2 class="featurette-heading" style="margin-top: 20px;">I-SRAS</h2>
         <br><br>
 
         <a href='/user/assessment/start' class='btn btn-lg btn-primary'>Do Assessment</a>
@@ -22,7 +22,7 @@
                 <tr>
                     <td class="assessment-tbl-item">{{$i+1}}</td>
                     <td class="assessment-tbl-item">{{ $AssessmentResult[$i]->id }}</td>
-                    <td>Company Marvel Infinity War</td>
+                    <td>{{$AssessmentCompany[$i]}}</td>
                     <td class="assessment-tbl-item">{{ $AssessmentResult[$i]->result }}</td>
                     <td class="assessment-tbl-item">{{ date('d/m/Y',strtotime($AssessmentResult[$i]->created_at)) }}</td>
                 </tr>

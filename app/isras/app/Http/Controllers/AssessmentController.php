@@ -8,6 +8,7 @@ use App\LookupAssessmentCategory;
 use App\LookupAssessmentKeyArea;
 use App\LookupAssessmentTitle;
 use App\LookupAssessmentType;
+use App\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
@@ -354,8 +355,25 @@ class AssessmentController extends Controller
     public function loadAssessment()
     {
         $AssessmentResult = AssessmentResult::orderBy('created_at', 'DESC')->get();
+        $AssessmentCompany = array();
 
-        return view ('pages.assessment')->with('AssessmentResult', $AssessmentResult);
+        foreach ($AssessmentResult as $a)
+        {
+            $Assessment = DB::table('assessments')->where('assessment_result_id', $a->id)->first();
+            if ($Assessment != null)
+            {
+                $company = Company::find($Assessment->user_id);
+                array_push($AssessmentCompany, $company->name);
+            }
+            else
+                array_push($AssessmentCompany, "Company not found");
+        }
+        $data = [
+            'AssessmentResult' =>  $AssessmentResult,
+            'AssessmentCompany' => $AssessmentCompany
+        ];
+
+        return view ('pages.assessment')->with($data);
     }
 
     public function calculateAssessmentResult()

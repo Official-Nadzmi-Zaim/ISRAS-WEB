@@ -43,6 +43,7 @@
     <div class="container marketing">
         <center><h2 class="featurette-heading" style="margin-top: 20px;">I-SRAS Assessment Score Report</h2></center>
         <br><br>
+        {!! Form::open(['url' => '/user/assessment', 'method'=>'POST']) !!}
         <div>
             <table class="table-score" border="2">
                 <thead>
@@ -55,23 +56,23 @@
                 <tbody>
                     <tr>
                         <td style="text-align:left; font-weight: bold;"><a href=''>COMMUNITY</a></td>
-                        <td>39</td>
-                        <td>44</td>
+                        <td>{{ $score_community }}</td>
+                        <td>{{ $total_community }}</td>
                     </tr>
                     <tr>
                         <td style="text-align:left; font-weight: bold;"><a href=''>WORKPLACE</a></td>
-                        <td>75</td>
-                        <td>75</td>
+                        <td>{{ $score_workplace }}</td>
+                        <td>{{ $total_workplace }}</td>
                     </tr>
                     <tr>
                         <td style="text-align:left; font-weight: bold;"><a href=''>ENVIRONMENTAL</a></td>
-                        <td>33</td>
-                        <td>33</td>
+                        <td>{{ $score_environmental }}</td>
+                        <td>{{ $total_environmental }}</td>
                     </tr>
                     <tr>
                         <td style="text-align:left; font-weight: bold;"><a href=''>MARKETPLACE</a></td>
-                        <td>31</td>
-                        <td>34</td>
+                        <td>{{ $score_marketplace }}</td>
+                        <td>{{ $total_marketplace }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -82,24 +83,26 @@
                 <table class="table-result">
                     <tr>
                         <td style="font-size: 16pt; font-weight: bold; text-align: left;">I-SRAS Score</td>
-                        <td>178</td>
+                        <td>{{ $score_isras }}</td>
+                        <input type="hidden" name="score_isras" value="<?php echo $score_isras;?>" />
                         <td style="color: green; font-weight: bold;">HIGH</td>
                     </tr>
                     <tr>
                         <td style="font-size: 16pt; font-weight: bold; text-align: left;">Vital Score</td>
-                        <td>106</td>
+                        <td>{{ $score_vital }}</td>
                         <td style="color: green; font-weight: bold;">HIGH</td>
                     </tr>
                     <tr>
                         <td style="font-size: 16pt; font-weight: bold; text-align: left;">Recommended Score</td>
-                        <td>76</td>
+                        <td>{{ $score_recommended }}</td>
                         <td style="color: green; font-weight: bold;">HIGH</td>
                     </tr>
                 </table>
             </div>
         </div>
         <br><br>
-        <center><a href='' class='btn btn-lg btn-primary btn-block' style="width: 50%">Finish</a></center>
+        {{-- <a href='user/assessment' class='btn btn-lg btn-primary btn-block' style="width: 50%">Finish</a> --}}
+        <center>{{Form::submit('Finish', ['class'=>'btn btn-primary btn-lg', 'style'=>'width:50%'])}}</center>
     </div>
     <hr class="featurette-divider">
 @endsection

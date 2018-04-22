@@ -43,7 +43,9 @@ Route::prefix('admin')->group(function() {
 Route::prefix('user')->group(function() {
     // GET ROUTES
     Route::get('/assessment', 'PagesController@assessment');
-    Route::get('/assessment/result', 'PagesController@assessmentResult');
+    Route::post('/assessment', 'AssessmentController@saveAssessmentResult');
+    Route::get('/assessment/result', 'AssessmentController@verifyAssessment');
+    Route::post('/assessment/result', 'AssessmentController@verifyAssessment');
     Route::get('/assessment/start', 'PagesController@assessmentStart');
     Route::get('/assessment/page_{id}', 'AssessmentController@loadAssessmentQuestion');
     Route::post('/assessment/page_{id}', 'AssessmentController@loadAssessmentQuestion');

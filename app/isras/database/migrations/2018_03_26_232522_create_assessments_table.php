@@ -15,10 +15,10 @@ class CreateAssessmentsTable extends Migration
     {
         Schema::create('assessments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
-            $table->bigInteger('assessment_question_id');
-            $table->bigInteger('assessment_result_id');
-            $table->integer('answer');
+            $table->bigInteger('user_id'); //based on user id
+            $table->bigInteger('assessment_question_id'); //based on real question
+            $table->bigInteger('assessment_result_id'); //
+            $table->integer('answer'); //1 or 0
             $table->timestamps();
         });
     }

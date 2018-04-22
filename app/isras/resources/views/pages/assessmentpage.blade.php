@@ -35,8 +35,11 @@
             </div>
         </div>
         <br>
-        {{-- {!! Form::open(['url' => '/user/assessment/page_'.($id+1), 'method'=>'GET']) !!} --}}
-        {!! Form::open(['url' => '/user/assessment/page_'.($id+1), 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate']) !!}
+        @if ($id == 4)
+            {!! Form::open(['url' => '/user/assessment/result', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate']) !!}
+        @else
+            {!! Form::open(['url' => '/user/assessment/page_'.($id+1), 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate']) !!}
+        @endif
         {{ Form::hidden('curr_id', $id) }}
         @php $q_count = 0 @endphp
         @php $no = 1 @endphp
@@ -57,7 +60,6 @@
                         <td></td>
                         <td><b>Yes</b></td>
                         <td><b>No</b></td>
-                        <td></td>
                     </tr>
                     @for ($k=0; $k<$arr_questions_count[$q_count]; $k++)
                     <tr>
@@ -99,7 +101,7 @@
                             @else
                                 <td><input type="radio" name="radio_{{$no-1}}" value=1></td> 
                                 <td><input type="radio" name="radio_{{$no-1}}" value=0></td> 
-                            @endif 
+                            @endif  
                         @endif
                     </tr>
                     @php $q_num++ @endphp

@@ -24,6 +24,27 @@
         padding: 10px;
         z-index: 1000;
     }
+
+    .assessment-question-tbl-item {
+        width: 7.5%;
+        text-align: center
+    }
+
+    .assessment-question-tbl-item-2 {
+        width: 5%;
+        text-align: center
+    }
+
+    .assessment-question-tbl td, .assessment-question-tbl th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .assessment-question-tbl {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
 </style>
 @section('content')
     <div class="container marketing">
@@ -53,54 +74,54 @@
                 <!-- Dynamic for question title -->
                 @for ($j=0; $j<sizeof($arr_title[$i]); $j++)
                 <p><i>{{$arr_title[$i][$j]}}</i></p>
-                <table border="1" cellpadding="5" style="width: 100%">
+                <table border="1" cellpadding="5" class="assessment-question-tbl">
                     <!-- Dynamic table row for question -->
                     <tr>
                         <td></td>
                         <td></td>
-                        <td><b>Yes</b></td>
-                        <td><b>No</b></td>
+                        <td class="assessment-question-tbl-item-2"><b>Yes</b></td>
+                        <td class="assessment-question-tbl-item-2"><b>No</b></td>
                     </tr>
                     @for ($k=0; $k<$arr_questions_count[$q_count]; $k++)
                     <tr>
-                        <td style="text-align: center">{{ $no++ }}</td>
+                        <td class="assessment-question-tbl-item">{{ $no++ }}</td>
                         <td>{{ $arr_questions[$i][$q_num] }}</td>
 
                         @if ($choice == 0)
                             @if (!empty($arr_rdo_previous))
                                 @if ($arr_rdo_previous[$no-1] != null)
                                     @if ($arr_rdo_previous[$no-1] == 1)
-                                        <td><input type="radio" name="radio_{{$no-1}}" value=1 checked></td> 
-                                        <td><input type="radio" name="radio_{{$no-1}}" value=0></td> 
+                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1 checked></td> 
+                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0></td> 
                                     @else
-                                        <td><input type="radio" name="radio_{{$no-1}}" value=1></td> 
-                                        <td><input type="radio" name="radio_{{$no-1}}" value=0 checked></td>
+                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1></td> 
+                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0 checked></td>
                                     @endif
                                 @else
-                                    <td><input type="radio" name="radio_{{$no-1}}" value=1></td> 
-                                    <td><input type="radio" name="radio_{{$no-1}}" value=0></td> 
+                                    <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1></td> 
+                                    <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0></td> 
                                 @endif 
                             @else
-                                <td><input type="radio" name="radio_{{$no-1}}" value=1></td> 
-                                <td><input type="radio" name="radio_{{$no-1}}" value=0></td> 
+                                <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1></td> 
+                                <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0></td> 
                             @endif 
                         @else
                             @if (!empty($arr_rdo_next))
                                 @if ($arr_rdo_next[$no-1] != null)
                                     @if ($arr_rdo_next[$no-1] == 1)
-                                        <td><input type="radio" name="radio_{{$no-1}}" value=1 checked></td> 
-                                        <td><input type="radio" name="radio_{{$no-1}}" value=0></td> 
+                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1 checked></td> 
+                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0></td> 
                                     @else
-                                        <td><input type="radio" name="radio_{{$no-1}}" value=1></td> 
-                                        <td><input type="radio" name="radio_{{$no-1}}" value=0 checked></td> 
+                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1></td> 
+                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0 checked></td> 
                                     @endif
                                 @else
-                                    <td><input type="radio" name="radio_{{$no-1}}" value=1></td> 
-                                    <td><input type="radio" name="radio_{{$no-1}}" value=0></td> 
+                                    <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1></td> 
+                                    <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0></td> 
                                 @endif 
                             @else
-                                <td><input type="radio" name="radio_{{$no-1}}" value=1></td> 
-                                <td><input type="radio" name="radio_{{$no-1}}" value=0></td> 
+                                <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1></td> 
+                                <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0></td> 
                             @endif  
                         @endif
                     </tr>

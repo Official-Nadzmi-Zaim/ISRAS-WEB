@@ -42,7 +42,7 @@ Route::prefix('admin')->group(function() {
 // user routes
 Route::prefix('user')->group(function() {
     // GET ROUTES
-    Route::get('/assessment', 'PagesController@assessment');
+    Route::get('/assessment', 'AssessmentController@loadAssessment');
     Route::post('/assessment', 'AssessmentController@saveAssessmentResult');
     Route::get('/assessment/result', 'AssessmentController@verifyAssessment');
     Route::post('/assessment/result', 'AssessmentController@verifyAssessment');

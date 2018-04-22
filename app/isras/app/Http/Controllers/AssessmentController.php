@@ -81,14 +81,25 @@ class AssessmentController extends Controller
         $arr_key_area = array();
         $arr_questions = array();
         $arr_questions_count = array();
+        $arr_question_types = array();
         $title_no = 0;
         $arr_title = array();
         $no = 0;
         $i = -1;
         $j = 0;
         $k = 0;
+        $y = 1;
+
         foreach ($arr_assessment_questions as $x)
         {
+            if ($x->type == 1)
+            {
+                $arr_question_types[$y++] = "background-color: green; text-align:center;";
+            }
+            else
+            {
+                $arr_question_types[$y++] = "background-color: blue; text-align:center;";
+            }
             //This is to avoid key_area duplication
             if ($x->title != 0){
                 if (!in_array(LookupAssessmentKeyArea::find($x->key_area)->name, $arr_key_area))
@@ -109,6 +120,7 @@ class AssessmentController extends Controller
                     if ($k != 0)
                         array_push($arr_questions_count, $k);
                     $k = 0;
+                    
                 }
 
                 $arr_questions[$i][$no] = $x->statement;
@@ -116,15 +128,25 @@ class AssessmentController extends Controller
                 $k++;
             }
         }
-
         //This is for last count part
         array_push($arr_questions_count, $k);
 
         $category = LookupAssessmentCategory::find($id)->name;
-        return view('pages.assessmentpage')->with('arr_assessment_questions', $arr_assessment_questions)
-        ->with('arr_key_area', $arr_key_area)->with('arr_title', $arr_title)->with('category', $category)
-        ->with('id', $id)->with('arr_questions', $arr_questions)->with('arr_questions_count', $arr_questions_count)
-        ->with('arr_rdo_next', $arr_rdo_next)->with('arr_rdo_previous', $arr_rdo_previous)->with('choice', $choice);
+
+        $data = [
+            'arr_assessment_questions' => $arr_assessment_questions,
+            'arr_question_types' => $arr_question_types,
+            'arr_key_area' => $arr_key_area,
+            'arr_title' => $arr_title,
+            'category' => $category,
+            'id' => $id,
+            'arr_questions' => $arr_questions,
+            'arr_questions_count' => $arr_questions_count,
+            'arr_rdo_next' => $arr_rdo_next,
+            'arr_rdo_previous' => $arr_rdo_previous,
+            'choice' => $choice
+        ];
+        return view('pages.assessmentpage')->with($data);
     }
 
     public function verifyAssessment(Request $request)
@@ -326,7 +348,14 @@ class AssessmentController extends Controller
         Session::forget('arr_rdo_3');
         Session::forget('arr_rdo_4');
                        
-        return view ('pages.assessment');
+        return $this->loadAssessment();
+    }
+
+    public function loadAssessment()
+    {
+        $AssessmentResult = AssessmentResult::orderBy('created_at', 'DESC')->get();
+
+        return view ('pages.assessment')->with('AssessmentResult', $AssessmentResult);
     }
 
     public function calculateAssessmentResult()

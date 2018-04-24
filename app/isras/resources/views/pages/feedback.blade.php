@@ -7,6 +7,7 @@
         <!-- START THE FEATURETTES -->
 
         {{--  <div class="custom-content">  --}}
+        {!! Form::open(['url' => '/user/feedback', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate']) !!}
         <table class="feedback-tbl">
             <tr>
                 <th style="text-align: center">No</th>
@@ -22,58 +23,24 @@
                 <td class="feedback-tbl-answer">Agree</td>
                 <td class="feedback-tbl-answer">Strongly Agree</td>
             </tr>
+            @for ($i=0; $i<sizeof($arr_feedback); $i++)
             <tr>
-                <td style="text-align: center">1</td>
-                <td>Say what you want to say as long as you are happy</td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer" value="1"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer" value="2"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer" value="3"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer" value="4"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer" value="5"></td>
+                <td style="text-align: center">{{$i+1}}</td>
+                <td>{{$arr_feedback[$i]->description}}</td>
+                <td style="text-align: center"><input type="radio" name="feedback_answer_{{$i+1}}" value="1"></td>
+                <td style="text-align: center"><input type="radio" name="feedback_answer_{{$i+1}}" value="2"></td>
+                <td style="text-align: center"><input type="radio" name="feedback_answer_{{$i+1}}" value="3"></td>
+                <td style="text-align: center"><input type="radio" name="feedback_answer_{{$i+1}}" value="4"></td>
+                <td style="text-align: center"><input type="radio" name="feedback_answer_{{$i+1}}" value="5"></td>
             </tr>
-            <tr>
-                <td style="text-align: center">2</td>
-                <td>Say what you want to say as long as you are happy</td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer2" value="1"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer2" value="2"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer2" value="3"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer2" value="4"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer2" value="5"></td>
-            </tr>
-            <tr>
-                <td style="text-align: center">3</td>
-                <td>Say what you want to say as long as you are happy</td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer3" value="1"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer3" value="2"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer3" value="3"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer3" value="4"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer3" value="5"></td>
-            </tr>
-            <tr>
-                <td style="text-align: center">4</td>
-                <td>Say what you want to say as long as you are happy</td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer4" value="1"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer4" value="2"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer4" value="3"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer4" value="4"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer4" value="5"></td>
-            </tr>
-            <tr>
-                <td style="text-align: center">5</td>
-                <td>Say what you want to say as long as you are happy</td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer5" value="1"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer5" value="2"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer5" value="3"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer5" value="4"></td>
-                <td style="text-align: center"><input type="radio" name="feedback-answer5" value="5"></td>
-            </tr>
+            @endfor
         </table>
         {{--  </div>  --}}
         <br><br>
-        <form class="form-inline mt-2 mt-md-0">
-            <button class="btn btn-lg btn-primary" type="submit">Back</button>&nbsp;&nbsp;&nbsp;
-            <button class="btn btn-lg btn-primary" type="submit">Submit Feedback</button>
-        </form>
+        <input type="hidden" name="no" value="<?php echo sizeof($arr_feedback);?>" />
+        {{-- <button class="btn btn-lg btn-primary" type="submit">Back</button>&nbsp;&nbsp;&nbsp; --}}
+        <button class="btn btn-lg btn-primary" type="submit">Submit Feedback</button>
+        {{ Form::close() }}
         <hr class="featurette-divider">
         <!-- /END THE FEATURETTES -->
     </div>

@@ -49,7 +49,8 @@ Route::prefix('user')->group(function() {
     Route::get('/assessment/start', 'PagesController@assessmentStart');
     Route::get('/assessment/page_{id}', 'AssessmentController@loadAssessmentQuestion');
     Route::post('/assessment/page_{id}', 'AssessmentController@loadAssessmentQuestion');
-    Route::get('/feedback', 'PagesController@feedback');
+    Route::get('/feedback', 'FeedbackController@loadFeedbackQuestion');
+    Route::post('/feedback', 'FeedbackController@verifyFeedback');
     Route::get('/payment', 'PagesController@payment');
     Route::get('/registration', 'PagesController@registration');
 });

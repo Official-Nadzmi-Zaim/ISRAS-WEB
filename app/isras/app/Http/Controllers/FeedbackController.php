@@ -20,6 +20,7 @@ class FeedbackController extends Controller
 
     public function verifyFeedback(Request $request)
     {
+
         //Get the data
         $size = $request["no"];
 
@@ -27,12 +28,22 @@ class FeedbackController extends Controller
         for ($i=0; $i<$size; $i++)
         {
             $score = $request["feedback_answer_".($i+1)];
-            
-            $this->saveFeedback([
-                'user_id' => 1,
-                'feedback_question_id' => $i+1,
-                'score' => $score,
-            ]);
+
+            if ($score != null)
+            {
+                $this->saveFeedback([
+                    'user_id' => 1,
+                    'feedback_question_id' => $i+1,
+                    'score' => $score
+                ]);
+            }else{
+                $this->saveFeedback([
+                    'user_id' => 1,
+                    'feedback_question_id' => $i+1,
+                    'score' => 0
+                ]);
+            }
+
         }
         //Return the view
         return $this->loadFeedbackQuestion();

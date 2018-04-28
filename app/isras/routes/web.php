@@ -16,7 +16,7 @@
 // Auth::routes();
 Route::get('/', 'PagesController@home');
 Route::get('/about-us', 'PagesController@about');
-Route::get('/library', 'PagesController@library');
+Route::get('/library', 'LibraryController@loadLibraryContent');
 Route::get('/login', 'PagesController@login');
 
 // admin routes

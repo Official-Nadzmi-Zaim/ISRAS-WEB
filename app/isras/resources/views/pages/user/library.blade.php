@@ -15,12 +15,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="library-item2">1</td>
-                <td class="library-item"><a href="/library/#">Book 1</a></td>
-                <td class="library-item">Author 1</td>
-                <td class="library-item">Publication 1</td>
-            </tr>
+            @for ($i=0; $i<sizeof($arr_content); $i++)
+                <tr>
+                    <td class="library-item2">{{ $i + 1 }}</td>
+                    <td class="library-item"><a href="{{$arr_content[$i]->src}}">{{ $arr_content[$i]->title }}</a></td>
+                    <td class="library-item">{{ $arr_content[$i]->lookup_author->name}}</td>
+                    <td class="library-item">{{ $arr_content[$i]->lookup_publication->name }}</td>
+                </tr>
+            @endfor
             </tbody>
             <div>
         </table>

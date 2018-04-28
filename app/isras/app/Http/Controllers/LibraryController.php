@@ -86,10 +86,11 @@ class LibraryController extends Controller
     //Zaim Omar library controller for user
     public function loadLibraryContent()
     {
-        $arr_title = LibraryContent::all();
-        $arr_author = LookupAuthor::all();
-        $arr_publication = LookupPublication::all();
-        
-        return view('pages.user.library');
+        $arr_content = LibraryContent::all();
+        $data = [
+            'arr_content' => $arr_content
+        ];
+
+        return view('pages.user.library')->with($data);
     }
 }

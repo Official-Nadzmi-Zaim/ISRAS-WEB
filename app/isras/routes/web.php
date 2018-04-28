@@ -52,5 +52,6 @@ Route::prefix('user')->group(function() {
     Route::get('/feedback', 'FeedbackController@loadFeedbackQuestion');
     Route::post('/feedback', 'FeedbackController@verifyFeedback');
     Route::get('/payment', 'PagesController@payment');
+    Route::get('/report', 'AssessmentController@loadAssessmentResult');
     Route::get('/registration', 'PagesController@registration');
 });

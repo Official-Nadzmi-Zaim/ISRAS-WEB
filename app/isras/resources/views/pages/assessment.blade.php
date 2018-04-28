@@ -17,6 +17,7 @@
                 <th>Company Name</th>
                 <th style="text-align: center">Score</th>
                 <th style="text-align: center">Date</th>
+                <th style="text-align: center">Action</th>
             </tr>
             @for ($i=0; $i<sizeof($AssessmentResult); $i++)
                 <tr>
@@ -25,6 +26,7 @@
                     <td>{{$AssessmentCompany[$i]}}</td>
                     <td class="assessment-tbl-item">{{ $AssessmentResult[$i]->result }}</td>
                     <td class="assessment-tbl-item">{{ date('d/m/Y',strtotime($AssessmentResult[$i]->created_at)) }}</td>
+                    <td class="assessment-tbl-item"><a href="/user/report" class = 'btn btn-primary'>Print Result</a></td>
                 </tr>
             @endfor
         </table>

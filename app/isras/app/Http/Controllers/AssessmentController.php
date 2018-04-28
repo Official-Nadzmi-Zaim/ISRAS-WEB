@@ -384,6 +384,11 @@ class AssessmentController extends Controller
     {
     }
 
+    public function loadAssessmentResult()
+    {
+        return view('pages.report');
+    }
+
     public function loadAddContentForm()
     {
     }

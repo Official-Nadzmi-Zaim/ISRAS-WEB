@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use DB;
+use PDF;
 
 class AssessmentController extends Controller
 {
@@ -384,9 +385,29 @@ class AssessmentController extends Controller
     {
     }
 
-    public function loadAssessmentResult()
+    public function loadAssessmentResult($id)
     {
-        return view('pages.report');
+        $Assessment = Assessment::where('assessment_result_id', $id)->get();
+        $Arr_category = LookupAssessmentCategory::all();
+
+        //return $Arr_category[0]->getKeyAreas($Arr_category[0]->id);
+        $arr_key_area = array();
+
+        for ($i=0; $i<sizeof($Arr_category); $i++)
+        {
+            array_push($arr_key_area, $Arr_category[$i]->getKeyAreas($Arr_category[$i]->id));
+        }
+
+        $data = [
+            'Assessment' => $Assessment,
+            'Arr_category' => $Arr_category,
+            'arr_key_area' => $arr_key_area
+        ];
+        
+        $pdf = PDF::loadView('pages.report', $data );
+        return $pdf->stream();
+        //return $pdf->download('report.pdf');
+        return view('pages.report')->with($data);
     }
 
     public function loadAddContentForm()

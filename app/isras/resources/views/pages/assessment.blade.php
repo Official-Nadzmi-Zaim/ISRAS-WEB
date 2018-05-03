@@ -26,7 +26,7 @@
                     <td>{{$AssessmentCompany[$i]}}</td>
                     <td class="assessment-tbl-item">{{ $AssessmentResult[$i]->result }}</td>
                     <td class="assessment-tbl-item">{{ date('d/m/Y',strtotime($AssessmentResult[$i]->created_at)) }}</td>
-                    <td class="assessment-tbl-item"><a href="/user/report" class = 'btn btn-primary'>Print Result</a></td>
+                    <td class="assessment-tbl-item"><a href="/user/report/{{$AssessmentResult[$i]->id}}" class = 'btn btn-primary'>Print Result</a></td>
                 </tr>
             @endfor
         </table>

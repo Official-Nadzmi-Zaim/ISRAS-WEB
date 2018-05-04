@@ -13,7 +13,6 @@
 
 //Sort the pages controller according to alphabet ascending
 // public routes
-// Auth::routes();
 Route::get('/', 'PagesController@home');
 Route::get('/about-us', 'PagesController@about');
 Route::get('/library', 'PagesController@library');
@@ -23,20 +22,42 @@ Route::get('/login', 'PagesController@login');
 Route::prefix('admin')->group(function() {
     // GET ROUTES
     Route::get('/reporting', 'ReportingController@processReporting');
-
-    Route::get('/library', 'LibraryController@libraryIndex')->name('admin.library');
+    // library
+    Route::get('/library', 'LibraryController@adminLibraryIndex')->name('admin.library');
     Route::get('/form/library/add', 'LibraryController@loadAddContentForm');
     Route::get('/form/library/update', 'LibraryController@loadUpdateContentForm');
+    // blog
+    Route::get('/blog', 'BlogController@adminBlogIndex')->name('admin.blog');
     Route::get('/form/blog/add', 'BlogController@loadAddContentForm');
     Route::get('/form/blog/update', 'BlogController@loadUpdateContentForm');
-    // Route::get('/form/registration', 'RegisterController@registerForm');
+    // assessment
+    Route::get('/assessment/{requestAll}/{adminId?}', 'AssessmentController@adminAssessmentIndex')->name('admin.assessment');
+    Route::get('/form/assessment/add', 'AssessmentController@loadAddContentForm');
+    Route::get('/form/assessment/update/{questionId}', 'AssessmentController@loadContentUpdateForm');
+    // feedback
+    Route::get('/feedback', 'FeedbackController@adminFeedbackIndex')->name('admin.feedback');
+    Route::get('/form/feedback/add', 'FeedbackController@loadAddContentForm');
+    Route::get('/form/feedback/update', 'FeedbackController@loadContentUpdateForm');
+    // registration
+    Route::get('/form/registration', 'Auth\RegisterController@adminRegisterForm');
+    // login
+    Route::get('/form/login', 'Auth\LoginController@adminLoginForm');
 
     // POST ROUTES
+    // blog
     Route::post('/blog/add', 'BlogController@verifyNewContent');
     Route::post('/blog/update', 'BlogController@verifyUpdatedContent');
+    // library
     Route::post('/library/add', 'LibraryController@verifyNewContent');
     Route::post('/library/update', 'LibraryController@verifyUpdatedContent');
-    // Route::post('/registration', 'RegisterController@registration');
+    // assessment
+    Route::post('/assessment/add', 'AssessmentController@verifyNewContent');
+    Route::post('/assessment/update', 'AssessmentController@verifyUpdatedContent');
+    Route::post('/assessment/delete', 'AssessmentController@deleteContent');
+    // registration
+    Route::post('/register', 'Auth\RegisterController@register');
+    // login
+    Route::post('/login', 'Auth\LoginController@login');
 });
 
 // user routes

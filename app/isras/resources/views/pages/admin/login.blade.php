@@ -24,33 +24,28 @@
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <h2 class="featurette-heading" style="margin-top: 20px;">Registration</h2>
+                <h2 class="featurette-heading" style="margin-top: 20px;">Login</h2>
                 <br>
                 <!-- START THE FEATURETTES -->
-                {!! Form::open(['url' => '/admin/register', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate']) !!}
+                {!! Form::open(['url' => '/admin/login', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate']) !!}
                     <div class="card">
                         <div class="card-container">
-                            <h5><b>User Description</b></h5> 
-                            {{Form::text('staff_id', '', ['class'=>'form-control', 'placeholder'=>'Staff Id', 'required' => 'required'])}}
-                            <div class="invalid-feedback">
-                                Valid staff id is required.
-                            </div>
-                            <br>
-                            {{Form::text('admin_name', '', ['class'=>'form-control', 'placeholder'=>'Name', 'required' => 'required'])}}
-                            <div class="invalid-feedback">
-                                Valid name is required.
-                            </div>
-                            <br>
+                            <h5><b>Login Description</b></h5>
                             {{Form::email('admin_email', '', ['class'=>'form-control', 'placeholder'=>'Email eg:youremail@domain.com', 'required' => 'required'])}}
                             <div class="invalid-feedback">
                                 Valid email is required.
                             </div>
-                            <br>
+                            <br />
+                            {{Form::password('admin_password', ['class'=>'form-control', 'placeholder'=>'Password', 'required' => 'required'])}}
+                            <div class="invalid-feedback">
+                                Valid password is required.
+                            </div>
+                            <br />
                             <div class="row">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        {{Form::submit('Register', ['class'=>'btn btn-primary btn-lg form-control'])}}
+                                        {{Form::submit('Login', ['class'=>'btn btn-primary btn-lg form-control'])}}
                                     </div>
                                 </div>
                             </div>

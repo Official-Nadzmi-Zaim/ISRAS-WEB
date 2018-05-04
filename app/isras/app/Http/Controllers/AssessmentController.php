@@ -8,6 +8,8 @@ use App\LookupAssessmentCategory;
 use App\LookupAssessmentKeyArea;
 use App\LookupAssessmentTitle;
 use App\LookupAssessmentType;
+use App\AdminAssessmentQuestion;
+
 use Illuminate\Http\Request;
 
 class AssessmentController extends Controller
@@ -82,29 +84,212 @@ class AssessmentController extends Controller
     {
     }
 
-    public function loadAddContentForm()
-    {
+    public function adminAssessmentIndex($requestAll=1, $adminId=null) {
+        if($requestAll == 1) {
+            $allQuestion = AssessmentQuestion::all()
+                ->where('active', true);
+
+            $questionList = null;
+            foreach($allQuestion as $question) {
+                $category = LookupAssessmentCategory::find($question['category']);
+                $keyArea = LookupAssessmentKeyArea::find($question['key_area']);
+                $title = LookupAssessmentTitle::find($question['title']);
+    
+                $questionList[] = [
+                    'id' => $question['id'],
+                    'question_category' => $category['name'],
+                    'question_key_area' => $keyArea['name'],
+                    'question_title' => $title['name'],
+                    'question_statement' => $question['statement'],
+                    'question_status' => $question['active']
+                ];
+            }
+        } else {
+            $questionList = null;
+            $adminQuestionList = AdminAssessmentQuestion::all()
+                ->where('admin_id', $adminId);
+                
+            if($adminQuestionList != null) {
+                foreach($adminQuestionList as $question)
+                    $allQuestion[] = AssessmentQuestion::find($question['id']);
+
+                foreach($allQuestion as $question) {
+                    $category = LookupAssessmentCategory::find($question['category']);
+                    $keyArea = LookupAssessmentKeyArea::find($question['key_area']);
+                    $title = LookupAssessmentTitle::find($question['title']);
+        
+                    $questionList[] = [
+                        'id' => $question['id'],
+                        'question_category' => $category['name'],
+                        'question_key_area' => $keyArea['name'],
+                        'question_title' => $title['name'],
+                        'question_statement' => $question['statement'],
+                        'question_status' => $question['active']
+                    ];
+                }
+            }
+        }
+        
+        return view('pages.admin.content.assessment.view')
+            ->with([
+                'assessmentQuestionData' => $questionList
+            ]);
     }
 
-    public function verifyNewContent()
-    {
+    public function loadAddContentForm() {
+        $questionTypeLookup = LookupAssessmentType::all();
+        $questionCategoryLookup = LookupAssessmentCategory::all();
+        $questionKeyAreaLookup = LookupAssessmentKeyArea::all();
+        $questionTitleLookup = LookupAssessmentTitle::all();
+
+        $questionType = null;
+        $questionCategory = null;
+        $questionKeyArea = null;
+        $questionTitle = null;
+
+        foreach($questionTypeLookup as $type)
+            $questionType[$type['id']] = $type['name'];
+        foreach($questionCategoryLookup as $category)
+            $questionCategory[$category['id']] = $category['name'];
+        foreach($questionKeyAreaLookup as $keyArea)
+            $questionKeyArea[$keyArea['id']] = $keyArea['name'];
+        foreach($questionTitleLookup as $title)
+            $questionTitle[$title['id']] = $title['name'];
+
+        return view('pages.admin.content.assessment.add')
+            ->with([
+                'formData' => [
+                    'question_type' => $questionType,
+                    'question_category' => $questionCategory,
+                    'question_key_area' => $questionKeyArea,
+                    'question_title' => $questionTitle
+                ]
+            ]);
     }
 
-    public function saveNewContent()
-    {
+    public function verifyNewContent(Request $request) {
+        $adminId = 1; // todo - nnti kena ubah
+        $type = $request['assessment_question_type'];
+        $category = $request['assessment_question_category'];
+        $keyArea = $request['assessment_question_key_area'];
+        $title = $request['assessment_question_title'];
+        $statement = $request['assessment_question_statement'];
+
+        $this->saveNewContent([
+            'admin_id' => $adminId,
+            'question_type' => $type,
+            'question_category' => $category,
+            'question_key_area' => $keyArea,
+            'question_title' => $title,
+            'question_statement' => $statement,
+        ]);
+
+        return redirect('admin/assessment/0/' . $adminId);
     }
 
-    public function loadContentUpdateForm()
-    {
+    private function saveNewContent($contentData) {
+        $newAssessmentQuestion = new AssessmentQuestion();
+        $newAssessmentQuestion->type = $contentData['question_type'];
+        $newAssessmentQuestion->category = $contentData['question_category'];
+        $newAssessmentQuestion->key_area = $contentData['question_key_area'];
+        $newAssessmentQuestion->title = $contentData['question_title'];
+        $newAssessmentQuestion->statement = $contentData['question_statement'];
+        $newAssessmentQuestion->active = true;
+        $newAssessmentQuestion->save();
+
+        $newAdminAssessmentQuestion = new AdminAssessmentQuestion();
+        $newAdminAssessmentQuestion->admin_id = $contentData['admin_id'];
+        $newAdminAssessmentQuestion->assessment_question_id = $newAssessmentQuestion->id;
+        $newAdminAssessmentQuestion->save();
     }
 
+    public function loadContentUpdateForm($questionId) {
+        $questionTypeLookup = LookupAssessmentType::all();
+        $questionCategoryLookup = LookupAssessmentCategory::all();
+        $questionKeyAreaLookup = LookupAssessmentKeyArea::all();
+        $questionTitleLookup = LookupAssessmentTitle::all();
+        $assessmentQuestion = AssessmentQuestion::find($questionId);
 
-    public function verifyUpdatedContent()
-    {
+        $questionType = null;
+        $questionCategory = null;
+        $questionKeyArea = null;
+        $questionTitle = null;
+
+        foreach($questionTypeLookup as $type)
+            $questionType[$type['id']] = $type['name'];
+        foreach($questionCategoryLookup as $category)
+            $questionCategory[$category['id']] = $category['name'];
+        foreach($questionKeyAreaLookup as $keyArea)
+            $questionKeyArea[$keyArea['id']] = $keyArea['name'];
+        foreach($questionTitleLookup as $title)
+            $questionTitle[$title['id']] = $title['name'];
+
+        return view('pages.admin.content.assessment.update')
+            ->with([
+                'questionData' => [ // todo - letak data asal dkt sini
+                    'question_id' => $assessmentQuestion['id'],
+                    'question_statement' => $assessmentQuestion['statement'],
+                    'question_type' => $questionType,
+                    'question_category' => $questionCategory,
+                    'question_key_area' => $questionKeyArea,
+                    'question_title' => $questionTitle,
+                    'created_at' => $assessmentQuestion['created_at'],
+                    'updated_at' => $assessmentQuestion['updated_at']
+                ],
+                'formData' => [
+                    'question_type' => $questionType,
+                    'question_category' => $questionCategory,
+                    'question_key_area' => $questionKeyArea,
+                    'question_title' => $questionTitle
+                ]
+            ]);
     }
 
+    public function verifyUpdatedContent(Request $request) {
+        $adminId = 1; // todo - ni kena ubah bagi dynamic value
+        $questionId = $request['assessment_question_id'];
+        $type = $request['assessment_question_type'];
+        $category = $request['assessment_question_category'];
+        $keyArea = $request['assessment_question_key_area'];
+        $title = $request['assessment_question_title'];
+        $statement = $request['assessment_question_statement'];
 
-    public function saveUpdatedContent()
-    {
+        $this->saveUpdatedContent([
+            'admin_id' => $adminId,
+            'question_id' => $questionId,
+            'question_type' => $type,
+            'question_category' => $category,
+            'question_key_area' => $keyArea,
+            'question_title' => $title,
+            'question_statement' => $statement
+        ]);
+
+        return redirect('admin/assessment/0/' . $adminId);
+    }
+
+    private function saveUpdatedContent($contentData) {
+        $newAssessmentQuestion = AssessmentQuestion::find($contentData['question_id']);
+        $newAssessmentQuestion->type = $contentData['question_type'];
+        $newAssessmentQuestion->category = $contentData['question_category'];
+        $newAssessmentQuestion->key_area = $contentData['question_key_area'];
+        $newAssessmentQuestion->title = $contentData['question_title'];
+        $newAssessmentQuestion->statement = $contentData['question_statement'];
+        $newAssessmentQuestion->save();
+
+        $newAdminAssessmentQuestion = new AdminAssessmentQuestion();
+        $newAdminAssessmentQuestion->admin_id = $contentData['admin_id'];
+        $newAdminAssessmentQuestion->assessment_question_id = $newAssessmentQuestion->id;
+        $newAdminAssessmentQuestion->save();
+    }
+
+    public function deleteContent(Request $request) {
+        $adminId = 1;
+        $questionId = $request['question_id'];
+            
+        $question = AssessmentQuestion::find($questionId);
+        $question->active = false;
+        $question->save();
+
+        return redirect('admin/assessment/0/' . $adminId);
     }
 }

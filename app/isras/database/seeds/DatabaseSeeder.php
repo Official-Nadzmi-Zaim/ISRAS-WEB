@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         factory(App\PIC::class, 10)->create();
         factory(App\AdminBlogContent::class, 10)->create();
         factory(App\AdminFeedbackQuestion::class, 10)->create();
+        factory(App\AdminAssessmentQuestion::class, 10)->create();
         factory(App\AdminLibraryContent::class, 10)->create();
         factory(App\AssessmentQuestion::class, 114)->create();
         factory(App\AssessmentResult::class, 10)->create();

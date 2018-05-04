@@ -27,12 +27,13 @@
         {!! Form::open(['url' => '/admin/blog/add', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate']) !!}
         <div class="card">
             <div class="card-container">
-              <h5><b>Blog Description</b></h5> 
+              <h5><b>Blog Title</b></h5> 
               {{Form::text('blog_title', '', ['class'=>'form-control', 'placeholder'=>'Blog Title', 'required' => 'required'])}}
               <div class="invalid-feedback">
                  Valid blog title is required.
               </div>
               <br>
+              <h5><b>Blog Description</b></h5> 
               {{Form::textarea('blog_desc', '', ['class'=>'form-control', 'placeholder'=>'Blog Description', 'required' => 'required'])}}
               <div class="invalid-feedback">
                  Valid blog description is required.

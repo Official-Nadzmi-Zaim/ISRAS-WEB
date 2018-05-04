@@ -17,24 +17,30 @@
                 <th>Book/Reference Name</th>
                 <th style="text-align: center">Action</th>
             </tr>
-            @foreach($libraryData as $library)
-                <tr>
-                    <td class="assessment-tbl-item">{!! $library['id'] !!}</td>
-                    <td class="assessment-tbl-item">{!! $library['id'] !!}</td>
-                    <td>{!! $library['title'] !!}</td>
-                    <td class="assessment-tbl-item">
-                        <form action="" method="">
-                            <input type="hidden" name="library_id" value="{!! $library['id'] !!}" />
-                            <div class="form-group">
-                                <input type="submit" class="btn btn-info form-control" name="submit" value="Update" />
-                            </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-danger form-control" data-toggle="modal" data-target="#deleteModal">Delete</button>
-                            </div>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
+            @if($libraryData == null)
+            <tr>
+                <td colspan="4" style="text-align: center">Currently there are not record for books/references</td>
+            </tr>
+            @else
+                @foreach($libraryData as $indexKey => $library)
+                    <tr>
+                        <td class="assessment-tbl-item">{!! ++$indexKey !!}</td>
+                        <td class="assessment-tbl-item">{!! $library['id'] !!}</td>
+                        <td><a href="{!! $library['src'] !!}">{!! $library['title'] !!}</a></td>
+                        <td class="assessment-tbl-item">
+                            <form action="" method="">
+                                <input type="hidden" name="library_id" value="{!! $library['id'] !!}" />
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-info form-control" name="submit" value="Update" />
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-danger form-control" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
         </table>
         {{--  </div>  --}}
         <!-- Better do Pagination -->

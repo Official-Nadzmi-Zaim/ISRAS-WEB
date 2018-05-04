@@ -7,48 +7,29 @@ use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
 {
-    public function loadFeedbackQuestion()
-    {
-
+    public function adminFeedbackIndex() {
+        return view('pages.admin.content.feedback.view');
     }
 
-    public function verifyFeedback()
-    {
+    public function loadFeedbackQuestion() {}
 
+    public function verifyFeedback() {}
+
+    public function saveFeedback() {}
+
+    public function loadAddContentForm() {
+        return view('pages.admin.content.feedback.add');
     }
 
-    public function saveFeedback()
-    {
+    public function verifyNewContent() {}
 
+    public function saveNewContent() {}
+
+    public function loadContentUpdateForm(){
+        return view('pages.admin.content.feedback.update');
     }
 
-    public function loadAddContentForm()
-    {
+    public function verifyUpdatedContent(){}
 
-    }
-
-    public function verifyNewContent()
-    {
-
-    }
-
-    public function saveNewContent()
-    {
-
-    }
-
-    public function loadUpdateContentForm()
-    {
-
-    }
-
-    public function verifyUpdatedContent()
-    {
-
-    }
-
-    public function saveUpdatedContent()
-    {
-
-    }
+    public function saveUpdatedContent(){}
 }

@@ -2,31 +2,32 @@
 
 @section('content')
     <div class="container marketing">
-        <h2 class="featurette-heading" style="margin-top: 20px;">User Feedbacks</h2>
+        <h2 class="featurette-heading" style="margin-top: 20px;">Blog</h2>
         <br><br>
 
-        <a href='/admin/form/feedback/add' class='btn btn-lg btn-primary'>Create New Feedback Question</a>
+        <a href='/admin/form/blog/add' class='btn btn-lg btn-primary'>Add New Blog</a>
 
-        <h2 class="featurette-heading-2" style="margin-top: 20px;"><u>Feedback Questions</u></h2>
+        <h2 class="featurette-heading-2" style="margin-top: 20px;"><u>Blog List</u></h2>
         <br>
         {{--  <div class="custom-content">  --}}
         <table class="assessment-tbl">
             <tr>
                 <th style="text-align: center">No</th>
-                <th style="text-align: center">Question Id</th>
-                <th>Question Statement</th>
+                <th>Blog Description</th>
                 <th style="text-align: center">Action</th>
             </tr>
             <tr>
-                <td colspan="4" style="text-align:center">No questions yet</td>
+                <td colspan="5" style="text-align: center">Currently there are not record for blogs</td>
             </tr>
             <tr>
                 <td class="assessment-tbl-item">1</td>
-                <td class="assessment-tbl-item">53</td>
-                <td>Feedback question here...</td>
+                <td>
+                    <b>This is blog title</b><br />
+                    <p>This is blog description</p>
+                </td>
                 <td class="assessment-tbl-item">
                     <form action="" method="">
-                        <input type="hidden" name="question_id" value="" />
+                        <input type="hidden" name="library_id" value="" />
                         <div class="form-group">
                             <input type="submit" class="btn btn-info form-control" name="submit" value="Update" />
                         </div>

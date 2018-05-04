@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
+    public function adminBlogIndex() {
+        return view('pages.admin.content.blog.view');
+    }
+
     public function loadAddContentForm() {
         return view('pages.admin.content.blog.add');
     }

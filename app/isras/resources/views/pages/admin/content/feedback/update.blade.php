@@ -19,12 +19,13 @@
     padding-left: 20px;
   }
 </style>
+
 @section('content')
     <div class="container marketing">
-        <h2 class="featurette-heading" style="margin-top: 20px;">Update Blog</h2>
+        <h2 class="featurette-heading" style="margin-top: 20px;">Add New Feedback Question</h2>
         <br>
         <!-- START THE FEATURETTES -->
-        {!! Form::open(['url' => '/admin/blog/update', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate']) !!}
+        {!! Form::open(['url' => '/admin/feedback/update', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate', 'files' => 'true']) !!}
         <div class="card">
             <div class="card-container">
                 <div class="form-group">
@@ -36,20 +37,16 @@
                         </div>
                     </div>
                 </div>
-                <h5><b>Blog Title</b></h5> 
-                {{Form::text('blog_title', 'this is default value', ['class'=>'form-control', 'placeholder'=>'Blog Title', 'required' => 'required'])}}
-                <div class="invalid-feedback">
-                    Valid blog title is required.
-                </div>
-                <br>
-                <h5><b>Blog Description</b></h5> 
-                {{Form::textarea('blog_desc', 'this is default value', ['class'=>'form-control', 'placeholder'=>'Blog Description', 'required' => 'required'])}}
-                <div class="invalid-feedback">
-                    Valid blog description is required.
+                <div class="form-group">
+                    <b>Question Statement</b>
+                    {{Form::textarea('feedback_question_description', 'initial value', ['class'=>'form-control', 'placeholder'=>'Question statement', 'required' => 'required'])}}
+                    <div class="invalid-feedback">
+                        Valid assessment question statement is required.
+                    </div>
                 </div>
             </div>
         </div>
-        <br>
+        <br />
         {{Form::submit('Submit', ['class'=>'btn btn-primary btn-lg'])}}
         {!! Form::close() !!}
         <hr class="featurette-divider">

@@ -41,6 +41,14 @@ $factory->define(App\AdminFeedbackQuestion::class, function (Faker $faker) {
     ];
 });
 
+$factory->define(App\AdminAssessmentQuestion::class, function (Faker $faker) {
+    static $number = 1;
+    return [
+        'admin_id' => $number,//$faker->randomDigit,
+        'assessment_question_id' => $number++,//$faker->unique()->numberBetween($min = 1, $max = 9000),
+    ];
+});
+
 $factory->define(App\AdminLibraryContent::class, function (Faker $faker) {
     static $number = 1;
     return [
@@ -259,7 +267,7 @@ $factory->define(App\Assessment::class, function (Faker $faker) {
         'user_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
         'assessment_question_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
         'assessment_result_id' => $number++,//$faker->unique()->numberBetween($min = 1, $max = 9000),
-        'score' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 100),
+        'answer' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 100),
     ];
 });
 

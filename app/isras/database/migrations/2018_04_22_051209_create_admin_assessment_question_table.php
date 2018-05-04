@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBlogContentsTable extends Migration
+class CreateAdminAssessmentQuestionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateBlogContentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('blog_contents', function (Blueprint $table) {
+        Schema::create('admin_assessment_question', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title', 100);
-            $table->string('description', 500);
-            $table->boolean('active')->default(true);
+            $table->bigInteger('admin_id');
+            $table->bigInteger('assessment_question_id');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateBlogContentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('blog_contents');
+        Schema::dropIfExists('admin_assessment_question');
     }
 }

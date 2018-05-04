@@ -15,7 +15,7 @@
 // public routes
 Route::get('/', 'PagesController@home');
 Route::get('/about-us', 'PagesController@about');
-Route::get('/library', 'PagesController@library');
+Route::get('/library', 'LibraryController@loadLibraryContent');
 Route::get('/login', 'PagesController@login');
 
 // admin routes
@@ -63,11 +63,16 @@ Route::prefix('admin')->group(function() {
 // user routes
 Route::prefix('user')->group(function() {
     // GET ROUTES
-    Route::get('/assessment', 'PagesController@assessment');
-    Route::get('/assessment/result', 'PagesController@assessmentResult');
+    Route::get('/assessment', 'AssessmentController@loadAssessment');
+    Route::post('/assessment', 'AssessmentController@saveAssessmentResult');
+    Route::get('/assessment/result', 'AssessmentController@verifyAssessment');
+    Route::post('/assessment/result', 'AssessmentController@verifyAssessment');
     Route::get('/assessment/start', 'PagesController@assessmentStart');
     Route::get('/assessment/page_{id}', 'AssessmentController@loadAssessmentQuestion');
-    Route::get('/feedback', 'PagesController@feedback');
+    Route::post('/assessment/page_{id}', 'AssessmentController@loadAssessmentQuestion');
+    Route::get('/feedback', 'FeedbackController@loadFeedbackQuestion');
+    Route::post('/feedback', 'FeedbackController@verifyFeedback');
     Route::get('/payment', 'PagesController@payment');
+    Route::get('/report/{id}', 'AssessmentController@loadAssessmentResult');
     Route::get('/registration', 'PagesController@registration');
 });

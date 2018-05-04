@@ -121,4 +121,15 @@ class LibraryController extends Controller
     public function verifyUpdatedContent(Request $request) {}
         
     private function saveUpdatedContent($contentData) {}
+
+    //Zaim Omar library controller for user
+    public function loadLibraryContent()
+    {
+        $arr_content = LibraryContent::all();
+        $data = [
+            'arr_content' => $arr_content
+        ];
+
+        return view('pages.user.library')->with($data);
+    }
 }

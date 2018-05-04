@@ -12,6 +12,6 @@ class LibraryContent extends Model
     // has
     public function admin_library_content() { return $this->hasMany('App\AdminLibraryContent'); }
     // lookup
-    public function lookup_publication() { return $this->hasOne('App\LookupPublication'); }
-    public function lookup_author() { return $this->hasOne('App\LookupAuthor'); }
+    public function lookup_publication() { return $this->hasOne('App\LookupPublication', 'id'); }
+    public function lookup_author() { return $this->hasOne('App\LookupAuthor', 'id'); }
 }

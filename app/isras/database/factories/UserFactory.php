@@ -241,9 +241,9 @@ $factory->define(App\AssessmentQuestion::class, function (Faker $faker) {
         //Customer Appreciation
         ['Offer additional benefits to customers (e.g. loyalty programmes, rewards etc.)', 2, 4, 18, 43], 
         //KA4
-        ['Obtain product and/or services related feedbacks from customers (e.g. interviews, surveys, dialogues, websites, etc.)', 2, 4, 19, 0], 
-        ['Engage in Islamic related forum/dialogue with stakeholders', 2, 4, 19, 0], 
-        ['Conduct social engagement with customers (e.g. festive gatherings etc.)', 2, 4, 19, 0], 
+        ['Obtain product and/or services related feedbacks from customers (e.g. interviews, surveys, dialogues, websites, etc.)', 2, 4, 19, 44], 
+        ['Engage in Islamic related forum/dialogue with stakeholders', 2, 4, 19, 44], 
+        ['Conduct social engagement with customers (e.g. festive gatherings etc.)', 2, 4, 19, 44], 
     ];
     static $number = -1;
     return [
@@ -262,13 +262,13 @@ $factory->define(App\AssessmentResult::class, function (Faker $faker) {
 });
 
 $factory->define(App\Assessment::class, function (Faker $faker) {
-    static $number = 1;
-    return [
-        'user_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
-        'assessment_question_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
-        'assessment_result_id' => $number++,//$faker->unique()->numberBetween($min = 1, $max = 9000),
-        'answer' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 100),
-    ];
+    // static $number = 1;
+    // return [
+    //     'user_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
+    //     'assessment_question_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
+    //     'assessment_result_id' => $number++,//$faker->unique()->numberBetween($min = 1, $max = 9000),
+    //     'score' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 100),
+    // ];
 });
 
 $factory->define(App\BlogContent::class, function (Faker $faker) {
@@ -369,11 +369,12 @@ $factory->define(App\LookupAssessmentTitle::class, function (Faker $faker) {
         'Education and Training',
         'Policy Formulation', 
         'Shariah Compliant Products', 
-        'Fair and Ethical Emplyment Practices', 
+        'Fair and Ethical Employment Practices', 
         'Advertisement', 
         'Pricing', 
         'Customers\' Confidentiality Policy', 
-        'Customer Appreciation'];
+        'Customer Appreciation',
+        ''];
     static $number = -1;
     return [
         'name' => $title[++$number],//$faker->word,

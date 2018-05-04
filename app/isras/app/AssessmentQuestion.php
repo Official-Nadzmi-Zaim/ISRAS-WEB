@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\LookupAssessmentKeyArea;
 
 class AssessmentQuestion extends Model
 {
@@ -18,4 +19,9 @@ class AssessmentQuestion extends Model
     public function lookup_assessment_title() { return $this->hasOne('App\LookupAssessmentTitle'); }
     public function lookup_assessment_category() { return $this->hasOne('App\LookupAssessmentCategory'); }
     public function lookup_assessment_type() { return $this->hasOne('App\LookupAssessmentType'); }
+
+    public function getKeyArea($id)
+    {
+        return LookupAssessmentKeyArea::find($id)->name;
+    }
 }

@@ -11,11 +11,56 @@ class FeedbackController extends Controller
         return view('pages.admin.content.feedback.view');
     }
 
-    public function loadFeedbackQuestion() {}
+    public function loadFeedbackQuestion()
+    {
+        $arr_feedback = FeedbackQuestion::all();
 
-    public function verifyFeedback() {}
+        $data = [
+            'arr_feedback' => $arr_feedback
+        ];
 
-    public function saveFeedback() {}
+        return view('pages.feedback')->with($data);
+    }
+
+    public function verifyFeedback(Request $request)
+    {
+
+        //Get the data
+        $size = $request["no"];
+
+        //Save the data
+        for ($i=0; $i<$size; $i++)
+        {
+            $score = $request["feedback_answer_".($i+1)];
+
+            if ($score != null)
+            {
+                $this->saveFeedback([
+                    'user_id' => 1,
+                    'feedback_question_id' => $i+1,
+                    'score' => $score
+                ]);
+            }else{
+                $this->saveFeedback([
+                    'user_id' => 1,
+                    'feedback_question_id' => $i+1,
+                    'score' => 0
+                ]);
+            }
+
+        }
+        //Return the view
+        return $this->loadFeedbackQuestion();
+    }
+
+    public function saveFeedback($contentData)
+    {
+        $Feedback = new Feedback();
+        $Feedback->user_id = $contentData['user_id'];
+        $Feedback->feedback_question_id = $contentData['feedback_question_id'];
+        $Feedback->score = $contentData['score'];
+        $Feedback->save();
+    }
 
     public function loadAddContentForm() {
         return view('pages.admin.content.feedback.add');

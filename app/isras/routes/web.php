@@ -12,11 +12,12 @@
 */
 
 //Sort the pages controller according to alphabet ascending
+Auth::routes();
 // public routes
 Route::get('/', 'PagesController@home');
 Route::get('/about-us', 'PagesController@about');
 Route::get('/library', 'LibraryController@loadLibraryContent');
-Route::get('/login', 'PagesController@login');
+Route::get('/login', 'Auth\LoginController@showLoginForm');
 
 // admin routes
 Route::prefix('admin')->group(function() {
@@ -38,10 +39,6 @@ Route::prefix('admin')->group(function() {
     Route::get('/feedback', 'FeedbackController@adminFeedbackIndex')->name('admin.feedback');
     Route::get('/form/feedback/add', 'FeedbackController@loadAddContentForm');
     Route::get('/form/feedback/update', 'FeedbackController@loadContentUpdateForm');
-    // registration
-    Route::get('/form/registration', 'Auth\RegisterController@adminRegisterForm');
-    // login
-    Route::get('/form/login', 'Auth\LoginController@adminLoginForm');
 
     // POST ROUTES
     // blog
@@ -54,10 +51,13 @@ Route::prefix('admin')->group(function() {
     Route::post('/assessment/add', 'AssessmentController@verifyNewContent');
     Route::post('/assessment/update', 'AssessmentController@verifyUpdatedContent');
     Route::post('/assessment/delete', 'AssessmentController@deleteContent');
+
     // registration
+    Route::get('/register', 'Auth\RegisterController@adminRegisterForm');
     Route::post('/register', 'Auth\RegisterController@register');
     // login
-    Route::post('/login', 'Auth\LoginController@login');
+    Route::get('/login', 'Auth\AdminLoginController@showLoginForm');
+    Route::post('/login', 'Auth\AdminLoginController@login');
 });
 
 // user routes

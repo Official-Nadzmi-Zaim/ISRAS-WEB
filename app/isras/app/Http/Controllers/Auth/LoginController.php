@@ -40,8 +40,11 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function adminLoginForm() {
-        return view('pages.admin.login');
+    public function showLoginForm() {
+        return view('pages.admin.login')
+            ->with([
+                'userType' => 0
+            ]);
     }
     
     public function logout() {
@@ -51,22 +54,12 @@ class LoginController extends Controller
     }
 
     public function login(Request $request) {
-        if($request['user_type'] == 1) { // admin
-            $credential = [
-                'email' => $request['email'],
-                'password' => $request['password']
-            ];
+        $credential = [
+            'email' => $request['email'],
+            'password' => $request['password']
+        ];
 
-            if(Auth::attempt($credential))
-                return redirect()->route('/');
-        } else { // user
-            $credential = [
-                'email' => $request['email'],
-                'password' => $request['password']
-            ];
-
-            if(Auth::attempt($credential))
-                return redirect()->route('/');
-        }
+        if(Auth::attempt($credential))
+            return redirect()->route('/');
     }
 }

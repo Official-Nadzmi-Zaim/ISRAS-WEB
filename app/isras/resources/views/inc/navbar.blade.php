@@ -15,20 +15,42 @@
             <li class="nav-item">
                 <a class="nav-link" href="/library">Library</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/user/registration">Registration</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">I-SRAS</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="/user/assessment">Assessment</a>
-                    <a class="dropdown-item" href="/user/feedback">Feedback</a>
-                    <a class="dropdown-item" href="/user/payment">Transaction</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/login">Login</a>
-            </li>
+            @if(!isset($userType))
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/form/registration">Registration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/form/login">Login</a>
+                </li>
+            @else
+                @if($userType == 0) <!-- user -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">I-SRAS</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown01">
+                            <a class="dropdown-item" href="/user/assessment">Assessment</a>
+                            <a class="dropdown-item" href="/user/payment">Transaction</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/feedback">Give Feedback</a>
+                    </li>
+                @elseif($userType == 1) <!-- admin -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">I-SRAS</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown01">
+                            <a class="dropdown-item" href="/admin/assessment">Assessment</a>
+                            <a class="dropdown-item" href="/admin/feedback">Feedback</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contents</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown01">
+                            <a class="dropdown-item" href="/admin/library">Library</a>
+                            <a class="dropdown-item" href="/admin/blog">Blog</a>
+                        </div>
+                    </li>
+                @endif
+            @endif
         </ul>
         {{--  <form class="form-inline mt-2 mt-md-0">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">

@@ -3,17 +3,16 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-class Admin extends Authenticatable
+class Admin extends Model
 {
-    use Notifiable;
 
-    protected $table = "admin";
-    protected $guard = 'admin';
+    protected $table = 'admins';
 
     // relationships
     // belongs to
+    public function entity() { return $this->belongsTo('App\Entity'); }
     public function admin() { return $this->belongsTo('App\Admin'); }
     
     // has

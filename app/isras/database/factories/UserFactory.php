@@ -421,6 +421,18 @@ $factory->define(App\LookupPublication::class, function (Faker $faker) {
     ];
 });
 
+$factory->define(App\LookupEntityType::class, function (Faker $faker) {
+    static $number = 0;
+    $name = [
+        'admin',
+        'user'
+    ];
+
+    return [
+        'name' => $name[$number++]
+    ];
+});
+
 $factory->define(App\Payment::class, function (Faker $faker) {
     static $number = 1;
     return [
@@ -439,13 +451,39 @@ $factory->define(App\PIC::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(App\Entity::class, function (Faker $faker) {
+    static $number = 0;
+    $emails = [ 'nadzmiidzham@gmail.com', 'zaimofficial@gmail.com' ];
+    $password = [ Hash::make('1'), Hash::make('2') ];
+    $entityType = [ 1, 2 ];
+
+    return [
+        'email' => $emails[$number],
+        'password' => $password[$number],
+        'entity_type' => $entityType[$number++]
+    ];
+});
+
+$factory->define(App\Admin::class, function (Faker $faker) {
+    $number = 0;
+    $entityId = [ 1 ];
+    
     return [
         'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
+        'staff_id' => str_random(15),
+        'entity_id' => $entityId[$number]
+    ];
+});
+
+$factory->define(App\User::class, function (Faker $faker) {
+    $number = 0;
+    $entityId = [ 2 ];
+
+    return [
+        'name' => $faker->name,
         'tel_no' => $faker->unique()->e164PhoneNumber,
         'fax_no' => $faker->unique()->e164PhoneNumber,
-        'password' => str_random(15),
+        'entity_id' => $entityId[$number]
     ];
 });
 

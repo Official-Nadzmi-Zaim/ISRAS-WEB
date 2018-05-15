@@ -14,10 +14,14 @@
 //Sort the pages controller according to alphabet ascending
 Auth::routes();
 // public routes
+// get
 Route::get('/', 'PagesController@home');
 Route::get('/about-us', 'PagesController@about');
 Route::get('/library', 'LibraryController@loadLibraryContent');
 Route::get('/login', 'Auth\LoginController@showLoginForm');
+Route::get('/logout', 'Auth\LoginController@logout');
+// post
+Route::post('/login', 'Auth\LoginController@login');
 
 // admin routes
 Route::prefix('admin')->group(function() {
@@ -55,9 +59,6 @@ Route::prefix('admin')->group(function() {
     // registration
     Route::get('/register', 'Auth\RegisterController@adminRegisterForm');
     Route::post('/register', 'Auth\RegisterController@register');
-    // login
-    Route::get('/login', 'Auth\AdminLoginController@showLoginForm');
-    Route::post('/login', 'Auth\AdminLoginController@login');
 });
 
 // user routes

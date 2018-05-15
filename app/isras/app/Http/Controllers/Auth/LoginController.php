@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 use App\Admin;
 use App\User;
+use App\Entity;
 
 class LoginController extends Controller
 {
@@ -40,8 +43,13 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function username()
+    {
+        return 'email';
+    }
+
     public function showLoginForm() {
-        return view('pages.admin.login')
+        return view('pages.login')
             ->with([
                 'userType' => 0
             ]);
@@ -50,7 +58,7 @@ class LoginController extends Controller
     public function logout() {
         Auth::logout();
 
-        return redirect()->route('/');
+        return redirect('/');
     }
 
     public function login(Request $request) {
@@ -59,7 +67,14 @@ class LoginController extends Controller
             'password' => $request['password']
         ];
 
-        if(Auth::attempt($credential))
-            return redirect()->route('/');
+        if(Auth::attempt($credential)) {
+            $entity = Auth::user();
+            
+            return view('pages.home')
+                ->with([
+                    'userType' => $entity->entity_type
+                ]);
+        } else
+            return redirect('/login');
     }
 }

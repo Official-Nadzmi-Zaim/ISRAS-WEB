@@ -20,10 +20,10 @@
                     <a class="nav-link" href="/user/form/registration">Registration</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/form/login">Login</a>
+                    <a class="nav-link" href="/login">Login</a>
                 </li>
             @else
-                @if($userType == 0) <!-- user -->
+                @if($userType == 2) <!-- user -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">I-SRAS</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -33,6 +33,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/user/feedback">Give Feedback</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
                     </li>
                 @elseif($userType == 1) <!-- admin -->
                     <li class="nav-item dropdown">
@@ -48,6 +51,9 @@
                             <a class="dropdown-item" href="/admin/library">Library</a>
                             <a class="dropdown-item" href="/admin/blog">Blog</a>
                         </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
                     </li>
                 @endif
             @endif

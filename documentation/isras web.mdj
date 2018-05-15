@@ -51018,7 +51018,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "lookup_user_types",
+											"text": "lookup_entity_types",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -54339,7 +54339,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFhvH31gvPaHhU="
 							},
-							"name": "lookup_user_types",
+							"name": "lookup_entity_types",
 							"columns": [
 								{
 									"_type": "ERDColumn",

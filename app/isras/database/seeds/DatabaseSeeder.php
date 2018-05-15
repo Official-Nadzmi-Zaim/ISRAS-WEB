@@ -34,7 +34,10 @@ class DatabaseSeeder extends Seeder
         factory(App\LookupCountry::class, 10)->create();
         factory(App\LookupPaymentMethod::class, 10)->create();
         factory(App\LookupPublication::class, 10)->create();
+        factory(App\LookupEntityType::class, 2)->create();
         factory(App\Payment::class, 10)->create();
-        factory(App\User::class, 10)->create();
+        factory(App\Entity::class, 2)->create();
+        factory(App\Admin::class, 1)->create();
+        factory(App\User::class, 1)->create();
     }
 }

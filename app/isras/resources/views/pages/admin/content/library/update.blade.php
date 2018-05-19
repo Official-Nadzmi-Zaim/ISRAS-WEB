@@ -25,7 +25,7 @@
         <h2 class="featurette-heading" style="margin-top: 20px;">Add New Book/Reference</h2>
         <br>
         <!-- START THE FEATURETTES -->
-        {!! Form::open(['url' => '/admin/library/add', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate', 'files' => 'true']) !!}
+        {!! Form::open(['url' => '/admin/library/update', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate', 'files' => 'true']) !!}
         <div class="card">
             <div class="card-container">
                 <div class="form-group">
@@ -75,6 +75,7 @@
             </div>
         </div>
         <br />
+        {{ Form::hidden('library_id', $libraryData['library_id']) }}
         {{Form::submit('Submit', ['class'=>'btn btn-primary btn-lg'])}}
         {!! Form::close() !!}
         <hr class="featurette-divider">

@@ -30,11 +30,11 @@ Route::prefix('admin')->group(function() {
     // library
     Route::get('/library', 'LibraryController@adminLibraryIndex')->name('admin.library');
     Route::get('/form/library/add', 'LibraryController@loadAddContentForm');
-    Route::get('/form/library/update/{questionId}', 'LibraryController@loadUpdateContentForm');
+    Route::get('/form/library/update/{libraryId}', 'LibraryController@loadUpdateContentForm');
     // blog
     Route::get('/blog', 'BlogController@adminBlogIndex')->name('admin.blog');
     Route::get('/form/blog/add', 'BlogController@loadAddContentForm');
-    Route::get('/form/blog/update/{questionId}', 'BlogController@loadUpdateContentForm');
+    Route::get('/form/blog/update/{blogId}', 'BlogController@loadUpdateContentForm');
     // assessment
     Route::get('/assessment', 'AssessmentController@adminAssessmentIndex')->name('admin.assessment');
     Route::get('/form/assessment/add', 'AssessmentController@loadAddContentForm');

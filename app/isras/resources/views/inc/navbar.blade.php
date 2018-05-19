@@ -1,59 +1,64 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="">I-SRAS</a>
+        <a class="navbar-brand" href="#">I-SRAS</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+                @if(isset($userType))
+                    {!! $userType !!}
+                @endif
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href={!! url('/') !!}>Home<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/about-us">About Us</a>
+                <a class="nav-link" href={!! url('/about-us') !!}>About Us</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/library">Library</a>
+                <a class="nav-link" href={!! url('/library') !!}>Library</a>
             </li>
             @if(!isset($userType))
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/form/registration">Registration</a>
+                    <a class="nav-link" href={!! url('/user/registration') !!}>Registration</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href={!! url('/login') !!}>Login</a>
                 </li>
             @else
                 @if($userType == 2) <!-- user -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">I-SRAS</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">I-SRAS</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown01">
-                            <a class="dropdown-item" href="/user/assessment">Assessment</a>
-                            <a class="dropdown-item" href="/user/payment">Transaction</a>
+                            <a class="dropdown-item" href={!! url('/user/assessment') !!}>Assessment</a>
+                            <a class="dropdown-item" href={!! url('/user/payment') !!}>Transaction</a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user/feedback">Give Feedback</a>
+                        <a class="nav-link" href={!! url('/user/feedback') !!}>Give Feedback</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
+                        <a class="nav-link" href={!! url('/logout') !!}>Logout</a>
                     </li>
                 @elseif($userType == 1) <!-- admin -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">I-SRAS</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">I-SRAS</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown01">
-                            <a class="dropdown-item" href="/admin/assessment">Assessment</a>
-                            <a class="dropdown-item" href="/admin/feedback">Feedback</a>
+                            <a class="dropdown-item" href={!! url('/admin/assessment') !!}>Assessment</a>
+                            <a class="dropdown-item" href={!! url('/admin/feedback') !!}>Feedback</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contents</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contents</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown01">
-                            <a class="dropdown-item" href="/admin/library">Library</a>
-                            <a class="dropdown-item" href="/admin/blog">Blog</a>
+                            <a class="dropdown-item" href={!! url('/admin/library') !!}>Library</a>
+                            <a class="dropdown-item" href={!! url('/admin/blog') !!}>Blog</a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
+                        <a class="nav-link" href={!! url('/logout') !!}>Logout</a>
                     </li>
                 @endif
             @endif

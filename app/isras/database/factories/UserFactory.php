@@ -312,9 +312,9 @@ $factory->define(App\LibraryContent::class, function (Faker $faker) {
 
 $factory->define(App\LookupAssessmentCategory::class, function (Faker $faker) {
     $category = ['COMMUNITY', 'WORKPLACE', 'ENVIRONMENTAL', 'MARKETPLACE'];
-    static $number = -1;
+    static $number = 0;
     return [
-        'name' => $category[++$number],//$faker->word,
+        'name' => $category[$number++],//$faker->word,
     ];
 });
 
@@ -323,9 +323,10 @@ $factory->define(App\LookupAssessmentKeyArea::class, function (Faker $faker) {
 'OCCUPATIONAL SAFETY AND HEALTH ADMINISTRATION (OSHA)', 'EQUITABLE OPPORTUNITY', 'EMPLOYMENT', 'AWARDS AND RECOGNITION',
 'LABOUR AND MANAGEMENT RELATIONS', 'ENVIRONMENTAL RELATED POLICY', 'CLIMATE CHANGE MITIGATION AND ADAPTATION', 'PREVENTION OF POLLUTION', 'GREEN PRODUCTS AND SERVICES',
 'PROTECTION AND RESTORATION OF THE NATURAL ENVIRONMENT', 'MARKET RELATED POLICIES', 'PRODUCT AND SERVICES', 'MARKETING', 'STAKEHOLDER ENGAGEMENT'];
-    static $number = -1;
+    static $number = 0;
     return [
-        'name' => $key[++$number],//$faker->word,
+        'name' => $key[$number],//$faker->word,
+        'lookup_assessment_title_id' => $number++
     ];
 });
 
@@ -375,9 +376,10 @@ $factory->define(App\LookupAssessmentTitle::class, function (Faker $faker) {
         'Customers\' Confidentiality Policy', 
         'Customer Appreciation',
         ''];
-    static $number = -1;
+    static $number = 0;
     return [
-        'name' => $title[++$number],//$faker->word,
+        'name' => $title[$number],//$faker->word,
+        'lookup_assessment_category_id' => $number++
     ];
 });
 
@@ -453,13 +455,13 @@ $factory->define(App\PIC::class, function (Faker $faker) {
 
 $factory->define(App\Entity::class, function (Faker $faker) {
     static $number = 0;
-    $emails = [ 'nadzmiidzham@gmail.com', 'zaimofficial@gmail.com' ];
-    $password = [ Hash::make('1'), Hash::make('2') ];
+    $emails = [ '1@gmail.com', '2@gmail.com' ];
+    $password = [ '1', '2' ];
     $entityType = [ 1, 2 ];
 
     return [
         'email' => $emails[$number],
-        'password' => $password[$number],
+        'password' => Hash::make($password[$number]),
         'entity_type' => $entityType[$number++]
     ];
 });

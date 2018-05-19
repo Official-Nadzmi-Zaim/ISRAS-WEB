@@ -5,7 +5,7 @@
         <h2 class="featurette-heading" style="margin-top: 20px;">Assessment Questions</h2>
         <br><br>
 
-        <a href='/admin/form/assessment/add' class='btn btn-lg btn-primary'>Add New Question</a>
+        <a href={!! url('/admin/form/assessment/add') !!} class='btn btn-lg btn-primary'>Add New Question</a>
 
         <h2 class="featurette-heading-2" style="margin-top: 20px;"><u>Active Assessment Questions</u></h2>
         <br>
@@ -36,7 +36,7 @@
                             @endif
                         </td>
                         <td class="assessment-tbl-item">
-                            <form action="/admin/form/assessment/update/{!! $data['id'] !!}" method="">
+                            <form action={!! url('/admin/form/assessment/update/' . $data['id']) !!} method="GET">
                                 {{ csrf_field() }}
                                 <div class="form-group">
                                     <input type="submit" class="btn btn-info form-control" value="Update" />
@@ -68,7 +68,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <form action="/admin/assessment/delete" method="post">
+                    <form action={!! url('/admin/assessment/delete') !!} method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="question_id" value="" />
                         <input type="submit" class="btn btn-danger" name="submit" value="Delete" />

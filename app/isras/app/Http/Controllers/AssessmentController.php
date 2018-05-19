@@ -1,6 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Company;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use DB;
+use PDF;
+
 use App\Assessment;
 use App\AssessmentQuestion;
 use App\AssessmentResult;
@@ -9,13 +18,7 @@ use App\LookupAssessmentKeyArea;
 use App\LookupAssessmentTitle;
 use App\LookupAssessmentType;
 use App\AdminAssessmentQuestion;
-
-use App\Company;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Session;
-use DB;
-use PDF;
+use App\Admin;
 
 class AssessmentController extends Controller
 {
@@ -387,58 +390,6 @@ class AssessmentController extends Controller
     {
     }
 
-    public function adminAssessmentIndex($requestAll=1, $adminId=null) {
-        if($requestAll == 1) {
-            $allQuestion = AssessmentQuestion::all()
-                ->where('active', true);
-
-            $questionList = null;
-            foreach($allQuestion as $question) {
-                $category = LookupAssessmentCategory::find($question['category']);
-                $keyArea = LookupAssessmentKeyArea::find($question['key_area']);
-                $title = LookupAssessmentTitle::find($question['title']);
-    
-                $questionList[] = [
-                    'id' => $question['id'],
-                    'question_category' => $category['name'],
-                    'question_key_area' => $keyArea['name'],
-                    'question_title' => $title['name'],
-                    'question_statement' => $question['statement'],
-                    'question_status' => $question['active']
-                ];
-            }
-        } else {
-            $questionList = null;
-            $adminQuestionList = AdminAssessmentQuestion::all()
-                ->where('admin_id', $adminId);
-                
-            if($adminQuestionList != null) {
-                foreach($adminQuestionList as $question)
-                    $allQuestion[] = AssessmentQuestion::find($question['id']);
-
-                foreach($allQuestion as $question) {
-                    $category = LookupAssessmentCategory::find($question['category']);
-                    $keyArea = LookupAssessmentKeyArea::find($question['key_area']);
-                    $title = LookupAssessmentTitle::find($question['title']);
-        
-                    $questionList[] = [
-                        'id' => $question['id'],
-                        'question_category' => $category['name'],
-                        'question_key_area' => $keyArea['name'],
-                        'question_title' => $title['name'],
-                        'question_statement' => $question['statement'],
-                        'question_status' => $question['active']
-                    ];
-                }
-            }
-        }
-        
-        return view('pages.admin.content.assessment.view')
-            ->with([
-                'assessmentQuestionData' => $questionList
-            ]);
-    }
-
     public function loadAssessmentResult($id)
     {
         $Assessment = Assessment::where('assessment_result_id', $id)->get();
@@ -464,6 +415,33 @@ class AssessmentController extends Controller
         return view('pages.report')->with($data);
     }
 
+    public function adminAssessmentIndex() {
+        $allQuestion = AssessmentQuestion::all()
+            ->where('active', true);
+
+        $questionList = null;
+        foreach($allQuestion as $question) {
+            $category = LookupAssessmentCategory::find($question['category']);
+            $keyArea = LookupAssessmentKeyArea::find($question['key_area']);
+            $title = LookupAssessmentTitle::find($question['title']);
+
+            $questionList[] = [
+                'id' => $question['id'],
+                'question_category' => $category['name'],
+                'question_key_area' => $keyArea['name'],
+                'question_title' => $title['name'],
+                'question_statement' => $question['statement'],
+                'question_status' => $question['active']
+            ];
+        }
+        
+        return view('pages.admin.content.assessment.view')
+            ->with([
+                'userType' => 1,
+                'assessmentQuestionData' => $questionList
+            ]);
+    }
+
     public function loadAddContentForm() {
         $questionTypeLookup = LookupAssessmentType::all();
         $questionCategoryLookup = LookupAssessmentCategory::all();
@@ -486,6 +464,7 @@ class AssessmentController extends Controller
 
         return view('pages.admin.content.assessment.add')
             ->with([
+                'userType' => 1,
                 'formData' => [
                     'question_type' => $questionType,
                     'question_category' => $questionCategory,
@@ -496,7 +475,10 @@ class AssessmentController extends Controller
     }
 
     public function verifyNewContent(Request $request) {
-        $adminId = 1; // todo - nnti kena ubah
+        $entity = Auth::user();
+        $admin = Admin::all()->where('entity_id', $entity->id)[0];
+        
+        $adminId = $admin->id;
         $type = $request['assessment_question_type'];
         $category = $request['assessment_question_category'];
         $keyArea = $request['assessment_question_key_area'];
@@ -512,7 +494,7 @@ class AssessmentController extends Controller
             'question_statement' => $statement,
         ]);
 
-        return redirect('admin/assessment/0/' . $adminId);
+        return redirect('admin/assessment');
     }
 
     private function saveNewContent($contentData) {
@@ -542,9 +524,6 @@ class AssessmentController extends Controller
         $questionCategory = null;
         $questionKeyArea = null;
         $questionTitle = null;
-
-        foreach($questionTypeLookup as $type)
-            $questionType[$type['id']] = $type['name'];
         foreach($questionCategoryLookup as $category)
             $questionCategory[$category['id']] = $category['name'];
         foreach($questionKeyAreaLookup as $keyArea)
@@ -554,6 +533,7 @@ class AssessmentController extends Controller
 
         return view('pages.admin.content.assessment.update')
             ->with([
+                'userType' => 1,
                 'questionData' => [ // todo - letak data asal dkt sini
                     'question_id' => $assessmentQuestion['id'],
                     'question_statement' => $assessmentQuestion['statement'],
@@ -574,7 +554,10 @@ class AssessmentController extends Controller
     }
 
     public function verifyUpdatedContent(Request $request) {
-        $adminId = 1; // todo - ni kena ubah bagi dynamic value
+        $entity = Auth::user();
+        $admin = Admin::all()->where('entity_id', $entity->id)[0];
+        
+        $adminId = $admin->id;
         $questionId = $request['assessment_question_id'];
         $type = $request['assessment_question_type'];
         $category = $request['assessment_question_category'];
@@ -592,7 +575,7 @@ class AssessmentController extends Controller
             'question_statement' => $statement
         ]);
 
-        return redirect('admin/assessment/0/' . $adminId);
+        return redirect('admin/assessment');
     }
 
     private function saveUpdatedContent($contentData) {
@@ -611,13 +594,16 @@ class AssessmentController extends Controller
     }
 
     public function deleteContent(Request $request) {
-        $adminId = 1;
+        $entity = Auth::user();
+        $admin = Admin::all()->where('entity_id', $entity->id)[0];
+        
+        $adminId = $admin->id;
         $questionId = $request['question_id'];
             
         $question = AssessmentQuestion::find($questionId);
         $question->active = false;
         $question->save();
 
-        return redirect('admin/assessment/0/' . $adminId);
+        return redirect('admin/assessment/');
     }
 }

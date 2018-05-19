@@ -1,16 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+use App\Admin;
+use App\AdminFeedbackQuestion;
 use App\Feedback;
 use App\FeedbackQuestion;
-use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
 {
-    public function adminFeedbackIndex() {
-        return view('pages.admin.content.feedback.view');
-    }
-
     public function loadFeedbackQuestion()
     {
         $arr_feedback = FeedbackQuestion::all();
@@ -53,6 +53,25 @@ class FeedbackController extends Controller
         return $this->loadFeedbackQuestion();
     }
 
+    public function adminFeedbackIndex() {
+        $allQuestion = FeedbackQuestion::all()
+            ->where('active', true);
+
+        $questionList = null;
+        foreach($allQuestion as $question) {
+            $questionList[] = [
+                'id' => $question['id'],
+                'question_statement' => $question['description'],
+            ];
+        }
+        
+        return view('pages.admin.content.feedback.view')
+            ->with([
+                'userType' => 1,
+                'assessmentQuestionData' => $questionList
+            ]);
+    }
+
     public function saveFeedback($contentData)
     {
         $Feedback = new Feedback();
@@ -63,18 +82,101 @@ class FeedbackController extends Controller
     }
 
     public function loadAddContentForm() {
-        return view('pages.admin.content.feedback.add');
+        return view('pages.admin.content.feedback.add')
+            ->with([
+                'userType' => 1
+            ]);
     }
 
-    public function verifyNewContent() {}
+    public function verifyNewContent(Request $request) {
+        $entity = Auth::user();
+        $admin = Admin::all()->where('entity_id', $entity->id)[0];
+        
+        $adminId = $admin->id;
+        $questionDescription = $request['feedback_question_description'];
 
-    public function saveNewContent() {}
+        $this->saveNewContent([
+            'admin_id' => $adminId,
+            'question_description' => $questionDescription
+        ]);
 
-    public function loadContentUpdateForm(){
-        return view('pages.admin.content.feedback.update');
+        return redirect('admin/feedback')
+            ->with([
+                'userType' => 1
+            ]);
     }
 
-    public function verifyUpdatedContent(){}
+    private function saveNewContent($contentData) {
+        $newFeedbackQuestion = new FeedbackQuestion();
+        $newFeedbackQuestion->description = $contentData['question_description'];
+        $newFeedbackQuestion->save();
 
-    public function saveUpdatedContent(){}
+        $newAdminFeedbackQuestion = new AdminFeedbackQuestion();
+        $newAdminFeedbackQuestion->admin_id = $contentData['admin_id'];
+        $newAdminFeedbackQuestion->feedback_question_id = $newFeedbackQuestion->id;
+        $newAdminFeedbackQuestion->save();
+    }
+
+    public function loadContentUpdateForm($questionId) {
+        $feedbackQuestion = FeedbackQuestion::find($questionId);
+
+        return view('pages.admin.content.feedback.update')
+            ->with([
+                'userType' => 1,
+                'questionData' => [
+                    'question_id' => $questionId,
+                    'question_description' => $feedbackQuestion['description'],
+                    'created_at' => $feedbackQuestion['created_at'],
+                    'updated_at' => $feedbackQuestion['updated_at']
+                ]
+            ]);
+    }
+
+    public function verifyUpdatedContent(Request $request) {
+        $entity = Auth::user();
+        $admin = Admin::all()->where('entity_id', $entity->id)[0];
+        
+        $adminId = $admin->id;
+        $questionId = $request['feedback_question_id'];
+        $description = $request['feedback_question_description'];
+
+        $this->saveUpdatedContent([
+            'admin_id' => $adminId,
+            'question_id' => $questionId,
+            'question_description' => $description
+        ]);
+        
+        return redirect('admin/feedback')
+            ->with([
+                'userType' => 1
+            ]);
+    }
+
+    private function saveUpdatedContent($contentData) {
+        $updatedFeedbackQuestion = FeedbackQuestion::find($contentData['question_id']);
+        $updatedFeedbackQuestion->description = $contentData['question_description'];
+        $updatedFeedbackQuestion->save();
+
+        $updatedAdminFeedbackQuestion = new AdminFeedbackQuestion();
+        $updatedAdminFeedbackQuestion->admin_id = $contentData['admin_id'];
+        $updatedAdminFeedbackQuestion->feedback_question_id = $updatedFeedbackQuestion->id;
+        $updatedAdminFeedbackQuestion->save();
+    }
+
+    public function deleteContent(Request $request) {
+        $entity = Auth::user();
+        $admin = Admin::all()->where('entity_id', $entity->id)[0];
+        
+        $adminId = $admin->id;
+        $questionId = $request['question_id'];
+            
+        $question = FeedbackQuestion::find($questionId);
+        $question->active = false;
+        $question->save();
+
+        return redirect('admin/feedback')
+            ->with([
+                'userType' => 1
+            ]);
+    }
 }

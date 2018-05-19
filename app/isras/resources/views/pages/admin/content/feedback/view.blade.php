@@ -5,7 +5,7 @@
         <h2 class="featurette-heading" style="margin-top: 20px;">User Feedbacks</h2>
         <br><br>
 
-        <a href='/admin/form/feedback/add' class='btn btn-lg btn-primary'>Create New Feedback Question</a>
+        <a href={!! url('/admin/form/feedback/add') !!} class='btn btn-lg btn-primary'>Create New Feedback Question</a>
 
         <h2 class="featurette-heading-2" style="margin-top: 20px;"><u>Feedback Questions</u></h2>
         <br>
@@ -17,25 +17,30 @@
                 <th>Question Statement</th>
                 <th style="text-align: center">Action</th>
             </tr>
-            <tr>
-                <td colspan="4" style="text-align:center">No questions yet</td>
-            </tr>
-            <tr>
-                <td class="assessment-tbl-item">1</td>
-                <td class="assessment-tbl-item">53</td>
-                <td>Feedback question here...</td>
-                <td class="assessment-tbl-item">
-                    <form action="" method="">
-                        <input type="hidden" name="question_id" value="" />
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-info form-control" name="submit" value="Update" />
-                        </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-danger form-control" data-toggle="modal" data-target="#deleteModal">Delete</button>
-                        </div>
-                    </form>
-                </td>
-            </tr>
+            @if($assessmentQuestionData == null)
+                <tr>
+                    <td colspan="5" style="text-align: center">Currently there are not record for feedback questions</td>
+                </tr>
+            @else
+                @foreach($assessmentQuestionData as $indexKey => $data)
+                    <tr>
+                        <td class="assessment-tbl-item">{!! ++$indexKey !!}</td>
+                        <td class="assessment-tbl-item">{!! $data['id'] !!}</td>
+                        <td>{!! $data['question_statement'] !!}</td>
+                        <td class="assessment-tbl-item">
+                            <form action={!! url('/admin/form/feedback/update/' . $data['id']) !!} method="GET">
+                                {{ csrf_field() }}
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-info form-control" value="Update" />
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" data-question_id="{!! $data['id'] !!}" class="btn btn-danger form-control" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
         </table>
         {{--  </div>  --}}
         <!-- Better do Pagination -->
@@ -51,11 +56,12 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-
+                    <h5>Are you sure to delete?</h5>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <form action="" method="">
+                    <form action={!! url('/admin/feedback/delete') !!} method="post">
+                        {{ csrf_field() }}
                         <input type="hidden" name="question_id" value="" />
                         <input type="submit" class="btn btn-danger" name="submit" value="Delete" />
                     </form>
@@ -64,4 +70,13 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('custom-script')
+    <script>
+        $('#deleteModal').on('show.bs.modal', function(e) {
+            var questionId = $(e.relatedTarget).data('question_id');
+            $(e.currentTarget).find('input[name="question_id"]').val(questionId);
+        });
+    </script>
 @endsection

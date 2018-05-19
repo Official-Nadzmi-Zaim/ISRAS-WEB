@@ -15,6 +15,7 @@ class CreateLookupAssessmentTitlesTable extends Migration
     {
         Schema::create('lookup_assessment_titles', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('lookup_assessment_category_id')->nullable();
             $table->string('name', 100);
             $table->timestamps();
         });

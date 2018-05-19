@@ -32,14 +32,15 @@
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-4">
-                            <b>Created at: </b><br />
-                            <b>Updated at: </b>
+                            <b>Created at: </b>{{ $questionData['created_at'] }}<br />
+                            <b>Updated at: </b>{{ $questionData['updated_at'] }}
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <b>Question Statement</b>
-                    {{Form::textarea('feedback_question_description', 'initial value', ['class'=>'form-control', 'placeholder'=>'Question statement', 'required' => 'required'])}}
+                    {{ Form::hidden('feedback_question_id', $questionData['question_id']) }}
+                    {{ Form::textarea('feedback_question_description', $questionData['question_description'], ['class'=>'form-control', 'placeholder'=>'Question statement', 'required' => 'required']) }}
                     <div class="invalid-feedback">
                         Valid assessment question statement is required.
                     </div>

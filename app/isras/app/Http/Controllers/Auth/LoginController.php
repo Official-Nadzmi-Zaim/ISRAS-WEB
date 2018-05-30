@@ -49,10 +49,7 @@ class LoginController extends Controller
     }
 
     public function showLoginForm() {
-        return view('pages.login')
-            ->with([
-                'userType' => 0
-            ]);
+        return view('pages.login');
     }
     
     public function logout() {

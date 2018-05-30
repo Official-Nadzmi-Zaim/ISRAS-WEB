@@ -9,13 +9,13 @@
             <li class="nav-item active">
                 <a class="nav-link" href={!! url('/') !!}>Home<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href={!! url('/about-us') !!}>About Us</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href={!! url('/library') !!}>Library</a>
-            </li>
             @if(!isset($userType))
+                <li class="nav-item">
+                    <a class="nav-link" href={!! url('/about-us') !!}>About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href={!! url('/library') !!}>Library</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href={!! url('/user/registration') !!}>Registration</a>
                 </li>
@@ -24,6 +24,12 @@
                 </li>
             @else
                 @if($userType == 2) <!-- user -->
+                    <li class="nav-item">
+                        <a class="nav-link" href={!! url('/user/about-us') !!}>About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href={!! url('/user/library') !!}>Library</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">I-SRAS</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -38,6 +44,9 @@
                         <a class="nav-link" href={!! url('/logout') !!}>Logout</a>
                     </li>
                 @elseif($userType == 1) <!-- admin -->
+                    <li class="nav-item">
+                        <a class="nav-link" href={!! url('/admin/about-us') !!}>About Us</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">I-SRAS</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown01">

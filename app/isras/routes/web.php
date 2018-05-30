@@ -15,7 +15,7 @@
 Auth::routes();
 // public routes
 // get
-Route::get('/', 'PagesController@home');
+Route::get('/', 'PagesController@index');
 Route::get('/about-us', 'PagesController@about');
 Route::get('/library', 'LibraryController@loadLibraryContent');
 Route::get('/login', 'Auth\LoginController@showLoginForm');
@@ -26,6 +26,9 @@ Route::post('/login', 'Auth\LoginController@login');
 // admin routes
 Route::prefix('admin')->group(function() {
     // GET ROUTES
+    // pages
+    Route::get('/about-us', 'PagesController@adminAbout');
+    // processes
     Route::get('/reporting', 'ReportingController@processReporting');
     // library
     Route::get('/library', 'LibraryController@adminLibraryIndex')->name('admin.library');
@@ -70,6 +73,10 @@ Route::prefix('admin')->group(function() {
 // user routes
 Route::prefix('user')->group(function() {
     // GET ROUTES
+    // pages
+    Route::get('/about-us', 'PagesController@userAbout');
+    Route::get('/library', 'PagesController@userLibrary');
+    // process
     Route::get('/assessment', 'AssessmentController@loadAssessment');
     Route::post('/assessment', 'AssessmentController@saveAssessmentResult');
     Route::get('/assessment/result', 'AssessmentController@verifyAssessment');
@@ -81,5 +88,5 @@ Route::prefix('user')->group(function() {
     Route::post('/feedback', 'FeedbackController@verifyFeedback');
     Route::get('/payment', 'PagesController@payment');
     Route::get('/report/{id}', 'AssessmentController@loadAssessmentResult');
-    Route::get('/registration', 'PagesController@registration');
+    Route::get('/registration', 'Auth\RegisterController@userRegisterForm');
 });

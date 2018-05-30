@@ -7,57 +7,62 @@ use Illuminate\Support\Facades\Auth;
 
 class PagesController extends Controller
 {
-    //Sort the pages according to alphabet ascending
-
+    // neutral pages
+    public function index()
+    {
+        if(Auth::check())
+            if(Auth::user()->entity_type == 1)
+                return view('pages.home')
+                ->with([
+                    'userType' => 1
+                ]);
+            else
+                return view('pages.home')
+                    ->with([
+                        'userType' => 2
+                    ]);
+        
+        return view('pages.home');
+    }
     public function about()
     {
         return view('pages.about');
     }
-
-    public function assessment()
-    {
-        return view('pages.assessment');
-    }
-
-    public function login() {
-        return view('pages.login');
-    }
-
-    public function feedback()
-    {
-        return view('pages.feedback');
-    }
-
-    public function home() {
-        if(Auth::check()) {
-            $entity = Auth::user();
-
-            return view('pages.home')
-                ->with([
-                    'userType' => 1
-                ]);
-        } else
-            return view('pages.home');
-    }
-
-    public function index()
-    {
-        return view('pages.index');
-    }
-
     public function library()
     {
         return view('pages.library');
     }
 
-    public function payment()
+    // admin pages
+    public function adminAbout()
     {
-        return view('pages.payment');
+        return view('pages.about')
+            ->with([
+                'userType' => 1
+            ]);
     }
 
-    public function registration()
+    // user pages
+    public function userAbout()
     {
-        return view('pages.registration');
+        return view('pages.about')
+            ->with([
+                'userType' => 2
+            ]);
+    }
+    public function userLibrary()
+    {
+        return view('pages.user.library')
+            ->with([
+                'userType' => 2
+            ]);
+    }
+    public function payment()
+    {
+        return view('pages.payment')
+            ->with([
+                'userType' => 2
+            ]);
     }
 
     public function assessmentResult()

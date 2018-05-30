@@ -141,6 +141,7 @@ class AssessmentController extends Controller
         $category = LookupAssessmentCategory::find($id)->name;
 
         $data = [
+            'userType' => 2,
             'arr_assessment_questions' => $arr_assessment_questions,
             'arr_question_types' => $arr_question_types,
             'arr_key_area' => $arr_key_area,
@@ -279,6 +280,7 @@ class AssessmentController extends Controller
 
         $score_isras = $score_vital + $score_recommended;
         $data = [
+            'userType' => 2,
             'score_isras'  => $score_isras,
             'score_vital'   => $score_vital,
             'score_recommended' => $score_recommended,
@@ -375,6 +377,7 @@ class AssessmentController extends Controller
                 array_push($AssessmentCompany, "Company not found");
         }
         $data = [
+            'userType' => 2,
             'AssessmentResult' =>  $AssessmentResult,
             'AssessmentCompany' => $AssessmentCompany
         ];

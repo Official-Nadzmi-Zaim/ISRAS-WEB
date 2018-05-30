@@ -16,6 +16,7 @@ class FeedbackController extends Controller
         $arr_feedback = FeedbackQuestion::all();
 
         $data = [
+            'userType' => 2,
             'arr_feedback' => $arr_feedback
         ];
 

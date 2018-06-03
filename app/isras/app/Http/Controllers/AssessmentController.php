@@ -9,11 +9,13 @@ use App\LookupAssessmentKeyArea;
 use App\LookupAssessmentTitle;
 use App\LookupAssessmentType;
 use App\Company;
+use App\Charts\ResultChart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use DB;
 use PDF;
+
 
 class AssessmentController extends Controller
 {
@@ -398,12 +400,20 @@ class AssessmentController extends Controller
             array_push($arr_key_area, $Arr_category[$i]->getKeyAreas($Arr_category[$i]->id));
         }
 
+        $chart = new ResultChart;
+        $chart->dataset('Community', 'bar', [16,20,1])->color('#330808')->backgroundColor('#330808');
+        $chart->dataset('Workplace', 'bar', [8,20,1])->color('#ff841f')->backgroundColor('#ff841f');
+        $chart->dataset('Environmental', 'bar', [12,20,1])->color('#e50000')->backgroundColor('#e50000');
+        $chart->dataset('Marketplace', 'bar', [10,20,1])->color('#176a90')->backgroundColor('#176a90');
+
         $data = [
             'Assessment' => $Assessment,
             'Arr_category' => $Arr_category,
-            'arr_key_area' => $arr_key_area
+            'arr_key_area' => $arr_key_area,
+            'chart' => $chart
         ];
         
+        //return view('pages.chart_view', ['chart' => $chart]);
         $pdf = PDF::loadView('pages.report', $data );
         return $pdf->stream();
         //return $pdf->download('report.pdf');

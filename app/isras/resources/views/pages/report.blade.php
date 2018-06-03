@@ -1,3 +1,7 @@
+{{-- <script src=//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js charset=utf-8></script>
+<script src=//cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.6/highcharts.js charset=utf-8></script>
+<script src=//cdn.jsdelivr.net/npm/fusioncharts@3.12.2/fusioncharts.js charset=utf-8></script>
+<script src=//cdnjs.cloudflare.com/ajax/libs/echarts/4.0.2/echarts-en.min.js charset=utf-8></script> --}}
 <style>
     .header,
     .footer {
@@ -96,6 +100,8 @@
             </td>
         </tr>
     </table>
+    {{-- <div>{!! $chart->container() !!}</div> --}}
+    {!! $chart->script() !!}
     <table class="d" cellpadding="5">
         <tr valign="top">
             @for ($i=0; $i<sizeof($Arr_category); $i = $i + 2)

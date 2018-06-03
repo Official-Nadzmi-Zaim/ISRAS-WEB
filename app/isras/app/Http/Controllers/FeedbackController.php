@@ -20,10 +20,9 @@ class FeedbackController extends Controller
 
     public function verifyFeedback(Request $request)
     {
-
         //Get the data
         $size = $request["no"];
-
+        
         //Save the data
         for ($i=0; $i<$size; $i++)
         {

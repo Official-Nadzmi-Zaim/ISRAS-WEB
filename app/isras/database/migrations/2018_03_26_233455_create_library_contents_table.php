@@ -20,6 +20,7 @@ class CreateLibraryContentsTable extends Migration
             $table->string('src', 500)->nullable();
             $table->bigInteger('publication');
             $table->bigInteger('author');
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

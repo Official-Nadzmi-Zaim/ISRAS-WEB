@@ -16,6 +16,7 @@ class CreateFeedbackQuestionsTable extends Migration
         Schema::create('feedback_questions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('description', 500);
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

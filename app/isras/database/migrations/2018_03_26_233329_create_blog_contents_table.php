@@ -17,6 +17,7 @@ class CreateBlogContentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title', 100);
             $table->string('description', 500);
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

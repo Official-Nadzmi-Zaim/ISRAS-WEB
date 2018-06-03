@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLookupAssessmentKeyAreasTable extends Migration
+class CreateEntitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateLookupAssessmentKeyAreasTable extends Migration
      */
     public function up()
     {
-        Schema::create('lookup_assessment_key_areas', function (Blueprint $table) {
+        Schema::create('entities', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('lookup_assessment_title_id')->nullable();
-            $table->string('name', 100);
+            $table->bigInteger('entity_type');
+            $table->string('email', 250);
+            $table->string('password', 250);
+            $table->boolean('active')->default(true);
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ class CreateLookupAssessmentKeyAreasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lookup_assessment_key_areas');
+        Schema::dropIfExists('entities');
     }
 }

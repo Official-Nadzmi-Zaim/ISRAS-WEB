@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PagesController extends Controller
 {
@@ -27,9 +28,16 @@ class PagesController extends Controller
         return view('pages.feedback');
     }
 
-    public function home()
-    {
-        return view('pages.home');
+    public function home() {
+        if(Auth::check()) {
+            $entity = Auth::user();
+
+            return view('pages.home')
+                ->with([
+                    'userType' => 1
+                ]);
+        } else
+            return view('pages.home');
     }
 
     public function index()

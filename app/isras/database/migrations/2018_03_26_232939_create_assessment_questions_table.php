@@ -20,6 +20,7 @@ class CreateAssessmentQuestionsTable extends Migration
             $table->bigInteger('category');
             $table->bigInteger('key_area');
             $table->bigInteger('title');
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

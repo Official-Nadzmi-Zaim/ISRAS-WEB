@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Company;
@@ -9,6 +8,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use PDF;
+use \PDFShift\PDFShift;
 
 use App\Assessment;
 use App\AssessmentQuestion;
@@ -412,10 +412,10 @@ class AssessmentController extends Controller
             'arr_key_area' => $arr_key_area
         ];
         
-        $pdf = PDF::loadView('pages.report', $data );
-        return $pdf->stream();
-        //return $pdf->download('report.pdf');
-        return view('pages.report')->with($data);
+        // $pdf = PDF::loadView('pages.report3', $data);
+        // return $pdf->stream();
+        // return $pdf->download('report3.pdf');
+        return view('pages.report3')->with($data);
     }
 
     public function adminAssessmentIndex() {

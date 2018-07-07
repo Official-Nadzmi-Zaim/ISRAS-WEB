@@ -37,7 +37,7 @@
                         </td>
                         <td class="assessment-tbl-item">
                             <div class="form-group">
-                                <a class="btn btn-info form-control" href={!! url('/admin/form/blog/update/' . $data['id']) !!}>Update</a>
+                                <a class="btn btn-info form-control" href={!! url('/admin/form/assessment/update/' . $data['id']) !!}>Update</a>
                             </div>
                             <div class="form-group">
                                 <a href="#" class="btn btn-danger form-control" data-question_id={!! $data['id'] !!} data-toggle="modal" data-target="#deleteModal">Delete</a>

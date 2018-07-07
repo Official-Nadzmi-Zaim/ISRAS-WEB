@@ -22,7 +22,7 @@
 
 @section('content')
     <div class="container marketing">
-        <h2 class="featurette-heading" style="margin-top: 20px;">Add New Feedback Question</h2>
+        <h2 class="featurette-heading" style="margin-top: 20px;">Update Feedback Question</h2>
         <br>
         <!-- START THE FEATURETTES -->
         {!! Form::open(['url' => '/admin/feedback/update', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate', 'files' => 'true']) !!}

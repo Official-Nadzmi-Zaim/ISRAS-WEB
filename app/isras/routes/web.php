@@ -88,5 +88,6 @@ Route::prefix('user')->group(function() {
     Route::post('/feedback', 'FeedbackController@verifyFeedback');
     Route::get('/payment', 'PagesController@payment');
     Route::get('/report/{id}', 'AssessmentController@loadAssessmentResult');
+    Route::get('/report/download/{id}', 'AssessmentController@downloadPDF');
     Route::get('/registration', 'Auth\RegisterController@userRegisterForm');
 });

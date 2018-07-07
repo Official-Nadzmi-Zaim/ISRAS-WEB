@@ -1,5 +1,9 @@
 @extends('layouts.app')
+<style>
 
+</style>
+<script>
+</script>
 @section('content')
     <div class="container marketing">
         <h2 class="featurette-heading" style="margin-top: 20px;">Feedback List</h2>
@@ -7,7 +11,7 @@
         <!-- START THE FEATURETTES -->
 
         {{--  <div class="custom-content">  --}}
-        {!! Form::open(['url' => '/user/feedback', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate']) !!}
+        {!! Form::open(['url' => '/user/feedback', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate', 'onsubmit'=>'confirm("Are you sure?")']) !!}
         <table class="feedback-tbl">
             <tr>
                 <th style="text-align: center">No</th>

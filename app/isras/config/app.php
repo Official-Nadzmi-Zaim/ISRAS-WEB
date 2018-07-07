@@ -180,6 +180,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
 
         Barryvdh\DomPDF\ServiceProvider::class,
+        ConsoleTVs\Charts\ChartsServiceProvider::class,
     ],
 
     /*

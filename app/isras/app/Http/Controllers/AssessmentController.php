@@ -18,6 +18,8 @@ use App\Charts\ResultChart;
 use DB;
 use PDF;
 use \PDFShift\PDFShift;
+use Lava;
+use Khill\Lavacharts\Lavacharts;
 
 
 class AssessmentController extends Controller
@@ -405,24 +407,39 @@ class AssessmentController extends Controller
         {
             array_push($arr_key_area, $Arr_category[$i]->getKeyAreas($Arr_category[$i]->id));
         }
-
+        
+        /*
         $chart = new ResultChart;
         $chart->dataset('Community', 'bar', [16,20,1])->color('#330808')->backgroundColor('#330808');
         $chart->dataset('Workplace', 'bar', [8,20,1])->color('#ff841f')->backgroundColor('#ff841f');
         $chart->dataset('Environmental', 'bar', [12,20,1])->color('#e50000')->backgroundColor('#e50000');
         $chart->dataset('Marketplace', 'bar', [10,20,1])->color('#176a90')->backgroundColor('#176a90');
+        */
+
+        $dataTable = Lava::DataTable();
+        $dataTable->addStringColumn('Domain')
+            ->addNumberColumn('Score');
+        $dataTable->addRow([ 'Community', rand(800,1000) ])
+            ->addRow([ 'Workplace', rand(800,1000) ])
+            ->addRow([ 'Environmental', rand(800,1000) ])
+            ->addRow([ 'Marketplace', rand(800,1000) ]);
+
+        Lava::BarChart('BarChart', $dataTable, [
+            'hAxis' => [ 'h1', 'h2', 'h3' ],
+            'vAxis' => [ 'v1', 'v2', 'v3' ]
+        ]);
 
         $data = [
             'Assessment' => $Assessment,
             'Arr_category' => $Arr_category,
             'arr_key_area' => $arr_key_area,
-            'chart' => $chart
+            // 'chart' => $chart
         ];
         
-        // $pdf = PDF::loadView('pages.report3', $data);
+        // $pdf = PDF::loadView('pages.report', $data);
         // return $pdf->stream();
-        // return $pdf->download('report3.pdf');
-        return view('pages.report3')->with($data);
+        // return $pdf->download('report.pdf');
+        return view('pages.report')->with($data);
     }
 
     public function loadAddContentForm()

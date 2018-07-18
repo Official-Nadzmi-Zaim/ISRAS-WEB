@@ -1,15 +1,11 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
-<<<<<<< HEAD
-use DB;
-use PDF;
-=======
->>>>>>> fb8475ba2854d4a87c5f0f3b320c0d23f0669875
 
 use App\Assessment;
 use App\AssessmentQuestion;
@@ -19,17 +15,11 @@ use App\LookupAssessmentKeyArea;
 use App\LookupAssessmentTitle;
 use App\LookupAssessmentType;
 use App\Charts\ResultChart;
-<<<<<<< HEAD
-
-use App\AdminAssessmentQuestion;
-use App\Admin;
-=======
 use DB;
 use PDF;
 use \PDFShift\PDFShift;
 use Lava;
 use Khill\Lavacharts\Lavacharts;
->>>>>>> fb8475ba2854d4a87c5f0f3b320c0d23f0669875
 
 
 class AssessmentController extends Controller

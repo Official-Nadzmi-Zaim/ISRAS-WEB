@@ -1,10 +1,11 @@
 @extends('layouts.app')
-<style>
 
-</style>
-<script>
-</script>
 @section('content')
+    @if ($result == 1)
+        <script>alert("Please complete all the feedback questions");</script>
+    @elseif ($result == 2)
+        <script>alert("You have submit your feedback response. Thank you");</script>
+    @endif
     <div class="container marketing">
         <h2 class="featurette-heading" style="margin-top: 20px;">Feedback List</h2>
         <br>

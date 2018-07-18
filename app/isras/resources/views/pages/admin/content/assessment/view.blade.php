@@ -36,15 +36,12 @@
                             @endif
                         </td>
                         <td class="assessment-tbl-item">
-                            <form action={!! url('/admin/form/assessment/update/' . $data['id']) !!} method="GET">
-                                {{ csrf_field() }}
-                                <div class="form-group">
-                                    <input type="submit" class="btn btn-info form-control" value="Update" />
-                                </div>
-                                <div class="form-group">
-                                    <button type="button" data-question_id="{!! $data['id'] !!}" class="btn btn-danger form-control" data-toggle="modal" data-target="#deleteModal">Delete</button>
-                                </div>
-                            </form>
+                            <div class="form-group">
+                                <a class="btn btn-info form-control" href={!! url('/admin/form/assessment/update/' . $data['id']) !!}>Update</a>
+                            </div>
+                            <div class="form-group">
+                                <a href="#" class="btn btn-danger form-control" data-question_id={!! $data['id'] !!} data-toggle="modal" data-target="#deleteModal">Delete</a>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

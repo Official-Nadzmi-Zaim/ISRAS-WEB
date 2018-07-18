@@ -138,7 +138,7 @@
         <input type="hidden" name="num" value="<?php echo $no;?>" />
         <div style="width: 100%;">
         @if ($id != 1) 
-            <div style="float:left"><a href="/user/assessment/page_{{$id-1}}" class="btn btn-primary btn-lg">Previous</a></div>
+            <div style="float:left"><a href={!! url('/user/assessment/page_' . ($id-1)) !!} class="btn btn-primary btn-lg">Previous</a></div>
         @endif
         @if ($id != 4)
             <div style="float:right">{{Form::submit('Next', ['class'=>'btn btn-primary btn-lg'])}}</div>

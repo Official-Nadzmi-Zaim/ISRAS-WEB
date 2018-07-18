@@ -19,24 +19,25 @@
         content: counter(page);
     }
 
-    table {
-        border-collapse: collapse;
-        border: 1px;
-    } 
+            table {
+                border-collapse: collapse;
+                border: 1px;
+            } 
 
-    th,td {
-        text-align: center;
-    }
+            th,td {
+                text-align: center;
+            }
 
-    table.d {
-        table-layout: fixed;
-        width: 100%;    
-    }
+            table.d {
+                table-layout: fixed;
+                width: 100%;    
+            }
 
     .border {
         border-bottom: 1px solid #ccc;
     }
 </style>
+
 <div class="header" id = "header">
     {{-- Page <span class="pagenum"></span> --}}
     {{-- <div style="float: left">SUSTAINABILITY REPORT : UiTM Shah Alam</div><div style="float: right">{{date("F d, Y")}}</div> --}}
@@ -100,8 +101,18 @@
             </td>
         </tr>
     </table>
+
+    <!-- bar chart -->
     {{-- <div>{!! $chart->container() !!}</div> --}}
-    {!! $chart->script() !!}
+    {{-- {!! $chart->script() !!} --}}
+    <table class="d" cellpadding="5">
+        <tr>
+            <td>
+                <div id="chart"></div>
+            </td>
+        </tr>
+    </table>
+    
     <table class="d" cellpadding="5">
         <tr valign="top">
             @for ($i=0; $i<sizeof($Arr_category); $i = $i + 2)
@@ -156,3 +167,5 @@
     {{-- Page <span class="pagenum"></span> --}}
     <p style="font-size: 8pt;">For more information about I-SRAS Program Sustainability Assessment Tool and sustainability planning, visit <a href="#">www.isras.com.my</a></p>
 </div>
+
+{!! Lava::render('BarChart', 'BarChart', 'chart') !!}

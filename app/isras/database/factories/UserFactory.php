@@ -455,8 +455,8 @@ $factory->define(App\PIC::class, function (Faker $faker) {
 
 $factory->define(App\Entity::class, function (Faker $faker) {
     static $number = 0;
-    $emails = [ '1@gmail.com', '2@gmail.com' ];
-    $password = [ '1', '2' ];
+    $emails = [ 'admin@gmail.com', 'user@gmail.com' ];
+    $password = [ 'admin', 'user' ];
     $entityType = [ 1, 2 ];
 
     return [

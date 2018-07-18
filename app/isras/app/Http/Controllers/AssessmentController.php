@@ -1,14 +1,15 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+<<<<<<< HEAD
 use DB;
 use PDF;
+=======
+>>>>>>> fb8475ba2854d4a87c5f0f3b320c0d23f0669875
 
 use App\Assessment;
 use App\AssessmentQuestion;
@@ -18,9 +19,17 @@ use App\LookupAssessmentKeyArea;
 use App\LookupAssessmentTitle;
 use App\LookupAssessmentType;
 use App\Charts\ResultChart;
+<<<<<<< HEAD
 
 use App\AdminAssessmentQuestion;
 use App\Admin;
+=======
+use DB;
+use PDF;
+use \PDFShift\PDFShift;
+use Lava;
+use Khill\Lavacharts\Lavacharts;
+>>>>>>> fb8475ba2854d4a87c5f0f3b320c0d23f0669875
 
 
 class AssessmentController extends Controller
@@ -144,6 +153,7 @@ class AssessmentController extends Controller
         $category = LookupAssessmentCategory::find($id)->name;
 
         $data = [
+            'userType' => 2,
             'arr_assessment_questions' => $arr_assessment_questions,
             'arr_question_types' => $arr_question_types,
             'arr_key_area' => $arr_key_area,
@@ -282,6 +292,7 @@ class AssessmentController extends Controller
 
         $score_isras = $score_vital + $score_recommended;
         $data = [
+            'userType' => 2,
             'score_isras'  => $score_isras,
             'score_vital'   => $score_vital,
             'score_recommended' => $score_recommended,
@@ -378,6 +389,7 @@ class AssessmentController extends Controller
                 array_push($AssessmentCompany, "Company not found");
         }
         $data = [
+            'userType' => 2,
             'AssessmentResult' =>  $AssessmentResult,
             'AssessmentCompany' => $AssessmentCompany
         ];
@@ -405,24 +417,38 @@ class AssessmentController extends Controller
         {
             array_push($arr_key_area, $Arr_category[$i]->getKeyAreas($Arr_category[$i]->id));
         }
-
+        
+        /*
         $chart = new ResultChart;
         $chart->dataset('Community', 'bar', [16,20,1])->color('#330808')->backgroundColor('#330808');
         $chart->dataset('Workplace', 'bar', [8,20,1])->color('#ff841f')->backgroundColor('#ff841f');
         $chart->dataset('Environmental', 'bar', [12,20,1])->color('#e50000')->backgroundColor('#e50000');
         $chart->dataset('Marketplace', 'bar', [10,20,1])->color('#176a90')->backgroundColor('#176a90');
+        */
+
+        $dataTable = Lava::DataTable();
+        $dataTable->addStringColumn('Domain')
+            ->addNumberColumn('Score');
+        $dataTable->addRow([ 'Community', rand(800,1000) ])
+            ->addRow([ 'Workplace', rand(800,1000) ])
+            ->addRow([ 'Environmental', rand(800,1000) ])
+            ->addRow([ 'Marketplace', rand(800,1000) ]);
+
+        Lava::BarChart('BarChart', $dataTable, [
+            'hAxis' => [ 'h1', 'h2', 'h3' ],
+            'vAxis' => [ 'v1', 'v2', 'v3' ]
+        ]);
 
         $data = [
             'Assessment' => $Assessment,
             'Arr_category' => $Arr_category,
             'arr_key_area' => $arr_key_area,
-            'chart' => $chart
+            // 'chart' => $chart
         ];
         
-        //return view('pages.chart_view', ['chart' => $chart]);
-        $pdf = PDF::loadView('pages.report', $data );
-        return $pdf->stream();
-        //return $pdf->download('report.pdf');
+        // $pdf = PDF::loadView('pages.report', $data);
+        // return $pdf->stream();
+        // return $pdf->download('report.pdf');
         return view('pages.report')->with($data);
     }
 

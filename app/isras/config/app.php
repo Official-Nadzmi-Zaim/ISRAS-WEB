@@ -167,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
 
         /*
          * Application Service Providers...

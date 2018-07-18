@@ -31,25 +31,26 @@
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-4">
-                            <b>Created at: </b><br />
-                            <b>Updated at: </b>
+                            <b>Created at: </b>{!! $blogData['created_at'] !!}<br />
+                            <b>Updated at: </b>{!! $blogData['updated_at'] !!}
                         </div>
                     </div>
                 </div>
                 <h5><b>Blog Title</b></h5> 
-                {{Form::text('blog_title', 'this is default value', ['class'=>'form-control', 'placeholder'=>'Blog Title', 'required' => 'required'])}}
+                {{Form::text('blog_title', $blogData['title'], ['class'=>'form-control', 'placeholder'=>'Blog Title', 'required' => 'required'])}}
                 <div class="invalid-feedback">
                     Valid blog title is required.
                 </div>
                 <br>
                 <h5><b>Blog Description</b></h5> 
-                {{Form::textarea('blog_desc', 'this is default value', ['class'=>'form-control', 'placeholder'=>'Blog Description', 'required' => 'required'])}}
+                {{Form::textarea('blog_desc', $blogData['description'], ['class'=>'form-control', 'placeholder'=>'Blog Description', 'required' => 'required'])}}
                 <div class="invalid-feedback">
                     Valid blog description is required.
                 </div>
             </div>
         </div>
         <br>
+        {{Form::hidden('id', $blogData['id'])}}
         {{Form::submit('Submit', ['class'=>'btn btn-primary btn-lg'])}}
         {!! Form::close() !!}
         <hr class="featurette-divider">

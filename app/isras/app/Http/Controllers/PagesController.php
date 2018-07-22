@@ -12,6 +12,7 @@ class PagesController extends Controller
     public function index()
     {
         if(Auth::check())
+        {
             if(Auth::user()->entity_type == 1)
                 return view('pages.home')
                 ->with([
@@ -22,9 +23,15 @@ class PagesController extends Controller
                     ->with([
                         'userType' => 2
                     ]);
-        
-        return view('pages.home');
+        }
+        else
+        {     
+            return view('pages.home')->with([
+                'userType' => null
+            ]);
+        }
     }
+
     public function about()
     {
         return view('pages.about');

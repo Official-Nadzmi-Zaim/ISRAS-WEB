@@ -18,6 +18,7 @@ class FeedbackController extends Controller
         $arr_feedback = $feedback->loadFeedbackQuestions();
 
         $data = [
+            'result' => 0,
             'userType' => 2,
             'arr_feedback' => $arr_feedback
         ];

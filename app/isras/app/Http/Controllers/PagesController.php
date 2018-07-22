@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\LibraryContent;
 
 class PagesController extends Controller
 {
@@ -52,9 +53,12 @@ class PagesController extends Controller
     }
     public function userLibrary()
     {
+        $arr_content = LibraryContent::all();
+
         return view('pages.user.library')
             ->with([
-                'userType' => 2
+                'userType' => 2,
+                'arr_content' => $arr_content
             ]);
     }
     public function payment()

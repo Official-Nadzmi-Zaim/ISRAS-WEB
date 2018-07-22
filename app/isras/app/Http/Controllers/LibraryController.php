@@ -24,7 +24,7 @@ class LibraryController extends Controller
                 'title' => $library['title'],
                 'src' => $library['src']
             ];
-
+        
         return view('pages.admin.content.library.view')
             ->with([
                 'userType' => 1,
@@ -202,7 +202,18 @@ class LibraryController extends Controller
     {
         $arr_content = LibraryContent::all();
         $data = [
-            'userType' => 1,
+            'userType' => null,
+            'arr_content' => $arr_content
+        ];
+
+        return view('pages.user.library')->with($data);
+    }
+
+    public function loadUserLibraryContent()
+    {
+        $arr_content = LibraryContent::all();
+        $data = [
+            'userType' => 2,
             'arr_content' => $arr_content
         ];
 

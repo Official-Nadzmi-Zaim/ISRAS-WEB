@@ -37,6 +37,7 @@ class FeedbackController extends Controller
 
             $data = [
                 'result' => 1,
+                'userType' => 2,
                 'arr_feedback' => $arr_feedback
             ];
 
@@ -50,6 +51,7 @@ class FeedbackController extends Controller
 
             $data = [
                 'result' => 2,
+                'userType' => 2,
                 'arr_feedback' => $arr_feedback
             ];
 

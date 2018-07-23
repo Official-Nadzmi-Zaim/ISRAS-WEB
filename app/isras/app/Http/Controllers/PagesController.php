@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\LibraryContent;
 
 class PagesController extends Controller
 {
@@ -11,6 +12,7 @@ class PagesController extends Controller
     public function index()
     {
         if(Auth::check())
+        {
             if(Auth::user()->entity_type == 1)
                 return view('pages.home')
                 ->with([
@@ -21,9 +23,15 @@ class PagesController extends Controller
                     ->with([
                         'userType' => 2
                     ]);
-        
-        return view('pages.home');
+        }
+        else
+        {     
+            return view('pages.home')->with([
+                'userType' => null
+            ]);
+        }
     }
+
     public function about()
     {
         return view('pages.about');
@@ -52,9 +60,12 @@ class PagesController extends Controller
     }
     public function userLibrary()
     {
+        $arr_content = LibraryContent::all();
+
         return view('pages.user.library')
             ->with([
-                'userType' => 2
+                'userType' => 2,
+                'arr_content' => $arr_content
             ]);
     }
     public function payment()

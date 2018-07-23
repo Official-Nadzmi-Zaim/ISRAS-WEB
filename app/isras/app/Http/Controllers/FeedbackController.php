@@ -13,9 +13,12 @@ class FeedbackController extends Controller
 {
     public function loadFeedbackQuestion()
     {
-        $arr_feedback = FeedbackQuestion::all();
+        $feedback = new Feedback();
+
+        $arr_feedback = $feedback->loadFeedbackQuestions();
 
         $data = [
+            'result' => 0,
             'userType' => 2,
             'arr_feedback' => $arr_feedback
         ];
@@ -25,32 +28,36 @@ class FeedbackController extends Controller
 
     public function verifyFeedback(Request $request)
     {
-        //Get the data
-        $size = $request["no"];
-        
-        //Save the data
-        for ($i=0; $i<$size; $i++)
+        $feedback = new Feedback();
+
+        if (!$feedback->verifyFeedback($request))
         {
-            $score = $request["feedback_answer_".($i+1)];
+            //return $this->loadFeedbackQuestion();
+            $arr_feedback = $feedback->loadFeedbackQuestions();
 
-            if ($score != null)
-            {
-                $this->saveFeedback([
-                    'user_id' => 1,
-                    'feedback_question_id' => $i+1,
-                    'score' => $score
-                ]);
-            }else{
-                $this->saveFeedback([
-                    'user_id' => 1,
-                    'feedback_question_id' => $i+1,
-                    'score' => 0
-                ]);
-            }
+            $data = [
+                'result' => 1,
+                'userType' => 2,
+                'arr_feedback' => $arr_feedback
+            ];
 
+            return view('pages.feedback')->with($data);
         }
-        //Return the view
-        return $this->loadFeedbackQuestion();
+        else
+        {
+            $feedback->storeFeedbackAnswer($request);
+
+            $arr_feedback = $feedback->loadFeedbackQuestions();
+
+            $data = [
+                'result' => 2,
+                'userType' => 2,
+                'arr_feedback' => $arr_feedback
+            ];
+
+            return view('pages.feedback')->with($data);
+            //return $this->loadFeedbackQuestion();
+        }
     }
 
     public function adminFeedbackIndex() {
@@ -70,15 +77,6 @@ class FeedbackController extends Controller
                 'userType' => 1,
                 'assessmentQuestionData' => $questionList
             ]);
-    }
-
-    public function saveFeedback($contentData)
-    {
-        $Feedback = new Feedback();
-        $Feedback->user_id = $contentData['user_id'];
-        $Feedback->feedback_question_id = $contentData['feedback_question_id'];
-        $Feedback->score = $contentData['score'];
-        $Feedback->save();
     }
 
     public function loadAddContentForm() {

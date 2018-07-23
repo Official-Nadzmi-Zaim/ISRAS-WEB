@@ -28,7 +28,7 @@
         </table>
    
         <br>
-        <a href='' class='btn btn-lg btn-primary' style="width: 15%">Back</a>
+        {{-- <a href='' class='btn btn-lg btn-primary' style="width: 15%">Back</a> --}}
         <!-- Better do Pagination -->
         <hr class="featurette-divider">
     </div>

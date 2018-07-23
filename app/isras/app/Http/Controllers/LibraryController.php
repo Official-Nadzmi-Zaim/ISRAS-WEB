@@ -197,15 +197,38 @@ class LibraryController extends Controller
             ]);
     }
 
-    //Zaim Omar library controller for user
+    // Zaim Omar library controller for user
     public function loadLibraryContent()
     {
-        $arr_content = LibraryContent::all();
+        $arr_content = [];
+        $libraries = LibraryContent::all();
+        
+        foreach($libraries as $library) {
+            $author_name = '';
+            $publication_name = '';
+
+            $author = LookupAuthor::find($library->author);
+            $publication = LookupPublication::find($library->publication);
+
+            if($author != null)
+                $author_name = $author->name;
+            if($publication != null)
+                $publication_name = $publication->name;
+
+            $arr_content[] = [
+                'src' => $library->src,
+                'title' => $library->title,
+                'author_name' => $author_name,
+                'publication_name' => $publication_name
+            ];
+        }
+        
         $data = [
             'userType' => null,
             'arr_content' => $arr_content
         ];
 
+        // return $data;
         return view('pages.user.library')->with($data);
     }
 

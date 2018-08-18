@@ -19,12 +19,13 @@
     padding-left: 20px;
   }
 </style>
+
 @section('content')
     <div class="container marketing">
         <h2 class="featurette-heading" style="margin-top: 20px;">Registration</h2>
         <br>
         <!-- START THE FEATURETTES -->
-        {!! Form::open(['url' => 'foo/bar', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate']) !!}
+        {!! Form::open(['url' => '/user/register', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate']) !!}
         <div class="card">
             <div class="card-container">
               <h5><b>User Description</b></h5> 
@@ -36,6 +37,11 @@
               {{Form::email('user_email', '', ['class'=>'form-control', 'placeholder'=>'Email eg:youremail@gmail.com', 'required' => 'required'])}}
               <div class="invalid-feedback">
                  Valid email is required.
+              </div>
+              <br>
+              {{Form::password('user_password', ['class'=>'form-control', 'placeholder'=>'Password', 'required' => 'required'])}}
+              <div class="invalid-feedback">
+                 Valid password is required.
               </div>
               <br>
               {{Form::text('user_tel_no', '', ['class'=>'form-control', 'placeholder'=>'Telephone Number', 'required' => 'required'])}}
@@ -90,12 +96,12 @@
         <div class="card">
             <div class="card-container">
                 <h5><b>Company Person In Charge</b></h5> 
-                {{Form::text('person_ic_name', '', ['class'=>'form-control', 'placeholder'=>'Name', 'required' => 'required'])}}
+                {{Form::text('pic_name', '', ['class'=>'form-control', 'placeholder'=>'Name', 'required' => 'required'])}}
                 <div class="invalid-feedback">
                     Valid name is required.
                 </div>
                 <br>
-                {{Form::email('person_ic_email', '', ['class'=>'form-control', 'placeholder'=>'Email eg:youremail@gmail.com', 'required' => 'required'])}}
+                {{Form::email('pic_email', '', ['class'=>'form-control', 'placeholder'=>'Email eg:youremail@gmail.com', 'required' => 'required'])}}
                 <div class="invalid-feedback">
                     Valid email is required.
                 </div>

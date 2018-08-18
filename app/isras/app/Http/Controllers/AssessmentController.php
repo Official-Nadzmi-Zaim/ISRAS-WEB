@@ -14,6 +14,8 @@ use App\LookupAssessmentCategory;
 use App\LookupAssessmentKeyArea;
 use App\LookupAssessmentTitle;
 use App\LookupAssessmentType;
+use App\Admin;
+use App\AdminAssessmentQuestion;
 use App\Charts\ResultChart;
 use DB;
 use PDF;

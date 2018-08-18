@@ -91,5 +91,8 @@ Route::prefix('user')->group(function() {
     Route::get('/payment', 'PagesController@payment');
     Route::get('/report/{id}', 'AssessmentController@loadAssessmentResult');
     Route::get('/report/download/{id}', 'AssessmentController@downloadPDF');
+
+    // registration
     Route::get('/registration', 'Auth\RegisterController@userRegisterForm');
+    Route::post('/register', 'Auth\RegisterController@register');
 });

@@ -301,12 +301,14 @@ $factory->define(App\Feedback::class, function (Faker $faker) {
 });
 
 $factory->define(App\LibraryContent::class, function (Faker $faker) {
+    static $id = 1;
+
     return [
         'title' => $faker->sentence($nbWords = 2, $variableNbWords = true),
         'description' => $faker->sentence($nbWords = 6, $variableNbWords = true),
         'src' => $faker->url,
-        'publication' => $faker->unique()->numberBetween($min = 1, $max = 9000),
-        'author' => $faker->unique()->numberBetween($min = 1, $max = 9000),
+        'publication' => $id,
+        'author' => $id++,
     ];
 });
 
@@ -320,9 +322,9 @@ $factory->define(App\LookupAssessmentCategory::class, function (Faker $faker) {
 
 $factory->define(App\LookupAssessmentKeyArea::class, function (Faker $faker) {
     $key = ['SOCIAL DEVELOPMENT', 'EDUCATION AND AWARENESS', 'ECONOMIC DEVELOPMENT', 'HEALTH', 'TRAINING AND EDUCATION',
-'OCCUPATIONAL SAFETY AND HEALTH ADMINISTRATION (OSHA)', 'EQUITABLE OPPORTUNITY', 'EMPLOYMENT', 'AWARDS AND RECOGNITION',
-'LABOUR AND MANAGEMENT RELATIONS', 'ENVIRONMENTAL RELATED POLICY', 'CLIMATE CHANGE MITIGATION AND ADAPTATION', 'PREVENTION OF POLLUTION', 'GREEN PRODUCTS AND SERVICES',
-'PROTECTION AND RESTORATION OF THE NATURAL ENVIRONMENT', 'MARKET RELATED POLICIES', 'PRODUCT AND SERVICES', 'MARKETING', 'STAKEHOLDER ENGAGEMENT'];
+        'OCCUPATIONAL SAFETY AND HEALTH ADMINISTRATION (OSHA)', 'EQUITABLE OPPORTUNITY', 'EMPLOYMENT', 'AWARDS AND RECOGNITION',
+        'LABOUR AND MANAGEMENT RELATIONS', 'ENVIRONMENTAL RELATED POLICY', 'CLIMATE CHANGE MITIGATION AND ADAPTATION', 'PREVENTION OF POLLUTION', 'GREEN PRODUCTS AND SERVICES',
+        'PROTECTION AND RESTORATION OF THE NATURAL ENVIRONMENT', 'MARKET RELATED POLICIES', 'PRODUCT AND SERVICES', 'MARKETING', 'STAKEHOLDER ENGAGEMENT'];
     static $number = 0;
     return [
         'name' => $key[$number],//$faker->word,

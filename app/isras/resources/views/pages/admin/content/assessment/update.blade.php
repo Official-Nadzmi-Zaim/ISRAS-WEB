@@ -43,28 +43,28 @@
                         <div class="form-group">
                         <!-- todo - letaka default value utk setiap dropdown -->
                             <b>Question Type</b>
-                            {{Form::select('assessment_question_type', $formData['question_type'], null, ['class'=>'form-control', 'required' => 'required'])}}
+                            {{Form::select('assessment_question_type', $formData['question_type'], $formData['selected_question_type'], ['class'=>'form-control', 'required' => 'required'])}}
                             <div class="invalid-feedback">
                                 Valid assessment question type is required.
                             </div>
                         </div>
                         <div class="form-group">
                             <b>Question Category</b>
-                            {{Form::select('assessment_question_category', $formData['question_category'], null, ['class'=>'form-control', 'required' => 'required'])}}
+                            {{Form::select('assessment_question_category', $formData['question_category'], $formData['selected_question_category'], ['class'=>'form-control', 'required' => 'required'])}}
                             <div class="invalid-feedback">
                                 Valid assessment question category is required.
                             </div>
                         </div>
                         <div class="form-group">
                             <b>Question Key Area</b>
-                            {{Form::select('assessment_question_key_area', $formData['question_key_area'], null, ['class'=>'form-control', 'required' => 'required'])}}
+                            {{Form::select('assessment_question_key_area', $formData['question_key_area'], $formData['selected_question_key_area'], ['class'=>'form-control', 'required' => 'required'])}}
                             <div class="invalid-feedback">
                                 Valid assessment question key area is required.
                             </div>
                         </div>
                         <div class="form-group">
                             <b>Question Title</b>
-                            {{Form::select('assessment_question_title', $formData['question_title'], null, ['class'=>'form-control', 'required' => 'required'])}}
+                            {{Form::select('assessment_question_title', $formData['question_title'], $formData['selected_question_title'], ['class'=>'form-control', 'required' => 'required'])}}
                             <div class="invalid-feedback">
                                 Valid assessment question title is required.
                             </div>

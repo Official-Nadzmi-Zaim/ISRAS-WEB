@@ -62,6 +62,9 @@
                         </div>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href={!! url('/admin/registration') !!}>Registration</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href={!! url('/logout') !!}>Logout</a>
                     </li>
                 @endif

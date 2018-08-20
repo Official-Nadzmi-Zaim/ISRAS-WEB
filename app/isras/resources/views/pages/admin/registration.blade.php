@@ -31,7 +31,7 @@
                     <div class="card">
                         <div class="card-container">
                             <h5><b>User Description</b></h5> 
-                            {{Form::text('staff_id', '', ['class'=>'form-control', 'placeholder'=>'Staff Id', 'required' => 'required'])}}
+                            {{Form::text('admin_staff_id', '', ['class'=>'form-control', 'placeholder'=>'Staff Id', 'required' => 'required'])}}
                             <div class="invalid-feedback">
                                 Valid staff id is required.
                             </div>
@@ -46,10 +46,16 @@
                                 Valid email is required.
                             </div>
                             <br>
+                            {{Form::password('admin_password', ['class'=>'form-control', 'placeholder'=>'Password', 'required' => 'required'])}}
+                            <div class="invalid-feedback">
+                                Valid password is required.
+                            </div>
+                            <br>
                             <div class="row">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-4">
                                     <div class="form-group">
+                                        {{Form::hidden('user_type', 'admin')}}
                                         {{Form::submit('Register', ['class'=>'btn btn-primary btn-lg form-control'])}}
                                     </div>
                                 </div>

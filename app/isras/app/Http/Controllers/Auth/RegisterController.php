@@ -25,27 +25,33 @@ class RegisterController extends Controller
     }
 
     public function adminRegisterForm() {
-        return view('pages.admin.registration');
+        return view('pages.admin.registration')
+            ->with([
+                'userType' => 1
+            ]);
     }
 
     public function userRegisterForm() {
         return view('pages.registration');
     }
 
-    public function register(Request $request) {
-        if($request['user_type'] == 1) { // admin
+    public function register(Request $request) { // ada masalah dkt admin registration
+        if($request['user_type'] == 'admin') { // admin
             $lookupEntityType = LookupEntityType::all()->where('name', 'admin')->first();
-            $newEntity = Entity::create([
-                'entity_type' => $lookupEntityType->id,
-                'email' => $request['email'],
-                'password' => bcrypt($request['password']),
-                'active' => true
-            ]);
-            $newAdmin = Admin::create([
-                'name' => $request['name'],
-                'email' => $request['email'],
-                'password' => bcrypt($request['password']),
-            ]);
+            
+            $newEntity = new Entity();
+            $newEntity->entity_type = $lookupEntityType->id;
+            $newEntity->email = $request['admin_email'];
+            $newEntity->password = bcrypt($request['admin_password']);
+            $newEntity->active = true;
+            $newEntity->save();
+
+            $newAdmin = new Admin();
+            $newAdmin->entity_id = $newEntity->id;
+            $newAdmin->admin_id = Auth::id();
+            $newAdmin->staff_id = $request['admin_staff_id'];
+            $newAdmin->name = $request['admin_name'];
+            $newAdmin->save();
         } else { // user
             $lookupEntityType = LookupEntityType::all()->where('name', 'user')->first();
 

@@ -542,10 +542,13 @@ class AssessmentController extends Controller
         $questionTitleLookup = LookupAssessmentTitle::all();
         $assessmentQuestion = AssessmentQuestion::find($questionId);
 
+        // get all lookup
         $questionType = null;
         $questionCategory = null;
         $questionKeyArea = null;
         $questionTitle = null;
+        foreach($questionTypeLookup as $type)
+            $questionType[$type['id']] = $type['name'];
         foreach($questionCategoryLookup as $category)
             $questionCategory[$category['id']] = $category['name'];
         foreach($questionKeyAreaLookup as $keyArea)
@@ -556,7 +559,7 @@ class AssessmentController extends Controller
         return view('pages.admin.content.assessment.update')
             ->with([
                 'userType' => 1,
-                'questionData' => [ // todo - letak data asal dkt sini
+                'questionData' => [
                     'question_id' => $assessmentQuestion['id'],
                     'question_statement' => $assessmentQuestion['statement'],
                     'question_type' => $questionType,
@@ -570,7 +573,11 @@ class AssessmentController extends Controller
                     'question_type' => $questionType,
                     'question_category' => $questionCategory,
                     'question_key_area' => $questionKeyArea,
-                    'question_title' => $questionTitle
+                    'question_title' => $questionTitle,
+                    'selected_question_type' => $assessmentQuestion['type'],
+                    'selected_question_category' => $assessmentQuestion['category'],
+                    'selected_question_key_area' => $assessmentQuestion['key_area'],
+                    'selected_question_title' => $assessmentQuestion['title']
                 ]
             ]);
     }

@@ -65,9 +65,8 @@ Route::prefix('admin')->group(function() {
     Route::post('/feedback/add', 'FeedbackController@verifyNewContent');
     Route::post('/feedback/update', 'FeedbackController@verifyUpdatedContent');
     Route::post('/feedback/delete', 'FeedbackController@deleteContent');
-
     // registration
-    Route::get('/register', 'Auth\RegisterController@adminRegisterForm');
+    Route::get('/registration', 'Auth\RegisterController@adminRegisterForm');
     Route::post('/register', 'Auth\RegisterController@register');
 });
 

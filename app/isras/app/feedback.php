@@ -53,7 +53,7 @@ class Feedback extends Model
             $score = $request["feedback_answer_".($i+1)];
 
             $this->saveFeedback([
-                        'user_id' => 1,
+                        'user_id' => 1, // get user id from real user later
                         'feedback_question_id' => $i+1,
                         'score' => $score
                     ]);

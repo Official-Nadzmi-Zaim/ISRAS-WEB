@@ -16,6 +16,7 @@ use App\LookupAssessmentTitle;
 use App\LookupAssessmentType;
 use App\Admin;
 use App\AdminAssessmentQuestion;
+use App\User;
 use App\Charts\ResultChart;
 use DB;
 use PDF;
@@ -26,68 +27,94 @@ use Khill\Lavacharts\Lavacharts;
 
 class AssessmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->AssessmentModel = new Assessment;
+    }
+
     public function loadAssessmentQuestion($id, Request $request)
     {
-        // Session::forget('arr_rdo_1');
-        // Session::forget('arr_rdo_2');
-        // Session::forget('arr_rdo_3');
-        // Session::forget('arr_rdo_4');
         $choice = 0; //Previous
         $arr_rdo_next = array();
         $arr_rdo_previous = array();
+        $isValid = true;
+        $isError = 0;
         if ($request["curr_id"] !== null)
            $choice = 1; //Next
         
         if ($choice == 1)
         {
-            $num = $request["num"];
-            for ($x = 1; $x<$num; $x++)
+            if (!$this->AssessmentModel->setArr_Rdo($id-1, $request))
             {
-                //echo Input::get("radio_$x");
-                $arr_rdo_next["$x"] = $request["radio_$x"];
+                $id -= 1; //Minus one for false
+                $arr_rdo_previous = $this->AssessmentModel->loadFromCache($id);
+                $choice = 0;
+                $isValid = false;
             }
-            switch ($id-1)
+            else
             {
-                case 1 :
-                    Session::forget('arr_rdo_1');
-                    Session::put('arr_rdo_1', $arr_rdo_next);
-                    $arr_rdo_next = Session::get('arr_rdo_2');
-                    break;
-                case 2 :
-                    Session::forget('arr_rdo_2');
-                    Session::put('arr_rdo_2', $arr_rdo_next);
-                    $arr_rdo_next = Session::get('arr_rdo_3');
-                    break;
-                case 3 :
-                    Session::forget('arr_rdo_3');
-                    Session::put('arr_rdo_3', $arr_rdo_next);
-                    $arr_rdo_next = Session::get('arr_rdo_4');
-                    break;
-                case 4 :
-                    Session::forget('arr_rdo_4');
-                    Session::put('arr_rdo_4', $arr_rdo_next);
-                    break;
+                $arr_rdo_next = $this->AssessmentModel->loadFromCache($id);
             }
         }
         else
         {
-            switch ($id)
-            {
-                case 1 :
-                    $arr_rdo_previous = Session::get('arr_rdo_1');
-                    break;
-                case 2 :
-                    $arr_rdo_previous = Session::get('arr_rdo_2');
-                    break;
-                case 3 :
-                    $arr_rdo_previous = Session::get('arr_rdo_3');
-                    break;
-                case 4 :
-                    $arr_rdo_previous = Session::get('arr_rdo_4');
-                    break;
-            }
+            $arr_rdo_previous = $this->AssessmentModel->loadFromCache($id);
+            if (!empty($arr_rdo_previous))
+                $isError = $this->AssessmentModel->getArrayStatus($arr_rdo_previous);
         }
+        //print_r($this->AssessmentModel->getArr_Rdo_1());
+        //$this->AssessmentModel->setArr_Rdo_1($request);
+        // if ($choice == 1)
+        // {
+        //     $num = $request["num"];
+        //     for ($x = 1; $x<$num; $x++)
+        //     {
+        //         //echo Input::get("radio_$x");
+        //         $arr_rdo_next["$x"] = $request["radio_$x"];
+        //     }
+        //     switch ($id-1)
+        //     {
+        //         case 1 :
+        //             Session::forget('arr_rdo_1');
+        //             Session::put('arr_rdo_1', $arr_rdo_next);
+        //             $arr_rdo_next = Session::get('arr_rdo_2');
+        //             break;
+        //         case 2 :
+        //             Session::forget('arr_rdo_2');
+        //             Session::put('arr_rdo_2', $arr_rdo_next);
+        //             $arr_rdo_next = Session::get('arr_rdo_3');
+        //             break;
+        //         case 3 :
+        //             Session::forget('arr_rdo_3');
+        //             Session::put('arr_rdo_3', $arr_rdo_next);
+        //             $arr_rdo_next = Session::get('arr_rdo_4');
+        //             break;
+        //         case 4 :
+        //             Session::forget('arr_rdo_4');
+        //             Session::put('arr_rdo_4', $arr_rdo_next);
+        //             break;
+        //     }
+        // }
+        // else
+        // {
+        //     switch ($id)
+        //     {
+        //         case 1 :
+        //             $arr_rdo_previous = Session::get('arr_rdo_1');
+        //             break;
+        //         case 2 :
+        //             $arr_rdo_previous = Session::get('arr_rdo_2');
+        //             break;
+        //         case 3 :
+        //             $arr_rdo_previous = Session::get('arr_rdo_3');
+        //             break;
+        //         case 4 :
+        //             $arr_rdo_previous = Session::get('arr_rdo_4');
+        //             break;
+        //     }
+        // }
 
+        //Area questions
         $arr_assessment_questions = AssessmentQuestion::where('category', $id)->get();
         $arr_key_area = array();
         $arr_questions = array();
@@ -152,13 +179,18 @@ class AssessmentController extends Controller
             'arr_title' => $arr_title,
             'category' => $category,
             'id' => $id,
+            'isError' => $isError,
             'arr_questions' => $arr_questions,
             'arr_questions_count' => $arr_questions_count,
             'arr_rdo_next' => $arr_rdo_next,
             'arr_rdo_previous' => $arr_rdo_previous,
             'choice' => $choice
         ];
-        return view('pages.assessmentpage')->with($data);
+
+        if (!$isValid)
+            return redirect('/user/assessment/page_'.$id);
+        else
+            return view('pages.assessmentpage')->with($data);
     }
 
     public function verifyAssessment(Request $request)
@@ -178,124 +210,128 @@ class AssessmentController extends Controller
         }
         
         //Variable declaration
-        $score_isras = 0;
-        $score_vital = 0;
-        $score_recommended = 0;
-        $score_community = 0;
-        $score_workplace = 0;
-        $score_environmental = 0;
-        $score_marketplace = 0;
+        //$Assessment = new Assessment();
+        $this->AssessmentModel->calculateAssessment();
 
-        $total_community = 0;
-        $total_workplace = 0;
-        $total_environmental = 0;
-        $total_marketplace = 0;
+        // $score_isras = 0;
+        // $score_vital = 0;
+        // $score_recommended = 0;
+        // $score_community = 0;
+        // $score_workplace = 0;
+        // $score_environmental = 0;
+        // $score_marketplace = 0;
 
-        $level_isras = "";
-        $level_vital = "";
-        $level_recommended = "";
+        // $total_community = 0;
+        // $total_workplace = 0;
+        // $total_environmental = 0;
+        // $total_marketplace = 0;
 
-        $total_category = LookupAssessmentCategory::all()->count();
-        $question_id = 1;
-        for ($i=1; $i<=$total_category; $i++)
-        {
-            $arr_rdo = Session::get("arr_rdo_$i");
-            echo "<br>";
-            if (!empty($arr_rdo))
-            {
-                foreach ($arr_rdo as $answer)
-                {
-                    $question_type = AssessmentQuestion::find($question_id)->type;
-                    $question_category = AssessmentQuestion::find($question_id)->category;
+        // $level_isras = "";
+        // $level_vital = "";
+        // $level_recommended = "";
 
-                    //This is to calculate total score for each category
-                    if ($question_category == 1)
-                    {
-                        if ($question_type == 1)
-                            $total_community += 3;
-                        else
-                            $total_community += 1;
-                    }
-                    else if ($question_category == 2)
-                    {
-                        if ($question_type == 1)
-                            $total_workplace += 3;
-                        else
-                            $total_workplace += 1;
-                    }
-                    else if ($question_category == 3)
-                    {
-                        if ($question_type == 1)
-                            $total_environmental += 3;
-                        else
-                            $total_environmental += 1; 
-                    }
-                    else
-                    {
-                        if ($question_type == 1)
-                            $total_marketplace += 3;
-                        else
-                            $total_marketplace += 1;
-                    }
+        // $total_category = LookupAssessmentCategory::all()->count();
+        // $question_id = 1;
+        // for ($i=1; $i<=$total_category; $i++)
+        // {
+        //     $arr_rdo = Session::get("arr_rdo_$i");
+        //     echo "<br>";
+        //     if (!empty($arr_rdo))
+        //     {
+        //         foreach ($arr_rdo as $answer)
+        //         {
+        //             $question_type = AssessmentQuestion::find($question_id)->type;
+        //             $question_category = AssessmentQuestion::find($question_id)->category;
 
-                    if ($answer != null)
-                    {
-                        if ($question_type == 1) //Vital
-                        {
+        //             //This is to calculate total score for each category
+        //             if ($question_category == 1)
+        //             {
+        //                 if ($question_type == 1)
+        //                     $total_community += 3;
+        //                 else
+        //                     $total_community += 1;
+        //             }
+        //             else if ($question_category == 2)
+        //             {
+        //                 if ($question_type == 1)
+        //                     $total_workplace += 3;
+        //                 else
+        //                     $total_workplace += 1;
+        //             }
+        //             else if ($question_category == 3)
+        //             {
+        //                 if ($question_type == 1)
+        //                     $total_environmental += 3;
+        //                 else
+        //                     $total_environmental += 1; 
+        //             }
+        //             else
+        //             {
+        //                 if ($question_type == 1)
+        //                     $total_marketplace += 3;
+        //                 else
+        //                     $total_marketplace += 1;
+        //             }
 
-                            if ($answer == 1) 
-                            {
-                                $score_vital += 3;
+        //             if ($answer != null)
+        //             {
+        //                 if ($question_type == 1) //Vital
+        //                 {
 
-                                if ($question_category == 1)
-                                    $score_community += 3;
-                                else if ($question_category == 2)
-                                    $score_workplace += 3;
-                                else if ($question_category == 3)
-                                    $score_environmental += 3;
-                                else
-                                    $score_marketplace += 3;
-                            }
-                        }
-                        else //Recommended
-                        {
+        //                     if ($answer == 1) 
+        //                     {
+        //                         $score_vital += 3;
 
-                            if ($answer == 1)
-                            {
-                                $score_recommended += 1;
+        //                         if ($question_category == 1)
+        //                             $score_community += 3;
+        //                         else if ($question_category == 2)
+        //                             $score_workplace += 3;
+        //                         else if ($question_category == 3)
+        //                             $score_environmental += 3;
+        //                         else
+        //                             $score_marketplace += 3;
+        //                     }
+        //                 }
+        //                 else //Recommended
+        //                 {
 
-                                if ($question_category == 1)
-                                    $score_community += 1;
-                                else if ($question_category == 2)
-                                    $score_workplace += 1;
-                                else if ($question_category == 3)
-                                    $score_environmental += 1;
-                                else
-                                    $score_marketplace += 1;
-                            }
-                        }
+        //                     if ($answer == 1)
+        //                     {
+        //                         $score_recommended += 1;
 
-                    }
+        //                         if ($question_category == 1)
+        //                             $score_community += 1;
+        //                         else if ($question_category == 2)
+        //                             $score_workplace += 1;
+        //                         else if ($question_category == 3)
+        //                             $score_environmental += 1;
+        //                         else
+        //                             $score_marketplace += 1;
+        //                     }
+        //                 }
 
-                    $question_id++;
-                }
-            }
-        }
+        //             }
 
-        $score_isras = $score_vital + $score_recommended;
+        //             $question_id++;
+        //         }
+        //     }
+        // }
+
+        //$score_isras = $score_vital + $score_recommended;
         $data = [
             'userType' => 2,
-            'score_isras'  => $score_isras,
-            'score_vital'   => $score_vital,
-            'score_recommended' => $score_recommended,
-            'score_community' => $score_community,
-            'score_workplace' => $score_workplace,
-            'score_environmental' => $score_environmental,
-            'score_marketplace' => $score_marketplace,
-            'total_community' => $total_community,
-            'total_workplace' => $total_workplace,
-            'total_environmental' => $total_environmental,
-            'total_marketplace' => $total_marketplace
+            'score_isras'  => $this->AssessmentModel->getIsrasScore(),
+            // 'score_vital'   => $score_vital,
+            // 'score_recommended' => $score_recommended,
+            // 'score_community' => $score_community,
+            // 'score_workplace' => $score_workplace,
+            // 'score_environmental' => $score_environmental,
+            // 'score_marketplace' => $score_marketplace,
+            // 'total_community' => $total_community,
+            // 'total_workplace' => $total_workplace,
+            // 'total_environmental' => $total_environmental,
+            // 'total_marketplace' => $total_marketplace,
+            'Assessment' => $this->AssessmentModel,
         ];
 
         return view('pages.assessmentresult')->with($data);
@@ -315,14 +351,16 @@ class AssessmentController extends Controller
     {
         $statement = DB::select("SHOW TABLE STATUS LIKE 'assessment_results'");
         $nextId = $statement[0]->Auto_increment;
-        //echo $nextId;
+
+        $entity = Auth::user();
+        $userId = User::all()->where('entity_id', Auth::id())->first()->id;
 
         $total_category = LookupAssessmentCategory::all()->count();
         $question_id = 1;
         for ($i=1; $i<=$total_category; $i++)
         {
             $arr_rdo = Session::get("arr_rdo_$i");
-            echo "<br>";
+            // echo "<br>";
             if (!empty($arr_rdo))
             {
                 foreach ($arr_rdo as $answer)
@@ -331,7 +369,7 @@ class AssessmentController extends Controller
                     {
                         //Save the answer
                         $this->saveAssessment([
-                            'user_id' => 1,
+                            'user_id' => $userId,
                             'assessment_question_id' => $question_id,
                             'assessment_result_id' => $nextId,
                             'answer' => $answer
@@ -340,7 +378,7 @@ class AssessmentController extends Controller
                     else
                     {
                         $this->saveAssessment([
-                            'user_id' => 1,
+                            'user_id' => $userId,
                             'assessment_question_id' => $question_id,
                             'assessment_result_id' => $nextId,
                             'answer' => 0

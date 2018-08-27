@@ -72,6 +72,7 @@
                 <h6><b>{{ "KEY AREA ".($i+1)." : ".$arr_key_area[$i] }}</b></h6><!-- Key area title -->
                 <br>
                 <!-- Dynamic for question title -->
+                <div class="form-group">
                 @for ($j=0; $j<sizeof($arr_title[$i]); $j++)
                 <p><i>{{$arr_title[$i][$j]}}</i></p>
                 <table border="1" cellpadding="5" class="assessment-question-tbl">
@@ -131,6 +132,7 @@
                 <br>
                 @php $q_count++ @endphp
                 @endfor
+                </div>
             </div>
         </div>
         <br>
@@ -148,5 +150,24 @@
         </div>
         {{ Form::close() }}
     </div>
+    <button id='btn-modal' style="visibility: hidden" data-toggle="modal" data-target="#myModal">Launch</button>
+    <!-- MODAL -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Attention</h5>
+                    <button class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    Please answer all the questions before you proceed to next page. Thank you.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <hr class="featurette-divider">
+
 @endsection

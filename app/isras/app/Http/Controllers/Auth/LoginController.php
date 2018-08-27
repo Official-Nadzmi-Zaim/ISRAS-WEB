@@ -64,7 +64,7 @@ class LoginController extends Controller
             'password' => $request['password']
         ];
 
-        if(Auth::attempt($credential)) {
+        if(Auth::guard('entities')->attempt($credential)) {
             $entity = Auth::user();
             
             return view('pages.home')

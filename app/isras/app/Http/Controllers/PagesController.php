@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\LibraryContent;
+use App\Assessment;
 
 class PagesController extends Controller
 {
@@ -83,6 +84,8 @@ class PagesController extends Controller
 
     public function assessmentStart()
     {
+        $assessment = new Assessment;
+        $assessment->clearAllCache();
         return view('pages.assessmentstart');
     }
 

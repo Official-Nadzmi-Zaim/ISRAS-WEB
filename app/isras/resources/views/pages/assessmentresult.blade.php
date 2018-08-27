@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-<style>
+{{-- <style>
   .card {
     /* Add shadows to create the "card" effect */
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -38,69 +38,70 @@
       text-align: center;
   }
 
-</style>
+</style> --}}
 @section('content')
     <div class="container marketing">
         <center><h2 class="featurette-heading" style="margin-top: 20px;">I-SRAS Assessment Score Report</h2></center>
         <br><br>
         {!! Form::open(['url' => '/user/assessment', 'method'=>'POST']) !!}
-        <div>
-            <table class="table-score" border="2">
-                <thead>
-                    <tr>
-                        <th style="text-align:left; ">CATEGORY</th>
-                        <th>SCORE</th>
-                        <th>FULL SCORE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="text-align:left; font-weight: bold;"><a href=''>COMMUNITY</a></td>
-                        <td>{{ $score_community }}</td>
-                        <td>{{ $total_community }}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left; font-weight: bold;"><a href=''>WORKPLACE</a></td>
-                        <td>{{ $score_workplace }}</td>
-                        <td>{{ $total_workplace }}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left; font-weight: bold;"><a href=''>ENVIRONMENTAL</a></td>
-                        <td>{{ $score_environmental }}</td>
-                        <td>{{ $total_environmental }}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:left; font-weight: bold;"><a href=''>MARKETPLACE</a></td>
-                        <td>{{ $score_marketplace }}</td>
-                        <td>{{ $total_marketplace }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+
+        <center>
+        <table class="table table-hover" style="width: 50%;">
+            <thead class="thead-dark">
+                <tr>
+                    <th>CATEGORY</th>
+                    <th class="text-center">SCORE</th>
+                    <th class="text-center">FULL SCORE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>COMMUNITY</b></td>
+                    <td class="text-center">{{$Assessment->getCommunityScore()}}</td>
+                    <td class="text-center">{{$Assessment->getCommunityFullScore()}}</td>
+                </tr>
+                <tr>
+                    <td><b>WORKPLACE</b></td>
+                    <td class="text-center">{{$Assessment->getWorkplaceScore()}}</td>
+                    <td class="text-center">{{$Assessment->getWorkplaceFullScore()}}</td>
+                </tr>
+                <tr>
+                    <td><b>ENVIRONMENTAL</b></td>
+                    <td class="text-center">{{$Assessment->getEnvironmentalScore()}}</td>
+                    <td class="text-center">{{$Assessment->getEnvironmentalFullScore()}}</td>
+                </tr>
+                <tr>
+                    <td><b>MARKETPLACE</b></td>
+                    <td class="text-center">{{$Assessment->getMarketplaceScore()}}</td>
+                    <td class="text-center">{{$Assessment->getMarketplaceFullScore()}}</td>
+                </tr>
+            </tbody>
+        </table>
+        </center>
         <br><br>
-        <div class="card">
-            <div class="card-container">
-                <table class="table-result">
-                    <tr>
-                        <td style="font-size: 16pt; font-weight: bold; text-align: left;">I-SRAS Score</td>
-                        <td>{{ $score_isras }}</td>
-                        <input type="hidden" name="score_isras" value="<?php echo $score_isras;?>" />
-                        <td style="color: green; font-weight: bold;">HIGH</td>
-                    </tr>
-                    <tr>
-                        <td style="font-size: 16pt; font-weight: bold; text-align: left;">Vital Score</td>
-                        <td>{{ $score_vital }}</td>
-                        <td style="color: green; font-weight: bold;">HIGH</td>
-                    </tr>
-                    <tr>
-                        <td style="font-size: 16pt; font-weight: bold; text-align: left;">Recommended Score</td>
-                        <td>{{ $score_recommended }}</td>
-                        <td style="color: green; font-weight: bold;">HIGH</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+        <center>
+        <table class="table table-dark" style="width: 50%;">
+            <tbody>
+                <tr>
+                    <td><b>I-SRAS Score</b></td>
+                    <td class="text-center">{{$Assessment->getIsrasScore()}}</td>
+                    <td class="text-center">{!!$Assessment->getIsrasLevel()!!}</td>
+                </tr>
+                <tr>
+                    <td><b>Vital Score</b></td>
+                    <td class="text-center">{{$Assessment->getVitalScore()}}</td>
+                    <td class="text-center">{!!$Assessment->getVitalLevel()!!}</td>
+                </tr>
+                <tr>
+                    <td><b>Recommended Score</b></td>
+                    <td class="text-center">{{$Assessment->getRecommendedScore()}}</td>
+                    <td class="text-center">{!!$Assessment->getRecommendedLevel()!!}</td>
+                </tr>
+            </tbody>
+        </table>
+        </center>
         <br><br>
+        <input type="hidden" name="score_isras" value="<?php echo $score_isras;?>" />
         {{-- <a href='user/assessment' class='btn btn-lg btn-primary btn-block' style="width: 50%">Finish</a> --}}
         <center>{{Form::submit('Finish', ['class'=>'btn btn-primary btn-lg', 'style'=>'width:50%'])}}</center>
     </div>

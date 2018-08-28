@@ -14,11 +14,11 @@ class FeedbackController extends Controller
     public function loadFeedbackQuestion()
     {
         $feedback = new Feedback();
+        $feedbackQuestion = new FeedbackQuestion;
 
-        $arr_feedback = $feedback->loadFeedbackQuestions();
+        $arr_feedback = $feedbackQuestion->getFeedbackQuestions();
 
         $data = [
-            'result' => 0,
             'userType' => 2,
             'arr_feedback' => $arr_feedback
         ];
@@ -29,7 +29,29 @@ class FeedbackController extends Controller
     public function verifyFeedback(Request $request)
     {
         $feedback = new Feedback();
+        $feedbackQuestion = new FeedbackQuestion;
+        $arr_feedback = $feedbackQuestion->getFeedbackQuestions();
 
+        if ($feedback->verifyFeedback($request))
+        {
+            $data = [
+                'userType' => 2,
+                'arr_feedback' => $arr_feedback
+            ];
+        }
+        else
+        {
+            $arr_answer = $feedback->getArrayFeedback();
+         
+            $data = [
+                'isError' => 1,
+                'userType' => 2,
+                'arr_feedback' => $arr_feedback,
+                'arr_answer' => $arr_answer
+            ];
+        }
+        return view('pages.feedback')->with($data);
+        /*
         if (!$feedback->verifyFeedback($request))
         {
             //return $this->loadFeedbackQuestion();
@@ -56,8 +78,7 @@ class FeedbackController extends Controller
             ];
 
             return view('pages.feedback')->with($data);
-            //return $this->loadFeedbackQuestion();
-        }
+        }*/
     }
 
     public function adminFeedbackIndex() {

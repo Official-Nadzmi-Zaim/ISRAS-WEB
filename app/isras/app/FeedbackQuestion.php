@@ -12,4 +12,14 @@ class FeedbackQuestion extends Model
     // has
     public function feedback() { return $this->hasMany('App\Feedback'); }
     public function admin_feedback_question() { return $this->hasMany('App\AdminFeedbackQuestion'); }
+
+    public function getFeedbackQuestions()
+    {
+        return FeedbackQuestion::all();
+    }
+
+    public function getFeedbackQuestionsCount()
+    {
+        return FeedbackQuestion::all()->count();
+    }
 }

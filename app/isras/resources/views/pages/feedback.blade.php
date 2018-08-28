@@ -1,52 +1,90 @@
 @extends('layouts.app')
 
 @section('content')
-    @if ($result == 1)
-        <script>alert("Please complete all the feedback questions");</script>
-    @elseif ($result == 2)
-        <script>alert("You have submit your feedback response. Thank you");</script>
-    @endif
-    <div class="container marketing">
-        <h2 class="featurette-heading" style="margin-top: 20px;">Feedback List</h2>
-        <br>
-        <!-- START THE FEATURETTES -->
-
-        {{--  <div class="custom-content">  --}}
-        {!! Form::open(['url' => '/user/feedback', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate', 'onsubmit'=>'confirm("Are you sure?")']) !!}
-        <table class="feedback-tbl">
+<div class="container marketing">
+    <h2 class="featurette-heading" style="margin-top: 20px;">Feedback</h2>
+    <br>
+    <!-- START THE FEATURETTES -->
+    {!! Form::open(['url' => '/user/feedback', 'method'=>'POST']) !!}
+    <table class="table table-bordered">
+        <thead class="thead-dark">
             <tr>
-                <th style="text-align: center">No</th>
-                <th>Question</th>
-                <th colspan="5" style="text-align: center">Answer</th>
+                <td style="width: 5%" class="text-center">No</td>
+                <td style="width: 45%">Questions</td>
+                <td style="width: 45%" class="text-center" colspan="5">Answer</td>
             </tr>
+        </thead>
+        <tbody>
             <tr>
-                <td style="background-color: #e4e5e9;"></td>
-                <td style="background-color: #e4e5e9;"></td>
-                <td class="feedback-tbl-answer">Strongly Disagree</td>
-                <td class="feedback-tbl-answer">Disagree</td>
-                <td class="feedback-tbl-answer">Neutral</td>
-                <td class="feedback-tbl-answer">Agree</td>
-                <td class="feedback-tbl-answer">Strongly Agree</td>
+                <td></td>
+                <td></td>
+                <td style="width : 10%" class="text-center align-middle">Strongly Disagree</td>
+                <td style="width : 10%" class="text-center align-middle">Disagree</td>
+                <td style="width : 10%" class="text-center align-middle">Neutral</td>
+                <td style="width : 10%" class="text-center align-middle">Agree</td>
+                <td style="width : 10%" class="text-center align-middle">Strongly Agree</td>
             </tr>
+            <!-- Load Feedback Questions Here -->
             @for ($i=0; $i<sizeof($arr_feedback); $i++)
             <tr>
-                <td style="text-align: center">{{$i+1}}</td>
+                <td class="text-center">{{$i+1}}</td>
                 <td>{{$arr_feedback[$i]->description}}</td>
-                <td style="text-align: center"><input type="radio" name="feedback_answer_{{$i+1}}" value="1"></td>
-                <td style="text-align: center"><input type="radio" name="feedback_answer_{{$i+1}}" value="2"></td>
-                <td style="text-align: center"><input type="radio" name="feedback_answer_{{$i+1}}" value="3"></td>
-                <td style="text-align: center"><input type="radio" name="feedback_answer_{{$i+1}}" value="4"></td>
-                <td style="text-align: center"><input type="radio" name="feedback_answer_{{$i+1}}" value="5"></td>
+                @if (isset($arr_answer))
+                    <td class="text-center"><input type="radio" name="feedback_answer_{{$i+1}}" value="1" <?php echo ($arr_answer[$i]==1)?'checked':'' ?>></td>
+                    <td class="text-center"><input type="radio" name="feedback_answer_{{$i+1}}" value="2" <?php echo ($arr_answer[$i]==2)?'checked':'' ?>></td>
+                    <td class="text-center"><input type="radio" name="feedback_answer_{{$i+1}}" value="3" <?php echo ($arr_answer[$i]==3)?'checked':'' ?>></td>
+                    <td class="text-center"><input type="radio" name="feedback_answer_{{$i+1}}" value="4" <?php echo ($arr_answer[$i]==4)?'checked':'' ?>></td>
+                    <td class="text-center"><input type="radio" name="feedback_answer_{{$i+1}}" value="5" <?php echo ($arr_answer[$i]==5)?'checked':'' ?>></td>
+                @else
+                    <td class="text-center"><input type="radio" name="feedback_answer_{{$i+1}}" value="1"></td>
+                    <td class="text-center"><input type="radio" name="feedback_answer_{{$i+1}}" value="2"></td>
+                    <td class="text-center"><input type="radio" name="feedback_answer_{{$i+1}}" value="3"></td>
+                    <td class="text-center"><input type="radio" name="feedback_answer_{{$i+1}}" value="4"></td>
+                    <td class="text-center"><input type="radio" name="feedback_answer_{{$i+1}}" value="5"></td>
+                @endif
             </tr>
             @endfor
-        </table>
-        {{--  </div>  --}}
-        <br><br>
-        <input type="hidden" name="no" value="<?php echo sizeof($arr_feedback);?>" />
-        {{-- <button class="btn btn-lg btn-primary" type="submit">Back</button>&nbsp;&nbsp;&nbsp; --}}
-        <button class="btn btn-lg btn-primary" type="submit">Submit Feedback</button>
-        {{ Form::close() }}
-        <hr class="featurette-divider">
-        <!-- /END THE FEATURETTES -->
+        </tbody>
+    </table>
+    <br>
+    <button class="btn btn-lg btn-primary" type="button" data-toggle="modal" data-target="#myFeedbackModal">Submit Feedback</button>
+    <button type="submit" style="visibility: hidden">Submit</button>
+    <!-- MODAL -->
+    <div class="modal" id="myFeedbackModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{-- <div class="modal-header">
+                    <h5 class="modal-title">Attention</h5>
+                    <button class="close" data-dismiss="modal">&times;</button>
+                </div> --}}
+                <div class="modal-body">
+                    Confirm to submit your feedback?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" data-dismiss="modal" onclick="javascript:submit();">Confirm</button>
+                </div>
+            </div>
+        </div>
     </div>
+    {{ Form::close() }}
+    <br>
+    <!-- MODAL -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Attention</h5>
+                    <button class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    Please complete all the feedback questions before submitting. Thank you
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

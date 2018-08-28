@@ -52,7 +52,9 @@ class Feedback extends Model
     public function storeFeedbackAnswer(Request $request)
     {
         //Get the data
-        $size = $request["no"];
+        $feedbackQuestion = new FeedbackQuestion;
+
+        $size = $feedbackQuestion->getFeedbackQuestionsCount();//$request["no"];
         $userId = User::all()->where('entity_id', Auth::id())->first()->id;
 
         //Save the data
@@ -61,10 +63,10 @@ class Feedback extends Model
             $score = $request["feedback_answer_".($i+1)];
 
             $this->saveFeedback([
-                        'user_id' => $userId, // get user id from real user later
-                        'feedback_question_id' => $i+1,
-                        'score' => $score
-                    ]);
+                    'user_id' => $userId, // get user id from real user later
+                    'feedback_question_id' => $i+1,
+                    'score' => $score
+                ]);
         }
     }
 

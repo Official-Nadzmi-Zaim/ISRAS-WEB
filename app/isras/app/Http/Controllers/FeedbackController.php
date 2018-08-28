@@ -34,6 +34,8 @@ class FeedbackController extends Controller
 
         if ($feedback->verifyFeedback($request))
         {
+            $feedback->storeFeedbackAnswer($request);
+            
             $data = [
                 'userType' => 2,
                 'arr_feedback' => $arr_feedback

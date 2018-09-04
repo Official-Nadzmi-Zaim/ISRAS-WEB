@@ -255,22 +255,6 @@ $factory->define(App\AssessmentQuestion::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\AssessmentResult::class, function (Faker $faker) {
-    return [
-        'result' => $faker->numberBetween($min = 1, $max = 100),
-    ];
-});
-
-$factory->define(App\Assessment::class, function (Faker $faker) {
-    // static $number = 1;
-    // return [
-    //     'user_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
-    //     'assessment_question_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
-    //     'assessment_result_id' => $number++,//$faker->unique()->numberBetween($min = 1, $max = 9000),
-    //     'score' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 100),
-    // ];
-});
-
 $factory->define(App\BlogContent::class, function (Faker $faker) {
     return [
         'title' => $faker->name,
@@ -288,15 +272,6 @@ $factory->define(App\Company::class, function (Faker $faker) {
 $factory->define(App\FeedbackQuestion::class, function (Faker $faker) {
     return [
         'description' => $faker->sentence($nbWords = 6, $variableNbWords = true),
-    ];
-});
-
-$factory->define(App\Feedback::class, function (Faker $faker) {
-    static $number = 1;
-    return [
-        'user_id' => $number,//$faker->unique()->numberBetween($min = 1, $max = 9000),
-        'feedback_question_id' => $number++,//$faker->unique()->numberBetween($min = 1, $max = 9000),
-        'score' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 100),
     ];
 });
 

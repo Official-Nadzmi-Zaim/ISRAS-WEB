@@ -20,10 +20,7 @@ class DatabaseSeeder extends Seeder
         factory(App\AdminAssessmentQuestion::class, 10)->create();
         factory(App\AdminLibraryContent::class, 10)->create();
         factory(App\AssessmentQuestion::class, 114)->create();
-        factory(App\AssessmentResult::class, 10)->create();
-        // factory(App\Assessment::class, 10)->create();
         factory(App\FeedbackQuestion::class, 10)->create();
-        factory(App\Feedback::class, 10)->create();
         factory(App\LibraryContent::class, 10)->create();
         factory(App\LookupAssessmentCategory::class, 4)->create();
         factory(App\LookupAssessmentKeyArea::class, 19)->create();

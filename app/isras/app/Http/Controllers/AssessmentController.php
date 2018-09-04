@@ -320,7 +320,7 @@ class AssessmentController extends Controller
         //$score_isras = $score_vital + $score_recommended;
         $data = [
             'userType' => 2,
-            'score_isras'  => $this->AssessmentModel->getIsrasScore(),
+            //'score_isras'  => $this->AssessmentModel->getIsrasScore(),
             // 'score_vital'   => $score_vital,
             // 'score_recommended' => $score_recommended,
             // 'score_community' => $score_community,
@@ -390,14 +390,18 @@ class AssessmentController extends Controller
             }
         }
 
-        $AssessmentResult = new AssessmentResult();
-        $AssessmentResult->result = $request['score_isras'];
-        $AssessmentResult->save();
+        for ($i=1; $i<=7; $i++)
+        {
+            $AssessmentResult = new AssessmentResult();
+            $AssessmentResult->result = $request['score_'.$i];
+            $AssessmentResult->save();
+        }
 
-        Session::forget('arr_rdo_1');
-        Session::forget('arr_rdo_2');
-        Session::forget('arr_rdo_3');
-        Session::forget('arr_rdo_4');
+        $this->AssessmentModel->clearAllCache();
+        // Session::forget('arr_rdo_1');
+        // Session::forget('arr_rdo_2');
+        // Session::forget('arr_rdo_3');
+        // Session::forget('arr_rdo_4');
                        
         return $this->loadAssessment();
     }

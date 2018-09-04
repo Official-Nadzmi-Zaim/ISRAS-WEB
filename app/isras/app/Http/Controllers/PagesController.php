@@ -84,7 +84,7 @@ class PagesController extends Controller
 
     public function assessmentStart()
     {
-        $assessment = new Assessment;
+        $assessment = new Assessment();
         $assessment->clearAllCache();
         return view('pages.assessmentstart');
     }

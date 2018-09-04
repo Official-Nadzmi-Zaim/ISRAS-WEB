@@ -101,7 +101,13 @@
         </table>
         </center>
         <br><br>
-        <input type="hidden" name="score_isras" value="<?php echo $score_isras;?>" />
+        <input type="hidden" name="score_1" value="{{$Assessment->getCommunityScore()}}" />
+        <input type="hidden" name="score_2" value="{{$Assessment->getWorkplaceScore()}}" />
+        <input type="hidden" name="score_3" value="{{$Assessment->getEnvironmentalScore()}}" />
+        <input type="hidden" name="score_4" value="{{$Assessment->getMarketplaceScore()}}" />
+        <input type="hidden" name="score_5" value="{{$Assessment->getIsrasScore()}}" />
+        <input type="hidden" name="score_6" value="{{$Assessment->getVitalScore()}}" />
+        <input type="hidden" name="score_7" value="{{$Assessment->getRecommendedScore()}}" />
         {{-- <a href='user/assessment' class='btn btn-lg btn-primary btn-block' style="width: 50%">Finish</a> --}}
         <center>{{Form::submit('Finish', ['class'=>'btn btn-primary btn-lg', 'style'=>'width:50%'])}}</center>
     </div>

@@ -360,37 +360,6 @@ class Assessment extends Model
         return $this->level_recommended;
     }
 
-    //Return array for each page SETTER and GETTER
-    public function setArr_Rdo($id, Request $request)
-    {
-        //Insert radio value into array - Here we can determine if the all the radio button have been selected or not
-        // $isValid = true;
-
-        // $num = $request["num"];
-        // for ($x = 1; $x<$num; $x++)
-        // {
-        //     if ($request["radio_$x"] == null)
-        //     {
-        //         $isValid = false;
-        //         //return $isValid;
-        //     }
-
-        //     $this->arr_rdo["$x"] = $request["radio_$x"];
-        //     // if ($id == 1)
-        //     //     $this->arr_rdo_1["$x"] = $request["radio_$x"];
-        //     // elseif ($id == 2)
-        //     //     $this->arr_rdo_2["$x"] = $request["radio_$x"];
-        //     // elseif ($id == 3)
-        //     //     $this->arr_rdo_3["$x"] = $request["radio_$x"];
-        //     // else
-        //     //     $this->arr_rdo_4["$x"] = $request["radio_$x"];
-        // }
-
-        // //Set to cache
-        // $this->setToCache($id);
-        // return $isValid;
-    }
-
     public function getArrayStatus($array)
     {
         $status = 0; //true;

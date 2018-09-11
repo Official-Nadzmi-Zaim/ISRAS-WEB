@@ -8,6 +8,14 @@
     .hide {
         visibility: hidden;
     }
+
+    .small {
+        width: 5%;
+    }
+
+    .medium {
+        width: 10%;
+    }
 </style>
 @section('content')
     <div class="container marketing">
@@ -20,43 +28,43 @@
         <br>
 
         @if (count($assessment) > 0)
-        <div class="container-fluid">
+        {{-- <div class="container-fluid"> --}}
             <table class="table">
                 <thead class="thead-dark">
-                <tr class="d-flex">
-                    <th class="text-center col-1">No</th>
-                    <th class="text-center col-2">Assessment Id</th>
-                    <th class="text-left col-5">Company Name</th>
-                    <th class="text-center col-1">Score</th>
-                    <th class="text-center col-1">Date</th>
-                    <th class="text-center col-2">Action</th>
+                <tr>
+                    <th class="text-center medium">No</th>
+                    <th class="text-center medium">Assessment Id</th>
+                    <th class="text-left">Company Name</th>
+                    <th class="text-center medium">Score</th>
+                    <th class="text-center medium">Date</th>
+                    <th class="text-center medium">Action</th>
                 </tr>
                 </thead>
                 <tbody>
                     @for ($i=0; $i<10; $i++)
                         @if (isset($assessment[$i]))
-                            <tr class="d-flex">
-                                <td class="text-center col-1">{{$i+1}}</td>
-                                <td class="text-center col-2">{{$assessment[$i]->getAssessmentId()}}</td>
-                                <td class="text-left col-5">{{$assessment[$i]->getAssessmentCompany()}}</td>
-                                <td class="text-center col-1">{{$assessment[$i]->getAssessmentScore()}}</td>
-                                <td class="text-center col-1">{{ date('d/m/Y',strtotime($assessment[$i]->getAssessmentDate()))}}</td>
-                                <td class="text-center col-2"><a href={!! url('/user/report/' . $assessment[$i]->getAssessmentId()) !!} class = 'btn btn-primary'>Print Result</a></td>
+                            <tr>
+                                <td class="text-center">{{$i+1}}</td>
+                                <td class="text-center">{{$assessment[$i]->getAssessmentId()}}</td>
+                                <td class="text-left">{{$assessment[$i]->getAssessmentCompany()}}</td>
+                                <td class="text-center">{{$assessment[$i]->getAssessmentScore()}}</td>
+                                <td class="text-center">{{ date('d/m/Y',strtotime($assessment[$i]->getAssessmentDate()))}}</td>
+                                <td class="text-center"><a href={!! url('/user/report/' . $assessment[$i]->getAssessmentId()) !!} class = 'btn btn-primary'>Print Result</a></td>
                             </tr>
                         @else
-                            <tr class="d-flex">
-                                <td class="text-center col-1 hide">1</td>
-                                <td class="text-center col-2 hide"></td>
-                                <td class="text-left col-5 hide"></td>
-                                <td class="text-center col-1 hide"></td>
-                                <td class="text-center col-1 hide"></td>
-                                <td class="text-center col-2 hide"></td>
+                            <tr>
+                                <td class="text-center hide">1</td>
+                                <td class="text-center hide"></td>
+                                <td class="text-left hide"></td>
+                                <td class="text-center hide"></td>
+                                <td class="text-center hide"></td>
+                                <td class="text-center hide"></td>
                             </tr>
                         @endif
                     @endfor
                 </tbody>
             </table>
-        </div>
+        {{-- </div> --}}
         @else
             <table style="height: 50%; width: 100%">
                 <tbody>

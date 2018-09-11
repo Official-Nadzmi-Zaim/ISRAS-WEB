@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use App\Assessment;
+use App\Company;
 use DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,6 +33,7 @@ class AssessmentResult extends Model
         $per_page = 10;
 
         $userId = User::all()->where('entity_id', Auth::id())->first()->id;
+        $company = Company::find($userId)->first()->name;
         $Assessments = DB::table('assessments')->distinct()->select('assessment_result_id')->where('user_id', $userId )->paginate($per_page);
 
         foreach ($Assessments as $Assessment)
@@ -40,7 +42,7 @@ class AssessmentResult extends Model
 
             $result = new AssessmentResult ();
             $result->setAssessmentId($ass->id);
-            $result->setAssessmentCompany("Tgh Cari");
+            $result->setAssessmentCompany($company);
             $result->setAssessmentScore($ass->result);
             $result->setAssessmentDate($ass->created_at);
 

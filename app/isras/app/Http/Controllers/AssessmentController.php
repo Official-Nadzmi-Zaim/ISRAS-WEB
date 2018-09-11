@@ -132,7 +132,16 @@ class AssessmentController extends Controller
 
         $this->AssessmentModel->clearAllCache();
 
-        return $this->loadAssessment();
+        $AssessmentResult = new AssessmentResult();
+        $assessment = $AssessmentResult->LoadAssessmentResult();
+
+        $data = [
+                'userType' => 2,
+                'assessment' => $assessment,
+                'success' => "Your assessment have been submitted. Thank you",
+                'paginated' => $AssessmentResult->getPaginated(),
+            ];
+        return view ('pages.assessment')->with($data);
     }
 
     public function loadAssessment()

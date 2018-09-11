@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class Feedback extends Model
 {
     protected $table = 'feedbacks';
+    public $feedbackQuestions;
 
     // relationship
     // belongs to
@@ -19,14 +20,18 @@ class Feedback extends Model
 
     public $arr_feedback;
 
+    public function LoadFeedbackQuestions()
+    {
+        $questions = new FeedbackQuestion();
+        $this->feedbackQuestions = $questions->getFeedbackQuestions();
+    }
+
     public function verifyFeedback(Request $request)
     {
         $feedbackQuestion = new FeedbackQuestion;
-        //Check whether all feedback question has been answered
-        $isAnswer = true;
 
         //Get the data
-        $size = $feedbackQuestion->getFeedbackQuestionsCount();//$request["no"];
+        $size = $feedbackQuestion->getFeedbackQuestionsCount();
 
         //Save the data
         for ($i=0; $i<$size; $i++)
@@ -40,8 +45,7 @@ class Feedback extends Model
 
             $this->arr_feedback[$i] = $request["feedback_answer_".($i+1)];
         }
-        //Return the value
-        return $isAnswer;
+
     }
 
     public function getArrayFeedback()
@@ -54,7 +58,7 @@ class Feedback extends Model
         //Get the data
         $feedbackQuestion = new FeedbackQuestion;
 
-        $size = $feedbackQuestion->getFeedbackQuestionsCount();//$request["no"];
+        $size = $feedbackQuestion->getFeedbackQuestionsCount();
         $userId = User::all()->where('entity_id', Auth::id())->first()->id;
 
         //Save the data

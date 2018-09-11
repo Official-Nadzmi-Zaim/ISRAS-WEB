@@ -47,13 +47,6 @@
                 }, false);
             })();
         </script>
-        @if (isset($isError))
-            @if ($isError == 1)
-                <script>
-                    $("#myModal").modal('show');
-                </script>
-            @endif
-        @endif
         @yield('custom-script')
         <!-- FOOTER -->
         <footer class="container">

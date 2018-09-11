@@ -20,7 +20,9 @@
 @section('content')
     <div class="container marketing">
         <h2 class="featurette-heading" style="margin-top: 20px;">I-SRAS</h2>
-        <br><br>
+        <br>
+        @include ('inc.message')
+        <br>
 
         <a href={!! url('/user/assessment/start') !!} class='btn btn-lg btn-primary'>Do Assessment</a>
         

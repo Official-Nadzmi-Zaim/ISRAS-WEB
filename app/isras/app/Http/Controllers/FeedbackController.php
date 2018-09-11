@@ -11,76 +11,35 @@ use App\FeedbackQuestion;
 
 class FeedbackController extends Controller
 {
+    public function __construct()
+    {
+        $this->feedbackModel = new Feedback;
+    }
+
     public function loadFeedbackQuestion()
     {
-        $feedback = new Feedback();
-        $feedbackQuestion = new FeedbackQuestion;
-
-        $arr_feedback = $feedbackQuestion->getFeedbackQuestions();
-
+        $this->feedbackModel->LoadFeedbackQuestions();
+    
         $data = [
             'userType' => 2,
-            'arr_feedback' => $arr_feedback
+            'feedbackModel' => $this->feedbackModel,
         ];
 
         return view('pages.feedback')->with($data);
     }
 
-    public function verifyFeedback(Request $request)
+    public function saveFeedback(Request $request)
     {
-        $feedback = new Feedback();
-        $feedbackQuestion = new FeedbackQuestion;
-        $arr_feedback = $feedbackQuestion->getFeedbackQuestions();
+        $this->feedbackModel->storeFeedbackAnswer($request);
+        $this->feedbackModel->LoadFeedbackQuestions();
 
-        if ($feedback->verifyFeedback($request))
-        {
-            $feedback->storeFeedbackAnswer($request);
-            
-            $data = [
-                'userType' => 2,
-                'arr_feedback' => $arr_feedback
-            ];
-        }
-        else
-        {
-            $arr_answer = $feedback->getArrayFeedback();
-         
-            $data = [
-                'isError' => 1,
-                'userType' => 2,
-                'arr_feedback' => $arr_feedback,
-                'arr_answer' => $arr_answer
-            ];
-        }
+        $data = [
+            'userType' => 2,
+            'feedbackModel' => $this->feedbackModel,
+            'success' => 'Your feedback have been submitted. Thank you',
+        ];
+
         return view('pages.feedback')->with($data);
-        /*
-        if (!$feedback->verifyFeedback($request))
-        {
-            //return $this->loadFeedbackQuestion();
-            $arr_feedback = $feedback->loadFeedbackQuestions();
-
-            $data = [
-                'result' => 1,
-                'userType' => 2,
-                'arr_feedback' => $arr_feedback
-            ];
-
-            return view('pages.feedback')->with($data);
-        }
-        else
-        {
-            $feedback->storeFeedbackAnswer($request);
-
-            $arr_feedback = $feedback->loadFeedbackQuestions();
-
-            $data = [
-                'result' => 2,
-                'userType' => 2,
-                'arr_feedback' => $arr_feedback
-            ];
-
-            return view('pages.feedback')->with($data);
-        }*/
     }
 
     public function adminFeedbackIndex() {

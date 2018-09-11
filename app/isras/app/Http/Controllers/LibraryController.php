@@ -200,44 +200,25 @@ class LibraryController extends Controller
     // Zaim Omar library controller for user
     public function loadLibraryContent()
     {
-        $arr_content = [];
-        $libraries = LibraryContent::all();
-        
-        foreach($libraries as $library) {
-            $author_name = '';
-            $publication_name = '';
+        $library = new LibraryContent();
 
-            $author = LookupAuthor::find($library->author);
-            $publication = LookupPublication::find($library->publication);
-
-            if($author != null)
-                $author_name = $author->name;
-            if($publication != null)
-                $publication_name = $publication->name;
-
-            $arr_content[] = [
-                'src' => $library->src,
-                'title' => $library->title,
-                'author_name' => $author_name,
-                'publication_name' => $publication_name
-            ];
-        }
-        
         $data = [
             'userType' => null,
-            'arr_content' => $arr_content
+            'libraries' => $library->LoadLibraryContent(),
+            'paginated' => $library->paginated,
         ];
 
-        // return $data;
         return view('pages.user.library')->with($data);
     }
 
     public function loadUserLibraryContent()
     {
-        $arr_content = LibraryContent::all();
+        $library = new LibraryContent();
+
         $data = [
             'userType' => 2,
-            'arr_content' => $arr_content
+            'libraries' => $library->LoadLibraryContent(),
+            'paginated' => $library->getPaginated(),
         ];
 
         return view('pages.user.library')->with($data);

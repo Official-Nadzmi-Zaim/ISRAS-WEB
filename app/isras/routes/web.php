@@ -76,7 +76,7 @@ Route::prefix('user')->group(function() {
     // pages
     //Route::get('/', 'PagesController@index');
     Route::get('/about-us', 'PagesController@userAbout');
-    Route::get('/library', 'PagesController@userLibrary');
+    Route::get('/library', 'LibraryController@loadUserLibraryContent');
     // process
     Route::get('/assessment', 'AssessmentController@loadAssessment');
     Route::post('/assessment', 'AssessmentController@saveAssessmentResult');
@@ -85,6 +85,8 @@ Route::prefix('user')->group(function() {
     Route::get('/assessment/start', 'PagesController@assessmentStart');
     Route::get('/assessment/page_{id}', 'AssessmentController@loadAssessmentQuestion');
     Route::post('/assessment/page_{id}', 'AssessmentController@loadAssessmentQuestion');
+    //Route::get('/assessment/page_{id}', 'AssessmentController@loadPreviousAssessmentQuestion');
+    //Route::post('/assessment/page_{id}', 'AssessmentController@loadPreviousAssessmentQuestion');
     Route::get('/feedback', 'FeedbackController@loadFeedbackQuestion');
     Route::post('/feedback', 'FeedbackController@verifyFeedback');
     Route::get('/payment', 'PagesController@payment');

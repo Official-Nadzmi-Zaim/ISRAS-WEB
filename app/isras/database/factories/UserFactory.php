@@ -264,6 +264,7 @@ $factory->define(App\BlogContent::class, function (Faker $faker) {
 
 $factory->define(App\Company::class, function (Faker $faker) {
     return [
+        'user_id' => 1,
         'name' => $faker->company,
         'ref_no' => $faker->word.$faker->randomNumber($nbDigits = NULL, $strict = false),//sentence($nbWords = 6, $variableNbWords = true),
     ];

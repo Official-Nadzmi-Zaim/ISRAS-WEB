@@ -45,129 +45,158 @@
         border-collapse: collapse;
         width: 100%;
     }
+
+    p {
+        font-style: italic;
+    }
+
+    .vital {
+        background-color: green;
+    }
+
+    .recommended
+    {
+        background-color: blue;
+    }
+
+    .type {
+        width: 7%;
+        vertical-align: middle;
+    }
 </style>
+<script>
+    function SubmitForm()
+    {
+        var isTrue = true;
+        var size = <?php echo sizeof($AssessmentModel->assessment_questions); ?>;
+
+        for (var i=0; i<size; i++)
+        {
+            var name = "radio_"+i;
+            var radioValue = $("input[name='"+name+"']:checked").val();
+            
+            if (!radioValue)
+            {
+                isTrue = false;
+                $("input[name='"+name+"']").focus();
+                break;
+            }
+        }
+
+        if (!isTrue)
+        {
+            $('#myModal').modal('toggle');
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    function NextPage()
+    {
+        $('#formAssessment').attr('action', '/user/assessment/page_'+<?php echo $AssessmentModel->assessment_category_id + 1; ?>);
+    }
+
+    function PreviousPage()
+    {
+        $('#formAssessment').attr('action', '/user/assessment/page_'+<?php echo $AssessmentModel->assessment_category_id - 1; ?>);
+    }
+
+    function ResultPage()
+    {
+        $('#formAssessment').attr('action', '/user/assessment/result');
+    }
+</script>
 @section('content')
     <div class="container marketing">
         @extends('pages.assessmentheader')
-        <br><br>
-        <div class="card"> 
-            <div class="card-container"> <!-- Title -->
-                <h4><b>{{ "CATEGORY $id : $category" }}</b></h4>
-            </div>
+        <br>
+        <div class="card">
+            <div class="card-container"><h4><b>CATEGORY {{ $AssessmentModel->assessment_category_id }} : {{ $AssessmentModel->assessment_category }}</b></h4></div>
         </div>
         <br>
-        @if ($id == 4)
-            {!! Form::open(['url' => '/user/assessment/result', 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate']) !!}
+
+        @if ($AssessmentModel->assessment_category_id == 4)
+            {!! Form::open(['id' => 'formAssessment' , 'name' => 'formAssessment', 'method'=>'POST']) !!}
         @else
-            {!! Form::open(['url' => '/user/assessment/page_'.($id+1), 'method'=>'POST', 'class'=>'needs-validation', 'novalidate'=>'novalidate']) !!}
+            {!! Form::open(['id' => 'formAssessment' , 'name' => 'formAssessment', 'method'=>'POST', 'onsubmit'=> 'return SubmitForm()' ]) !!}
         @endif
-        {{ Form::hidden('curr_id', $id) }}
-        @php $q_count = 0 @endphp
+
+        <!--Create Key Area Card -->
+        @php $i = 1 @endphp
         @php $no = 1 @endphp
-        <!-- Dynamic body guna for loop nanti-->
-        @for ($i=0; $i<sizeof($arr_key_area); $i++)
-        @php $q_num = 0 @endphp
-        <div class="card"> 
-            <div class="card-container"> 
-                <h6><b>{{ "KEY AREA ".($i+1)." : ".$arr_key_area[$i] }}</b></h6><!-- Key area title -->
-                <br>
-                <!-- Dynamic for question title -->
-                <div class="form-group">
-                @for ($j=0; $j<sizeof($arr_title[$i]); $j++)
-                <p><i>{{$arr_title[$i][$j]}}</i></p>
-                <table border="1" cellpadding="5" class="assessment-question-tbl">
-                    <!-- Dynamic table row for question -->
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td class="assessment-question-tbl-item-2"><b>Yes</b></td>
-                        <td class="assessment-question-tbl-item-2"><b>No</b></td>
-                    </tr>
-                    @for ($k=0; $k<$arr_questions_count[$q_count]; $k++)
-                    <tr>
-                        <td class="assessment-question-tbl-item">{{ $no++ }}</td>
-                        <td>{{ $arr_questions[$i][$q_num] }}</td>
-
-                        @if ($choice == 0)
-                            @if (!empty($arr_rdo_previous))
-                                @if ($arr_rdo_previous[$no-1] != null)
-                                    @if ($arr_rdo_previous[$no-1] == 1)
-                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1 checked></td> 
-                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0></td> 
-                                    @else
-                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1></td> 
-                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0 checked></td>
-                                    @endif
-                                @else
-                                    <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1></td> 
-                                    <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0></td> 
-                                @endif 
-                            @else
-                                <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1></td> 
-                                <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0></td> 
-                            @endif 
-                        @else
-                            @if (!empty($arr_rdo_next))
-                                @if ($arr_rdo_next[$no-1] != null)
-                                    @if ($arr_rdo_next[$no-1] == 1)
-                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1 checked></td> 
-                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0></td> 
-                                    @else
-                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1></td> 
-                                        <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0 checked></td> 
-                                    @endif
-                                @else
-                                    <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1></td> 
-                                    <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0></td> 
-                                @endif 
-                            @else
-                                <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=1></td> 
-                                <td style="{{$arr_question_types[$no-1]}}"><input type="radio" name="radio_{{$no-1}}" value=0></td> 
-                            @endif  
+        @php $x = $AssessmentModel->assessment_key_area[0]->id @endphp
+        @foreach ($AssessmentModel->assessment_key_area as $keyArea)
+            <div class="card">
+                <div class="card-container">
+                    <h6><b>{{ "KEY AREA ".($i)." : ".$keyArea->name }}</b></h6>
+                    @foreach ($AssessmentModel->assessment_area_title as $title)
+                        @if ($title->key_area == $x)
+                            <br>
+                            <p>{{ $title->name }}</p>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th class="text-center type" ></th>
+                                        <th class="text-left"></th>
+                                        <th class="text-center type">Yes</th>
+                                        <th class="text-center type">No</th>
+                                    </tr>
+                                    @foreach ($AssessmentModel->assessment_questions as $questions)
+                                        @if ($questions->title == $title->title)
+                                            <tr class="form-group">
+                                                <td class="text-center">{{ $no }}</td>
+                                                <td class="text-left">{{ $questions->statement}}</td>
+                                                <td class="align-middle text-center <?php echo ($questions->type==1)?'vital':'recommended' ?>"><input class="form-control" value = 1 type="radio" name="radio_{{$no-1}}" <?php echo ($AssessmentModel->arr_rdo[$no-1]==1)?'checked':'' ?>/></td>
+                                                <td class="align-middle text-center <?php echo ($questions->type==1)?'vital':'recommended' ?>"><input class="form-control" value = 2 type="radio" name="radio_{{$no-1}}" <?php echo ($AssessmentModel->arr_rdo[$no-1]==2)?'checked':'' ?>/></td>
+                                            </tr>
+                                            @php $no++ @endphp
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
                         @endif
-                    </tr>
-                    @php $q_num++ @endphp
-                    @endfor
-                </table>
-                <br>
-                @php $q_count++ @endphp
-                @endfor
+                    @endforeach
                 </div>
             </div>
-        </div>
-        <br>
-        @endfor
-        <input type="hidden" name="num" value="<?php echo $no;?>" />
+            <br>
+            @php $i++ @endphp
+            @php $x++ @endphp
+        @endforeach
+        
         <div style="width: 100%;">
-        @if ($id != 1) 
-            <div style="float:left"><a href={!! url('/user/assessment/page_' . ($id-1)) !!} class="btn btn-primary btn-lg">Previous</a></div>
-        @endif
-        @if ($id != 4)
-            <div style="float:right">{{Form::submit('Next', ['class'=>'btn btn-primary btn-lg'])}}</div>
-        @else
-            <div style="float:right">{{Form::submit('Finish', ['class'=>'btn btn-primary btn-lg'])}}</div>
-        @endif
+            @if ($AssessmentModel->assessment_category_id > 1)
+                <div style="float:left">{{Form::submit('Previous', ['class'=>'btn btn-primary btn-lg', 'onclick'=>'PreviousPage()'])}}</div>
+            @endif
+
+            @if ($AssessmentModel->assessment_category_id == 4)
+                <div style="float:right">{{Form::submit('Finish', ['class'=>'btn btn-primary btn-lg', 'onclick'=>'ResultPage()'])}}</div>
+            @else
+                <div style="float:right">{{Form::submit('Next', ['class'=>'btn btn-primary btn-lg', 'onclick'=>'NextPage()'])}}</div>
+            @endif
         </div>
+        
+        <input type="hidden" name="page" value="<?php echo $AssessmentModel->assessment_category_id;?>" />
+        <input type="hidden" name="num" value="<?php echo sizeof($AssessmentModel->assessment_questions);?>" />
         {{ Form::close() }}
-    </div>
-    <button id='btn-modal' style="visibility: hidden" data-toggle="modal" data-target="#myModal">Launch</button>
-    <!-- MODAL -->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Attention</h5>
-                    <button class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    Please answer all the questions before you proceed to next page. Thank you.
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+        {{-- {{ $AssessmentModel->assessment_questions }} --}}
+    <hr class="featurette-divider">
+    <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Attention</h5>
+                        <button class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        Please answer all the questions before you proceed to next page. Thank you.
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <hr class="featurette-divider">
-
 @endsection

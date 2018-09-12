@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-{{-- <style>
+<style>
   .card {
     /* Add shadows to create the "card" effect */
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -38,15 +38,16 @@
       text-align: center;
   }
 
-</style> --}}
+</style>
 @section('content')
     <div class="container marketing">
         <center><h2 class="featurette-heading" style="margin-top: 20px;">I-SRAS Assessment Score Report</h2></center>
-        <br><br>
+        <br>
         {!! Form::open(['url' => '/user/assessment', 'method'=>'POST']) !!}
-
         <center>
-        <table class="table table-hover" style="width: 50%;">
+        <div class="card" style="width: 50%;">
+            <div class="card-container">
+        <table class="table table-hover table-bordered">
             <thead class="thead-dark">
                 <tr>
                     <th>CATEGORY</th>
@@ -77,10 +78,10 @@
                 </tr>
             </tbody>
         </table>
-        </center>
+  
         <br><br>
-        <center>
-        <table class="table table-dark" style="width: 50%;">
+     
+        <table class="table table-dark">
             <tbody>
                 <tr>
                     <td><b>I-SRAS Score</b></td>
@@ -99,7 +100,7 @@
                 </tr>
             </tbody>
         </table>
-        </center>
+    
         <br><br>
         <input type="hidden" name="score_1" value="{{$Assessment->getCommunityScore()}}" />
         <input type="hidden" name="score_2" value="{{$Assessment->getWorkplaceScore()}}" />
@@ -109,7 +110,10 @@
         <input type="hidden" name="score_6" value="{{$Assessment->getVitalScore()}}" />
         <input type="hidden" name="score_7" value="{{$Assessment->getRecommendedScore()}}" />
         {{-- <a href='user/assessment' class='btn btn-lg btn-primary btn-block' style="width: 50%">Finish</a> --}}
-        <center>{{Form::submit('Finish', ['class'=>'btn btn-primary btn-lg', 'style'=>'width:50%'])}}</center>
+        {{Form::submit('Finish', ['class'=>'btn btn-primary btn-lg', 'style'=>'width:100%'])}}
+            </div>
+        </div>
+        </center>
     </div>
     <hr class="featurette-divider">
 @endsection

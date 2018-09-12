@@ -86,7 +86,7 @@ class PagesController extends Controller
     {
         $assessment = new Assessment();
         $assessment->clearAllCache();
-        return view('pages.assessmentstart');
+        return view('pages.assessmentstart')->with('userType', 2);
     }
 
     public function assessmentPage()

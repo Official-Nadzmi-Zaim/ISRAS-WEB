@@ -16,7 +16,7 @@ class User extends Model
 
     // relationship
     // has
-    public function company() { return $this->hasOne('App\Company'); }
+    public function company() { return $this->hasMany('App\Company'); }
     public function payment() { return $this->hasMany('App\Payment'); }
     public function feedback() { return $this->hasMany('App\Feedback'); }
     public function assessment() { return $this->hasMany('App\Assessment'); }

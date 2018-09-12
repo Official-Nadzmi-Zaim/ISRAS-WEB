@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
 use App\LookupAssessmentCategory;
+use App\LookupAssessmentKeyArea;
+use App\LookupAssessmentTitle;
 use App\AssessmentQuestion;
 use DB;
 
@@ -35,21 +37,42 @@ class Assessment extends Model
     public $level_isras = ""; //<b style='color: #00ff00;'>High</b>
     public $level_vital = "";
     public $level_recommended = "";
+    public $arr_rdo;
 
-    public $arr_rdo_1;
-    public $arr_rdo_2;
-    public $arr_rdo_3;
-    public $arr_rdo_4;
+    public $assessment_questions;
+    public $assessment_category;
+    public $assessment_category_id;
+    public $assessment_key_area = [];
+    public $assessment_area_title;
 
     // relationship
     // belongs to
     public function user() { return $this->belongsTo('App\User'); }
-    public function assessment_question() { $this->belongsTo('App\AssessmentQuestion'); }
-    public function assessment_result() { $this->belongsTo('App\AssessmentResult'); }
+    public function assessment_question() { return $this->belongsTo('App\AssessmentQuestion'); }
+    public function assessment_result() { return $this->belongsTo('App\AssessmentResult'); }
 
-    public function getAssessmentQuestion($id)
+    public function LoadAssessmentQuestion($id)
     {
-        return DB::table('assessment_questions')->where('id', $id)->first()->statement;
+        $this->assessment_questions = DB::table('assessment_questions')->where('category', $id)->get();
+        $this->assessment_category = LookupAssessmentCategory::find($this->assessment_questions[0]->category)->name;
+        $this->assessment_category_id = $id;
+        $assessment_key_area = DB::table('assessment_questions')->distinct()->select('key_area')->where('category', $id )->get();
+        $assessment_area_title = DB::table('assessment_questions')->distinct()->select('title', 'key_area')->where('category', $id )->get();
+
+        for($i=0; $i<sizeof($assessment_area_title); $i++)
+        {
+            $title_name = DB::table('lookup_assessment_titles')->where('id', $assessment_area_title[$i]->title)->first()->name;
+            //Add new attributes to object class
+            $assessment_area_title[$i] = (object) array_merge( (array)$assessment_area_title[$i], array( 'name' => $title_name ));
+        }
+
+        $this->assessment_area_title = $assessment_area_title;
+        //echo $assessment_key_area;
+        for($i=0; $i<sizeof($assessment_key_area); $i++)
+        {
+            $title = DB::table('lookup_assessment_key_areas')->select('id', 'name')->where('id', $assessment_key_area[$i]->key_area)->first();
+            array_push($this->assessment_key_area, $title);
+        }
     }
 
     public function getAssessmentResult($id)
@@ -65,89 +88,107 @@ class Assessment extends Model
         for ($i=1; $i<=$total_category; $i++)
         {
             $arr_rdo = Session::get("arr_rdo_$i");
-      
+            $x = 0;
+            $assessmentQuestion = DB::table('assessment_questions')->where('category', $i)->get();
             if (!empty($arr_rdo))
             {
                 foreach ($arr_rdo as $answer)
                 {
-                    $question_type = AssessmentQuestion::find($question_id)->type;
-                    $question_category = AssessmentQuestion::find($question_id)->category;
-
-                    //This is to calculate total score for each category
-                    if ($question_category == 1)
+                    //This is to calculate total score for each category, calculate vital and recommended
+                    if ($assessmentQuestion[$x]->category == 1)
                     {
-                        if ($question_type == 1)
+                        if ($assessmentQuestion[$x]->type == 1) //Vital
+                        {
                             $this->full_score_community += 3;
-                        else
+                            $this->full_score_vital += 3;
+                            if ($answer == 1)
+                            {
+                                $this->score_community += 3;
+                                $this->score_vital += 3;
+                            }
+                        }
+                        else    //Recommended
+                        {
                             $this->full_score_community += 1;
-                    }
-                    else if ($question_category == 2)
+                            $this->full_score_recommended += 1;
+                            if ($answer == 1)
+                            {
+                                $this->score_community += 1;
+                                $this->score_recommended += 1;
+                            }
+                        }
+                    } 
+                    else if ($assessmentQuestion[$x]->category == 2)
                     {
-                        if ($question_type == 1)
+                        if ($assessmentQuestion[$x]->type == 1) //Vital
+                        {
                             $this->full_score_workplace += 3;
-                        else
+                            $this->full_score_vital += 3;
+                            if ($answer == 1)
+                            {
+                                $this->score_workplace += 3;
+                                $this->score_vital += 3;
+                            }
+                        }
+                        else    //Recommended
+                        {
                             $this->full_score_workplace += 1;
+                            $this->full_score_recommended += 1;
+                            if ($answer == 1)
+                            {
+                                $this->score_workplace += 1;
+                                $this->score_recommended += 1;
+                            }
+                        }
                     }
-                    else if ($question_category == 3)
+                    else if ($assessmentQuestion[$x]->category == 3)
                     {
-                        if ($question_type == 1)
+                        if ($assessmentQuestion[$x]->type == 1) //Vital
+                        {
                             $this->full_score_environmental += 3;
-                        else
-                            $this->full_score_environmental += 1; 
+                            $this->full_score_vital += 3;
+                            if ($answer == 1)
+                            {
+                                $this->score_environmental += 3;
+                                $this->score_vital += 3;
+                            }
+                        }
+                        else    //Recommended
+                        {
+                            $this->full_score_environmental += 1;
+                            $this->full_score_recommended += 1;
+                            if ($answer == 1)
+                            {
+                                $this->score_environmental += 1;
+                                $this->score_recommended += 1;
+                            }
+                        }
                     }
                     else
                     {
-                        if ($question_type == 1)
+                        if ($assessmentQuestion[$x]->type == 1) //Vital
+                        {
                             $this->full_score_marketplace += 3;
-                        else
-                            $this->full_score_marketplace += 1;
-                    }
-
-                    if ($answer != null)
-                    {
-                        if ($question_type == 1) //Vital
-                        {
-
-                            if ($answer == 1) 
-                            {
-                                $this->score_vital += 3;
-
-                                if ($question_category == 1)
-                                    $this->score_community += 3;
-                                else if ($question_category == 2)
-                                    $this->score_workplace += 3;
-                                else if ($question_category == 3)
-                                    $this->score_environmental += 3;
-                                else
-                                    $this->score_marketplace += 3;
-                            }
-
-                            //Get the full score
                             $this->full_score_vital += 3;
-                        }
-                        else //Recommended
-                        {
-
                             if ($answer == 1)
                             {
-                                $this->score_recommended += 1;
-
-                                if ($question_category == 1)
-                                    $this->score_community += 1;
-                                else if ($question_category == 2)
-                                    $this->score_workplace += 1;
-                                else if ($question_category == 3)
-                                    $this->score_environmental += 1;
-                                else
-                                    $this->score_marketplace += 1;
+                                $this->score_marketplace += 3;
+                                $this->score_vital += 3;
                             }
-
-                            $this->full_score_recommended += 1;
                         }
+                        else    //Recommended
+                        {
+                            $this->full_score_marketplace += 1;
+                            $this->full_score_recommended += 1;
+                            if ($answer == 1)
+                            {
+                                $this->score_marketplace += 1;
+                                $this->score_recommended += 1;
+                            }
+                        }
+                    } 
 
-                    }
-
-                    $question_id++;
+                    $x++;
                 }
             }
         }
@@ -319,36 +360,6 @@ class Assessment extends Model
         return $this->level_recommended;
     }
 
-    //Return array for each page SETTER and GETTER
-    public function setArr_Rdo($id, Request $request)
-    {
-        //Insert radio value into array - Here we can determine if the all the radio button have been selected or not
-        $isValid = true;
-
-        $num = $request["num"];
-        for ($x = 1; $x<$num; $x++)
-        {
-            if ($request["radio_$x"] == null)
-            {
-                $isValid = false;
-                //return $isValid;
-            }
-
-            if ($id == 1)
-                $this->arr_rdo_1["$x"] = $request["radio_$x"];
-            elseif ($id == 2)
-                $this->arr_rdo_2["$x"] = $request["radio_$x"];
-            elseif ($id == 3)
-                $this->arr_rdo_3["$x"] = $request["radio_$x"];
-            else
-                $this->arr_rdo_4["$x"] = $request["radio_$x"];
-        }
-
-        //Set to cache
-        $this->setToCache($id);
-        return $isValid;
-    }
-
     public function getArrayStatus($array)
     {
         $status = 0; //true;
@@ -363,45 +374,34 @@ class Assessment extends Model
         }
         return $status;
     }
-    public function getArr_Rdo_1()
-    {
-        return $this->arr_rdo_1;
-    }
 
-    public function getArr_Rdo_2()
+    public function setToCache(Request $request)
     {
-        return $this->arr_rdo_2;
-    }
+        $page = $request["page"];
+        $num = $request["num"];
 
-    public function getArr_Rdo_3()
-    {
-        return $this->arr_rdo_3;
-    }
+        for ($x = 0; $x<$num; $x++)
+        {
+            $this->arr_rdo["$x"] = $request["radio_$x"];
+        }
 
-    public function getArr_Rdo_4()
-    {
-        return $this->arr_rdo_4;
-    }
-
-    public function setToCache($page)
-    {
         switch ($page)
         {
             case 1 :
                 Session::forget('arr_rdo_1');
-                Session::put('arr_rdo_1', $this->arr_rdo_1);
+                Session::put('arr_rdo_1', $this->arr_rdo);
                 break;
             case 2 :
                 Session::forget('arr_rdo_2');
-                Session::put('arr_rdo_2', $this->arr_rdo_2);
+                Session::put('arr_rdo_2', $this->arr_rdo);
                 break;
             case 3 :
                 Session::forget('arr_rdo_3');
-                Session::put('arr_rdo_3', $this->arr_rdo_3);
+                Session::put('arr_rdo_3', $this->arr_rdo);
                 break;
             case 4 :
                 Session::forget('arr_rdo_4');
-                Session::put('arr_rdo_4', $this->arr_rdo_4);
+                Session::put('arr_rdo_4', $this->arr_rdo);
                 break;
         }
     }
@@ -411,20 +411,16 @@ class Assessment extends Model
         switch ($page)
         {
             case 1 :
-                $this->arr_rdo_1 = Session::get('arr_rdo_1');
-                return $this->getArr_Rdo_1();
+                $this->arr_rdo = Session::get('arr_rdo_1');
                 break;
             case 2 :
-                $this->arr_rdo_2 = Session::get('arr_rdo_2');
-                return $this->getArr_Rdo_2();
+                $this->arr_rdo = Session::get('arr_rdo_2');
                 break;
             case 3 :
-                $this->arr_rdo_3 = Session::get('arr_rdo_3');
-                return $this->getArr_Rdo_3();
+                $this->arr_rdo = Session::get('arr_rdo_3');
                 break;
             case 4 :
-                $this->arr_rdo_4 = Session::get('arr_rdo_4');
-                return $this->getArr_Rdo_4();
+                $this->arr_rdo = Session::get('arr_rdo_4');
                 break;
         }
     }

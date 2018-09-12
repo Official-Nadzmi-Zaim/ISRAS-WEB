@@ -439,8 +439,14 @@ class AssessmentController extends Controller
     {
     }
 
-    public function loadAssessmentResult($id)
-    {
+    public function loadAssessmentResult($id) {
+        return view('pages.user.assessment.assessment-result')
+            ->with([
+                'pdfData' => $this->downloadPDF($id)
+            ]);
+    }
+
+    public function downloadPDF($id) {
         $Assessment = Assessment::where('assessment_result_id', $id)->get();
         $Arr_category = LookupAssessmentCategory::all();
 
@@ -468,15 +474,15 @@ class AssessmentController extends Controller
 
         Lava::BarChart('BarChart', $dataTable);
 
-        $view = \View::make('pages.report', $data);
-        $htmlContent = $view->render();
+        // $view = \View::make('pages.report', $data);
+        // $htmlContent = $view->render();
 
         // PDFShift::setApiKey('c961276135aa48a7936d50e72f8294f5');
         // PDFShift::convertTo($htmlContent, null, 'pdf/result.pdf');
         
-        $pdf = PDF::loadHtml($htmlContent);
-        return $pdf->stream();
-        // return view('pages.report')->with($data);
+        // $pdf = PDF::loadHtml($htmlContent);
+        // return $pdf->stream('download.pdf');
+        return view('pages.report')->with($data);
     }
 
     public function adminAssessmentIndex() {
@@ -560,7 +566,7 @@ class AssessmentController extends Controller
 
         return redirect('admin/assessment');
     }
-
+    
     private function saveNewContent($contentData) {
         $newAssessmentQuestion = new AssessmentQuestion();
         $newAssessmentQuestion->type = $contentData['question_type'];

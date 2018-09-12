@@ -74,7 +74,7 @@ Route::prefix('admin')->group(function() {
 Route::prefix('user')->group(function() {
     // GET ROUTES
     // pages
-    //Route::get('/', 'PagesController@index');
+    // Route::get('/', 'PagesController@index');
     Route::get('/about-us', 'PagesController@userAbout');
     Route::get('/library', 'PagesController@userLibrary');
     // process

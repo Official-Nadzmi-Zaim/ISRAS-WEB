@@ -81,10 +81,10 @@ Route::prefix('user')->group(function() {
     Route::get('/assessment', 'AssessmentController@loadAssessment');
     Route::post('/assessment', 'AssessmentController@saveAssessmentResult');
     Route::get('/assessment/result', 'AssessmentController@verifyAssessment');
-    Route::post('/assessment/result', 'AssessmentController@verifyAssessment');
+    Route::post('/assessment/result', 'AssessmentController@verifyAssessment')->name('assessment-result');
     Route::get('/assessment/start', 'PagesController@assessmentStart');
     Route::get('/assessment/page_{id}', 'AssessmentController@loadAssessmentQuestion');
-    Route::post('/assessment/page_{id}', 'AssessmentController@loadAssessmentQuestion');
+    Route::post('/assessment/page_{id}', 'AssessmentController@loadAssessmentQuestion')->name('assessment-page');
     Route::get('/feedback', 'FeedbackController@loadFeedbackQuestion');
     Route::post('/feedback', 'FeedbackController@saveFeedback');
     Route::get('/payment', 'PagesController@payment');

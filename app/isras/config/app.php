@@ -169,7 +169,6 @@ return [
          */
         Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        Goodnesskay\LaravelPdfViewer\LaravelPdfViewerServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -184,7 +183,7 @@ return [
 
         Barryvdh\DomPDF\ServiceProvider::class,
         ConsoleTVs\Charts\ChartsServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,,
+        Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*

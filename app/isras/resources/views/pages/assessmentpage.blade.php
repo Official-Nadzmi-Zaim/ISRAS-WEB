@@ -96,17 +96,17 @@
 
     function NextPage()
     {
-        $('#formAssessment').attr('action', '/user/assessment/page_'+<?php echo $AssessmentModel->assessment_category_id + 1; ?>);
+        $('#formAssessment').attr('action', "{!! route('assessment-page', [ 'id' => ($AssessmentModel->assessment_category_id + 1) ]) !!}");
     }
 
     function PreviousPage()
     {
-        $('#formAssessment').attr('action', '/user/assessment/page_'+<?php echo $AssessmentModel->assessment_category_id - 1; ?>);
+        $('#formAssessment').attr('action', "{!! route('assessment-page', [ 'id' => ($AssessmentModel->assessment_category_id - 1) ]) !!}");
     }
 
     function ResultPage()
     {
-        $('#formAssessment').attr('action', '/user/assessment/result');
+        $('#formAssessment').attr('action', '{!! route('assessment-result') !!}');
     }
 </script>
 @section('content')

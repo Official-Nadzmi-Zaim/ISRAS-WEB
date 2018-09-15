@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Admin;
 use App\User;
 use App\Entity;
+use App\BlogContent;
 
 class LoginController extends Controller
 {
@@ -63,13 +64,15 @@ class LoginController extends Controller
             'email' => $request['email'],
             'password' => $request['password']
         ];
+        $latestBlog = BlogContent::getLatestBlog();
 
         if(Auth::attempt($credential)) {
             $entity = Auth::user();
             
             return view('pages.home')
                 ->with([
-                    'userType' => $entity->entity_type
+                    'userType' => $entity->entity_type,
+                    'blogContent' => $latestBlog
                 ]);
         } else
             return redirect('/login');
